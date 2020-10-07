@@ -24,6 +24,7 @@ import itemNewsScreen from '../screens/itemNews'
 const Tab = createBottomTabNavigator();
 const UserStack = createStackNavigator();
 const Stack = createStackNavigator();
+const HomeStack = createStackNavigator();
 
 const User = () => {
   return (
@@ -35,6 +36,26 @@ const User = () => {
     </UserStack.Navigator>
   )
 }
+const HomeTab = () => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="HomeMain" component={HomeScreen} />
+      <HomeStack.Screen name="itemHome" component={itemHomeScreen} />
+      <HomeStack.Screen name="itemReqHome" component={itemReqHomeScreen} />
+    </HomeStack.Navigator>
+  )
+} 
+const NewsStack = createStackNavigator();
+
+const NewsTab = () => {
+  return (
+    <NewsStack.Navigator>
+      <NewsStack.Screen name='NewsMain' component={NewsScreen} />
+      <NewsStack.Screen name='itemNews' component={itemNewsScreen} />
+    </NewsStack.Navigator>
+  )
+}
+
 const TabHome = () => {
   return (
     
