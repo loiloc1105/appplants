@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SignUpScreen from '../screens/SignUpScreen'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+
 import HomeScreen from '../screens/home'
 import CartScreen from '../screens/cart'
 import NewsScreen from '../screens/news'
@@ -13,6 +15,11 @@ import ProfileScreen from '../screens/profile'
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignUp2Screen from '../screens/SignUp2Screen';
+
+import itemHomeScreen from '../screens/itemHome'
+import itemReqHomeScreen from '../screens/itemRequireHome'
+import itemNewsScreen from '../screens/itemNews'
+
 
 const Tab = createBottomTabNavigator();
 const UserStack = createStackNavigator();
@@ -30,21 +37,47 @@ const User = () => {
 }
 const TabHome = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Cart" component={CartScreen} />
-      <Tab.Screen name="News" component={NewsScreen} />
-      <Tab.Screen name="Notification" component={NoticicationScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-    </Tab.Navigator>
+    
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Cart') {
+              iconName = focused ? 'cart' : 'cart-outline';
+            } else if (route.name === 'News') {
+              iconName = focused ? 'leaf' : 'leaf-outline';
+            } else if (route.name === 'Notification') {
+              iconName = focused ? 'notifications' : 'notifications-outline';
+            } else if (route.name === 'Profile') {
+              iconName = focused ? 'person' : 'person-outline';
+            }
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: '#66cc66',
+          inactiveTintColor: 'gray',
+        }}
+      >
+        <Tab.Screen name="Home" component={HomeTab} />
+        <Tab.Screen name="Cart" component={CartScreen} />
+        <Tab.Screen name="News" component={NewsTab} />
+        <Tab.Screen name="Notification" component={NoticicationScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+      </Tab.Navigator>
+    
     
   )
 }
 
+
+
 const index = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName= 'UserStack' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName= 'Tab' screenOptions={{ headerShown: false }}>
         <Stack.Screen name='UserStack' component={User} />
         <Stack.Screen name='Tab' component= {TabHome} />
      </Stack.Navigator>

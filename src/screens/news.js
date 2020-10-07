@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const news = () => {
+const news = ({navigation}) => {
     return (
         <View style={styles.container}>
             <Text>NEWS</Text>
