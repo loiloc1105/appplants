@@ -14,10 +14,7 @@ const ProductItemList2 = ({ itemTitle, itemPrice, itemUrl }) => {
                 <Text style={styles.title}>{itemTitle}</Text>
                 <Text style={styles.price}>${itemPrice}</Text>
             </View>
-        </View>
-        
-     
-            
+        </View>       
     )
 }
 
