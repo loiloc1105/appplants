@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SignUpScreen from '../screens/SignUpScreen'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 import HomeScreen from '../screens/home'
 import CartScreen from '../screens/cart'
@@ -26,6 +26,8 @@ const Tab = createBottomTabNavigator();
 const UserStack = createStackNavigator();
 const Stack = createStackNavigator();
 const HomeStack = createStackNavigator();
+Icon.loadFont();
+
 
 const User = () => {
   return (
@@ -75,7 +77,7 @@ const TabHome = () => {
             } else if (route.name === 'Profile') {
               iconName = focused ? 'person' : 'person-outline';
             }
-            return <Ionicons name={iconName} size={size} color={color} />;
+            return <Icon name={iconName} size={size} color={color} />;
           },
         })}
         tabBarOptions={{

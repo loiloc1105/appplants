@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button, Dimensions, Image,FlatList, TextInput, 
 import Icon from 'react-native-vector-icons/EvilIcons'
 import ProductItem from './ProductItem';
 import ProductItemList2 from './ProductItemList2';
+Icon.loadFont();
+
 
 
 
