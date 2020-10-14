@@ -19,6 +19,7 @@ import SignUp2Screen from '../screens/SignUp2Screen';
 import itemHomeScreen from '../screens/itemHome'
 import itemReqHomeScreen from '../screens/itemRequireHome'
 import itemNewsScreen from '../screens/itemNews'
+import SearchScreen from '../screens/SearchScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -38,7 +39,7 @@ const User = () => {
 }
 const HomeTab = () => {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator screenOptions = {{headerShown  :false}}>
       <HomeStack.Screen name="HomeMain" component={HomeScreen} />
       <HomeStack.Screen name="itemHome" component={itemHomeScreen} />
       <HomeStack.Screen name="itemReqHome" component={itemReqHomeScreen} />
@@ -100,7 +101,9 @@ const index = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName= 'Tab' screenOptions={{ headerShown: false }}>
         <Stack.Screen name='UserStack' component={User} />
-        <Stack.Screen name='Tab' component= {TabHome} />
+        <Stack.Screen name='Tab' component={TabHome} />
+      <Stack.Screen name='SearchScreen' component={SearchScreen} />
+        
      </Stack.Navigator>
     </NavigationContainer>
   );
