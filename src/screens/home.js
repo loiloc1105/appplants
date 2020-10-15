@@ -11,12 +11,12 @@ Icon.loadFont();
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const dataProduct = [
-    { id : 1 , nameProduct : 'Alicia' , price : 100 , origin : 'Russia' , sunLight : '20*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : '../assets/BG-plant1.jpg'},
-    { id : 2 , nameProduct : 'Alice' , price : 200 , origin : 'VN' , sunLight : '10*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : '../assets/BG-plant2.jpg'},
-    { id : 3 , nameProduct : 'Rose' , price : 400 , origin : 'USA' , sunLight : '0*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : '../assets/BG-plant3.jpg'},
-    { id : 4 , nameProduct : 'SunFlower' , price : 600 , origin : 'Germany' , sunLight : '15*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : '../assets/BG-plant1.jpg'},
-    { id : 5 , nameProduct : 'Alicia' , price : 500 , origin : 'China' , sunLight : '21*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : '../assets/BG-plant2.jpg'},
-    { id : 6 , nameProduct : 'Rose' , price : 800 , origin : 'Japan' , sunLight : '11*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : '../assets/BG-plant3.jpg'},
+    { id : 1 , nameProduct : 'Alicia' , price : 100 , origin : 'Russia' , sunLight : '20*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : 'https://www.inogarden.vn/wp-content/uploads/6b3aa0580860ef3eb671.jpg'},
+    { id : 2 , nameProduct : 'Alice' , price : 200 , origin : 'VN' , sunLight : '10*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : 'https://cayxinh.allnet.vn/wp-content/uploads/2019/06/cay-kim-tien.jpg'},
+    { id : 3 , nameProduct : 'Rose' , price : 400 , origin : 'USA' , sunLight : '0*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : 'https://salt.tikicdn.com/ts/product/cb/98/24/a0527a78f25e81d1a8a33d698dec7203.jpg'},
+    { id : 4 , nameProduct : 'SunFlower' , price : 600 , origin : 'Germany' , sunLight : '15*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : 'https://vn-live-02.slatic.net/p/20815c01fb9ab8d8f5aa6519dc2b0eef.jpg'},
+    { id : 5 , nameProduct : 'Alicia' , price : 500 , origin : 'China' , sunLight : '21*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : 'https://www.hoakiengphattai.com/wp-content/uploads/2019/02/c%C3%A2y-c%E1%BA%A3nh-trong-nh%C3%A0-d%C4%A9-an-b%C3%ACnh-d%C6%B0%C6%A1ng-7-1.jpg'},
+    { id : 6 , nameProduct : 'Rose' , price : 800 , origin : 'Japan' , sunLight : '11*C' , temp : '25*C' , water : '250ML' , soil : '3Kg' , information : 'Lorem abcaubsdfuokba' , image : 'https://salt.tikicdn.com/cache/w390/ts/product/ba/94/bc/b0a6b60cdf474da9c4a392184d0f4633.jpg'},
 ]
 
 const home = ({ navigation }) => {

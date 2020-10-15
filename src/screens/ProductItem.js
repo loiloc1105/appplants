@@ -6,7 +6,7 @@ const ProductItem = ({ itemTitle, itemPrice, itemUrl }) => {
     return (
         <View style = {styles.container}>
             <TouchableOpacity >
-                <Image source={require('../assets/BG-plant1.jpg')}
+                <Image source={{uri : itemUrl}}
                     style={styles.img} />
             </TouchableOpacity>
             <View style = {styles.wraptext}>
@@ -30,10 +30,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
-        
-        
-
-    
     },
 
     img: {
@@ -47,10 +43,6 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         alignItems:'center'
-        
-        
-        
-    
     },
     title: {
         fontWeight: 'bold',

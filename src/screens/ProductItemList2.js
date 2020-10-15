@@ -7,7 +7,7 @@ const ProductItemList2 = ({ itemTitle, itemPrice, itemUrl }) => {
     return (
         <View style = {styles.container}>
             <TouchableOpacity >
-                <Image source={require('../assets/BG-plant1.jpg')}
+                <Image source={{uri : itemUrl}}
                     style={styles.img} />
             </TouchableOpacity>
             <View style = {styles.wraptext}>

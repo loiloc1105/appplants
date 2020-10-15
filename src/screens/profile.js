@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bgTitle: {
-    backgroundColor: '#028E62A6',
+    backgroundColor: '#028E62CC',
     width: width,
     height: width / 2,
     borderBottomRightRadius: width * 0.14,
