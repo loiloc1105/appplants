@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     itemName: {
         justifyContent: 'center',
         marginLeft : width * 0.07,
+        width: width / 3.8
     },
     itemAmount: {
         flexDirection: 'row',

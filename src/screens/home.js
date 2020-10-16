@@ -71,7 +71,7 @@ const home = ({ navigation }) => {
                         <Text style = {styles.more}>More +</Text>
                     </TouchableOpacity>
                 </View>
-                                <FlatList
+                        <FlatList
                         data={data}
                         style={{ marginLeft: 20 }}
                         showsHorizontalScrollIndicator={false}

@@ -21,7 +21,7 @@ const cart = () => {
             <View style={styles.bgTitle}>
                 <Text style={styles.txtTitle}>YOUR CART</Text>
             </View>
-            <ScrollView style={styles.itemCart}>
+            <View style={styles.itemCart}>
                 <FlatList 
                     data={data}
                     keyExtractor={ (item) => `${item.id}`}
@@ -31,7 +31,7 @@ const cart = () => {
                                                 itemAmount={item.amount} 
                                                 itemImgUrl={item.imgURL}  />  }
                 />
-            </ScrollView>
+            </View>
             <View style={styles.checkOut}>
                 <View style={styles.txtCheckOut}>
                     <Text style={{color: '#815656'}}>Total:</Text>
@@ -55,6 +55,8 @@ const styles = StyleSheet.create({
         height : width / 4.8,
         backgroundColor : '#028E62CC',
         alignItems : 'center', 
+        borderBottomLeftRadius: width * 0.03,
+        borderBottomRightRadius: width * 0.03,
     },
     txtTitle: {
         color : 'white',
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
         marginTop : width * 0.11
     },
     itemCart:{
-        height : width / 6
+        flex : 1
     },
     checkOut: {
         height : width / 4,
