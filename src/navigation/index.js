@@ -10,15 +10,17 @@ import { createStore, combineReducers } from 'redux';
 import HomeScreen from '../screens/home'
 import CartScreen from '../screens/cart'
 import NewsScreen from '../screens/news'
-import NoticicationScreen from '../screens/notification'
+import NotificationScreen from '../screens/notification'
 import ProfileScreen from '../screens/profile'
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignUp2Screen from '../screens/SignUp2Screen';
+import DetailNewsScreen from '../screens/DetailNews'
 
 import itemHomeScreen from '../screens/itemHome'
 import itemReqHomeScreen from '../screens/itemRequireHome'
 import itemNewsScreen from '../screens/itemNews'
+import itemNotificationScreen from '../screens/itemNotification'
 import SearchScreen from '../screens/SearchScreen';
 import DetailProduct from '../screens/DetailProduct';
 import cartReducers from '../store/reducers/cart'
@@ -56,9 +58,11 @@ const NewsStack = createStackNavigator();
 
 const NewsTab = () => {
   return (
-    <NewsStack.Navigator>
+    <NewsStack.Navigator screenOptions = {{headerShown  :false}}>
       <NewsStack.Screen name='NewsMain' component={NewsScreen} />
       <NewsStack.Screen name='itemNews' component={itemNewsScreen} />
+      <NewsStack.Screen name='itemNotification' component={itemNotificationScreen} />
+
     </NewsStack.Navigator>
   )
 }
@@ -92,7 +96,7 @@ const TabHome = () => {
         <Tab.Screen name="Home" component={HomeTab} />
         <Tab.Screen name="Cart" component={CartScreen} />
         <Tab.Screen name="News" component={NewsTab} />
-        <Tab.Screen name="Notification" component={NoticicationScreen} />
+        <Tab.Screen name="Notification" component={NotificationScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     
@@ -111,6 +115,7 @@ const index = () => {
         <Stack.Screen name='Tab' component={TabHome} />
         <Stack.Screen name='SearchScreen' component={SearchScreen} />
          <Stack.Screen name ="DetailProduct" component={DetailProduct} />
+        <Stack.Screen name='DetailNews' component={DetailNewsScreen} />
      </Stack.Navigator>
       </NavigationContainer>
           </Provider>
