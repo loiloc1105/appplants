@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SignUpScreen from '../screens/SignUpScreen'
 import Icon from 'react-native-vector-icons/Ionicons'
-
+import { createStore, combineReducers } from 'redux';
 import HomeScreen from '../screens/home'
 import CartScreen from '../screens/cart'
 import NewsScreen from '../screens/news'
@@ -20,15 +20,19 @@ import itemHomeScreen from '../screens/itemHome'
 import itemReqHomeScreen from '../screens/itemRequireHome'
 import itemNewsScreen from '../screens/itemNews'
 import SearchScreen from '../screens/SearchScreen';
-
+import DetailProduct from '../screens/DetailProduct';
+import cartReducers from '../store/reducers/cart'
+import { Provider } from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 const UserStack = createStackNavigator();
 const Stack = createStackNavigator();
 const HomeStack = createStackNavigator();
 Icon.loadFont();
-
-
+const rootReducer = combineReducers({
+  cart : cartReducers
+})
+const store = createStore(rootReducer)
 const User = () => {
   return (
     <UserStack.Navigator initialRouteName= 'SignUp2Screen' screenOptions = {{headerShown : false}}>
@@ -100,14 +104,16 @@ const TabHome = () => {
 
 const index = () => {
   return (
+    <Provider store = {store}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName= 'Tab' screenOptions={{ headerShown: false }}>
         <Stack.Screen name='UserStack' component={User} />
         <Stack.Screen name='Tab' component={TabHome} />
-      <Stack.Screen name='SearchScreen' component={SearchScreen} />
-        
+        <Stack.Screen name='SearchScreen' component={SearchScreen} />
+         <Stack.Screen name ="DetailProduct" component={DetailProduct} />
      </Stack.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
+          </Provider>
   );
 };
 

@@ -60,6 +60,7 @@ const home = ({ navigation }) => {
                         horizontal
                         keyExtractor={(item) => `${item.id}`}
                         renderItem={({ item }) => <ProductItem
+                            viewDetail={() =>navigation.navigate('DetailProduct' ,{product : item})}
                             itemTitle={item.nameProduct}
                             itemPrice={item.price}
                             itemUrl= {item.image}

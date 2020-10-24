@@ -2,10 +2,10 @@ import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions} from 'react-native'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-const ProductItem = ({ itemTitle, itemPrice, itemUrl }) => {
+const ProductItem = ({ itemTitle, itemPrice, itemUrl ,viewDetail }) => {
     return (
         <View style = {styles.container}>
-            <TouchableOpacity >
+            <TouchableOpacity onPress ={viewDetail} >
                 <Image source={{uri : itemUrl}}
                     style={styles.img} />
             </TouchableOpacity>

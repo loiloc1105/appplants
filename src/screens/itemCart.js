@@ -1,11 +1,15 @@
-import React from 'react'
+import React ,{useState} from 'react'
 import { StyleSheet, Text, View , Image , Dimensions , TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
+import {useDispatch , useSelector} from 'react-redux'
+import * as cartActions from '../store/actions/cartAction'
 
 const { width , height } = Dimensions.get('window')
 Icon.loadFont();
 
-const itemCart = ({ itemName , itemPrice , itemAmount , itemImgUrl}) => {
+const itemCart = ({ itemName, itemPrice, itemAmount, itemImgUrl ,id }) => {
+    const dispatch = useDispatch()
+    
     return (
         <View style={styles.container}>
             <Image style={styles.itemImg} source={{uri : itemImgUrl}} />
@@ -14,7 +18,8 @@ const itemCart = ({ itemName , itemPrice , itemAmount , itemImgUrl}) => {
                 <Text>Price : ${itemPrice}</Text>
             </View>
             <View style={styles.itemAmount}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => dispatch(cartActions.addQuantity(id))} >
                     <Icon name="add-circle-outline" size={25}/>
                 </TouchableOpacity>
                 <Text style={{fontSize : 20}}> {itemAmount} </Text>

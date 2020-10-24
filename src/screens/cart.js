@@ -1,21 +1,30 @@
-import React from 'react'
-import { StyleSheet, Text, View , FlatList , Dimensions , ScrollView , TouchableOpacity, Image} from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, FlatList, Dimensions, ScrollView, TouchableOpacity, Image } from 'react-native'
+import {useSelector , useDispatch} from 'react-redux'
 import CartItem from './itemCart'
 
 const {width , height} = Dimensions.get('window')
 
-const data = [ 
-    { id: 1 , nameProduct: 'Daisy' , price : 100 , amount : 3 , imgURL :  'https://www.inogarden.vn/wp-content/uploads/6b3aa0580860ef3eb671.jpg'} , 
-    { id: 2 , nameProduct: 'Rose' , price : 300 , amount : 1 , imgURL : 'https://cayxinh.allnet.vn/wp-content/uploads/2019/06/cay-kim-tien.jpg'} , 
-    { id: 3 , nameProduct: 'Narcissus' , price : 200 , amount : 5 , imgURL : 'https://salt.tikicdn.com/ts/product/cb/98/24/a0527a78f25e81d1a8a33d698dec7203.jpg'} , 
-    { id: 4 , nameProduct: 'Tulip' , price : 80 , amount : 4 , imgURL : 'https://vn-live-02.slatic.net/p/20815c01fb9ab8d8f5aa6519dc2b0eef.jpg'} , 
-    { id: 5 , nameProduct: 'Carnation' , price : 100 , amount : 3 , imgURL :  'https://www.inogarden.vn/wp-content/uploads/6b3aa0580860ef3eb671.jpg'} , 
-    { id: 6 , nameProduct: 'ROSE' , price : 300 , amount : 1 , imgURL : 'https://cayxinh.allnet.vn/wp-content/uploads/2019/06/cay-kim-tien.jpg'} , 
-    { id: 7 , nameProduct: 'Narcissus' , price : 200 , amount : 5 , imgURL : 'https://salt.tikicdn.com/ts/product/cb/98/24/a0527a78f25e81d1a8a33d698dec7203.jpg'} , 
-    { id: 8 , nameProduct: 'Tulip' , price : 80 , amount : 4 , imgURL : 'https://vn-live-02.slatic.net/p/20815c01fb9ab8d8f5aa6519dc2b0eef.jpg'} , 
-]
 
 const cart = () => {
+    const carts = useSelector(state => {
+        let arr = [];
+        for (const key in state.cart.items) {
+            arr.push({
+                productId: key,
+                productPrice: state.cart.items[key].productPrice,
+                productTitle: state.cart.items[key].productTitle,
+                productImage: state.cart.items[key].productImage,
+                quantity: state.cart.items[key].quantity,
+                sum : state.cart.items[key].sum
+            })
+        }
+        return arr
+    })
+
+    
+  
+    const totalAmount = useSelector(state => state.cart.totalAmount)
     return (
         <View style={styles.container}>
             <View style={styles.bgTitle}>
@@ -23,19 +32,20 @@ const cart = () => {
             </View>
             <View style={styles.itemCart}>
                 <FlatList 
-                    data={data}
-                    keyExtractor={ (item) => `${item.id}`}
-                    renderItem ={ ({item}) => <CartItem 
-                                                itemName={item.nameProduct} 
-                                                itemPrice={item.price} 
-                                                itemAmount={item.amount} 
-                                                itemImgUrl={item.imgURL}  />  }
+                    data={carts}
+                    keyExtractor={ (item) => `${item.productId}`}
+                    renderItem={({ item }) => <CartItem 
+                                                id ={item.productId}
+                                                itemName={item.productTitle} 
+                                                itemPrice={item.productPrice} 
+                                                itemAmount={item.quantity} 
+                                                itemImgUrl={item.productImage}  />  }
                 />
             </View>
             <View style={styles.checkOut}>
                 <View style={styles.txtCheckOut}>
                     <Text style={{color: '#815656'}}>Total:</Text>
-                    <Text>$ 1200.00</Text>
+                    <Text>${totalAmount}</Text>
                 </View>
                 <TouchableOpacity style={styles.checkOutBtn}>
                     <Text style={{color: 'white' , fontWeight : 'bold'}}>CHECK OUT</Text>
