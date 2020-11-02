@@ -10,7 +10,6 @@ const DetailProduct = (props) => {
     const dispatch = useDispatch()
     const [quantity, setQuantity] = React.useState(0)
     const carts = useSelector(state => state.cart.items)
-    console.log(carts)
     const add = () => {
         setQuantity(quantity +1)
     }
@@ -67,7 +66,8 @@ const DetailProduct = (props) => {
             <View style={styles.block3}>
                 <TouchableOpacity style={styles.btnAddToCart} onPress={() => {
                     if (quantity > 0) {
-                         dispatch(cartActions.addToCart(product, quantity))
+                        dispatch(cartActions.addToCart(product, quantity))
+                        setQuantity(0)
                     }
                     else {
                         alert('hay chon so luong')

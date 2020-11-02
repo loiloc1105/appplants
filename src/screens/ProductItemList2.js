@@ -3,10 +3,10 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions} from 'reac
 import ProductItem from './ProductItem';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-const ProductItemList2 = ({ itemTitle, itemPrice, itemUrl }) => {
+const ProductItemList2 = ({ itemTitle, itemPrice, itemUrl , viewDetail }) => {
     return (
         <View style = {styles.container}>
-            <TouchableOpacity >
+            <TouchableOpacity onPress ={viewDetail} >
                 <Image source={{uri : itemUrl}}
                     style={styles.img} />
             </TouchableOpacity>

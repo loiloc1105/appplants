@@ -23,7 +23,7 @@ const itemCart = ({ itemName, itemPrice, itemAmount, itemImgUrl ,id }) => {
                     <Icon name="add-circle-outline" size={25}/>
                 </TouchableOpacity>
                 <Text style={{fontSize : 20}}> {itemAmount} </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress ={() => dispatch(cartActions.subQuantity(id))}>
                     <Icon name="remove-circle-outline" size={25}/>
                 </TouchableOpacity>
             </View>

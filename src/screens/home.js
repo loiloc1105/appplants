@@ -79,6 +79,7 @@ const home = ({ navigation }) => {
                         horizontal
                         keyExtractor={(item) => `${item.id}`}
                         renderItem={({ item }) => <ProductItemList2
+                              viewDetail={() =>navigation.navigate('DetailProduct' ,{product : item})}
                             itemTitle={item.nameProduct}
                             itemPrice={item.price}
                             itemUrl= {item.image}
@@ -97,6 +98,7 @@ const home = ({ navigation }) => {
                         horizontal
                         keyExtractor={(item) => `${item.id}`}
                         renderItem={({ item }) => <ProductItem
+                              viewDetail={() =>navigation.navigate('DetailProduct' ,{product : item})}
                             itemTitle={item.nameProduct}
                             itemPrice={item.price}
                             itemUrl= {item.image}
