@@ -28,18 +28,18 @@ export default (state = initialState, action) => {
             }
         case ADD_QUANTITY: 
             const selectedCartItem = state.items[action.payload];
-            const updatedCartItem = new CartItem(
+            let updatedCartItem = new CartItem(
                 selectedCartItem.quantity + 1,
                 selectedCartItem.productPrice,
                 selectedCartItem.productTitle,
                 selectedCartItem.productImage,
-                    selectedCartItem.sum + selectedCartItem.productPrice
+                selectedCartItem.sum + selectedCartItem.productPrice
                 )
                 let updatedCartItems = { ...state.items, [action.payload]: updatedCartItem };
                 return {
                     ...state,
                     items: updatedCartItems,
-                    totalAmount: state.totalAmount + selectedCartItem.productPrice
+                    totalAmount: state.totalAmount + updatedCartItem.sum
                 };    
     }
     
