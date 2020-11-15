@@ -20,7 +20,7 @@ const SplashScreen = () => {
             </View>
             <View style={styles.form}>
                 <View style={styles.blockForm}>
-                    <TouchableOpacity style = {styles.btnSignIn}>
+                    <TouchableOpacity style={styles.btnSignIn} onPress={() => navigation.navigate('LoginScreen')}>
                         <Text style = {styles.signIn}>Sign In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.btnSignUp}>

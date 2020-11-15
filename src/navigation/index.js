@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {StyleSheet, Text, View,AsyncStorage} from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -24,25 +24,40 @@ import itemNotificationScreen from '../screens/itemNotification'
 import SearchScreen from '../screens/SearchScreen';
 import DetailProduct from '../screens/DetailProduct';
 import cartReducers from '../store/reducers/cart'
-import { Provider } from 'react-redux';
-
+import userReducers from '../store/reducers/user'
+import { Provider , useSelector,connect } from 'react-redux';
+import firebase from 'firebase'
 const Tab = createBottomTabNavigator();
 const UserStack = createStackNavigator();
 const Stack = createStackNavigator();
 const HomeStack = createStackNavigator();
+const MainStack = createStackNavigator()
 Icon.loadFont();
 const rootReducer = combineReducers({
-  cart : cartReducers
+  cart: cartReducers,
+  user: userReducers
+  
 })
+const AuthContext = React.createContext();
 const store = createStore(rootReducer)
-const User = () => {
+function userStack(){
   return (
-    <UserStack.Navigator initialRouteName= 'SignUp2Screen' screenOptions = {{headerShown : false}}>
+    <UserStack.Navigator initialRouteName ='LoginScreen' screenOptions ={{headerShown  : false}}>
       <UserStack.Screen name='SplashScreen' component={SplashScreen} />
       <UserStack.Screen name='LoginScreen' component={LoginScreen} />
       <UserStack.Screen name='SignUpScreen' component={SignUpScreen} />
       <UserStack.Screen name = 'SignUp2Screen' component  ={SignUp2Screen} />
     </UserStack.Navigator>
+  )
+}
+function homeStack() {
+  return (
+     <MainStack.Navigator screenOptions ={{headerShown : false}}>
+                 <MainStack.Screen name='Tab' component={TabHome} />
+        <MainStack.Screen name='SearchScreen' component={SearchScreen} />
+         <MainStack.Screen name ="DetailProduct" component={DetailProduct} />
+          <MainStack.Screen name='DetailNews' component={DetailNewsScreen} />
+            </MainStack.Navigator>
   )
 }
 const HomeTab = () => {
@@ -55,7 +70,6 @@ const HomeTab = () => {
   )
 } 
 const NewsStack = createStackNavigator();
-
 const NewsTab = () => {
   return (
     <NewsStack.Navigator screenOptions = {{headerShown  :false}}>
@@ -69,7 +83,6 @@ const NewsTab = () => {
 
 const TabHome = () => {
   return (
-    
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -105,23 +118,36 @@ const TabHome = () => {
 }
 
 
-
-const index = () => {
+const App = () => {
+  const [token, setToken] = useState('')
+  const userToken = useSelector(state => state.user.userToken)
+  console.log(userToken)
+  React.useEffect(() => {
+    if (userToken == null) {
+      setToken(null)
+    } else {
+      setToken(userToken)
+    }
+  }, [userToken])
   return (
-    <Provider store = {store}>
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName= 'Tab' screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='UserStack' component={User} />
-        <Stack.Screen name='Tab' component={TabHome} />
-        <Stack.Screen name='SearchScreen' component={SearchScreen} />
-         <Stack.Screen name ="DetailProduct" component={DetailProduct} />
-        <Stack.Screen name='DetailNews' component={DetailNewsScreen} />
-     </Stack.Navigator>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions ={{headerShown :false}}>
+        {  token == '' ? (
+              <Stack.Screen name = 'User' component ={userStack} />
+          ) : (
+              <Stack.Screen name ='Home' component={homeStack} />
+            )}
+          </Stack.Navigator>
       </NavigationContainer>
-          </Provider>
   );
 };
-
-export default index;
+const authenTication = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+export default authenTication;
 
 const styles = StyleSheet.create({});

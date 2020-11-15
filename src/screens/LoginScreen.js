@@ -1,11 +1,19 @@
-import React, {useState}from 'react'
-import { StyleSheet, Text, View, TextInput, Image, ImageBackground } from 'react-native'
+import React, {useEffect, useState}from 'react'
+import { StyleSheet, Text, View, TextInput, Image, ImageBackground, AsyncStorage } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-
-const LoginScreen = () => {
+import { useDispatch, useSelector } from 'react-redux'
+import * as userActions from '../store/actions/userAction'
+import UserItem from '../model/UserItem'
+import firebase from 'firebase'
+console.disableYellowBox = true;
+const LoginScreen = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-
+    const dispatch  = useDispatch()
+    const database = firebase.database()
+    const ref = database.ref('users/')
+    
+    
     return (
         <View style ={styles.container}>
             <View style={styles.block}>
@@ -34,7 +42,24 @@ const LoginScreen = () => {
                  
                     </View>
                     <ImageBackground source={require('../assets/BG-Signin1.png')} style={styles.img} >
-                        <TouchableOpacity style={styles.btn}>
+                        <TouchableOpacity style={styles.btn}
+                            onPress={  () => {
+                                ref.orderByChild('userName')
+                                    .equalTo(username)
+                                    .on('value', (snapshot) => {
+                                        let user = { ...Object.values(snapshot.val()) }
+                                        if (password == user[0].password) {
+                                            const profileUser = new UserItem(user[0].userName, user[0].address, user[0].phone)
+                                             dispatch(userActions.signIn(
+                                                user[0].userName,profileUser
+                                             ))
+                                       
+                                        }
+                                            
+                                      
+                                    })
+                        }}
+                        >
                             <Text style={styles.titleBtn}>SIGN IN NOW</Text>
                         </TouchableOpacity>
 

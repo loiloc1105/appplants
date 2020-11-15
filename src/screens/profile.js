@@ -6,14 +6,17 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import * as userActions from '../store/actions/userAction'
+import {useDispatch} from 'react-redux'
 const {width, height} = Dimensions.get('window');
 
 Icon.loadFont();
 
 const profile = () => {
+  const dispatch  =useDispatch()
   return (
     <View style={styles.container}>
       <View style={styles.bgTitle}>
@@ -53,7 +56,9 @@ const profile = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.btnSignout}>
+      <TouchableOpacity style={styles.btnSignout} onPress={() => {
+        dispatch(userActions.signOut())
+      }} >
           <Text style={styles.txtSignout}>Sign Out</Text>
       </TouchableOpacity>
     </View>
