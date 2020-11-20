@@ -45,7 +45,6 @@ const home = ({ navigation }) => {
     
     }, [data])
     const user = useSelector(state => state.user.user)
-    console.log(user)
     const [search, setSearch] = useState('')
     const [data, setData] = useState([])
     const [isLoading, setLoading] = useState(false)

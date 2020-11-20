@@ -1,5 +1,5 @@
 import React, {useEffect, useState}from 'react'
-import { StyleSheet, Text, View, TextInput, Image, ImageBackground, AsyncStorage } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Image, ImageBackground, AsyncStorage ,Alert} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
 import * as userActions from '../store/actions/userAction'
@@ -48,15 +48,27 @@ const LoginScreen = (props) => {
                                     .equalTo(username)
                                     .on('value', (snapshot) => {
                                         let user = { ...Object.values(snapshot.val()) }
-                                        if (password == user[0].password) {
+                                        if ( user != null &&password == user[0].password) {
                                             const profileUser = new UserItem(user[0].userName, user[0].address, user[0].phone)
                                              dispatch(userActions.signIn(
                                                 user[0].userName,profileUser
                                              ))
                                        
+                                        } else {
+                                           Alert.alert(
+                                                     "Thông Báo",
+                                                     "Sai Tài Khoản Hoặc Mật Khẫu",
+                                                    [
+                                                     {
+                                                         text: "Cancel",
+                                                       onPress: () => console.log("Cancel Pressed"),
+                                                        style: "cancel"
+                                                          },
+                                                             { text: "OK", onPress: () => console.log("OK Pressed") }
+                                                             ],
+                                                            { cancelable: false }
+                                                 );
                                         }
-                                            
-                                      
                                     })
                         }}
                         >
