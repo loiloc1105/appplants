@@ -49,7 +49,7 @@ const LoginScreen = (props) => {
                                     .on('value', (snapshot) => {
                                         let user = { ...Object.values(snapshot.val()) }
                                         if ( user != null &&password == user[0].password) {
-                                            const profileUser = new UserItem(user[0].userName, user[0].address, user[0].phone)
+                                            const profileUser = new UserItem(user[0].userName, user[0].address, user[0].phone ,user[0].id)
                                              dispatch(userActions.signIn(
                                                 user[0].userName,profileUser
                                              ))

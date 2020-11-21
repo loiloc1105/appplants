@@ -1,5 +1,4 @@
-import { AsyncStorage } from 'react-native'
-import { act } from 'react-test-renderer'
+
 import {SIGN_IN ,SIGN_OUT} from '../actions/userAction'
 
 const intitalState = {

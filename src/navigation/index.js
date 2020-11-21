@@ -121,7 +121,6 @@ const TabHome = () => {
 const App = () => {
   const [token, setToken] = useState('')
   const userToken = useSelector(state => state.user.userToken)
-  console.log(userToken)
   React.useEffect(() => {
     if (userToken == null) {
       setToken(null)

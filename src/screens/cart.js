@@ -2,11 +2,16 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View, FlatList, Dimensions, ScrollView, TouchableOpacity, Image } from 'react-native'
 import {useSelector , useDispatch} from 'react-redux'
 import CartItem from './itemCart'
-
+import firebase from 'firebase'
+import * as cartActions from '../store/actions/cartAction'
+import moment from 'moment'
 const {width , height} = Dimensions.get('window')
 
-
+var date = new Date();
 const cart = () => {
+    const database = firebase.database()
+    
+    const dispatch = useDispatch()
     const carts = useSelector(state => {
         let arr = [];
         for (const key in state.cart.items) {
@@ -21,10 +26,20 @@ const cart = () => {
         }
         return arr
     })
-
-    
-  
+    const user = useSelector(state => state.user.user)
+    const [disable, setDisabel] = useState(cart.length == 0)
     const totalAmount = useSelector(state => state.cart.totalAmount)
+    const checkOut = () => {
+        database.ref('order/' + moment(date).format('MMMM Do YYYY, hh:mm')).set({
+            idUser: user.idUser,
+            phone: user.phoneUser,
+            items: carts,
+            totalAmount: totalAmount,
+            date: moment(date).format('MMMM Do YYYY, hh:mm'),
+            type: 0,
+            nameUser : user.nameUser
+        })
+    }
     return (
         <View style={styles.container}>
             <View style={styles.bgTitle}>
@@ -47,7 +62,11 @@ const cart = () => {
                     <Text style={{color: '#815656'}}>Total:</Text>
                     <Text>${totalAmount}</Text>
                 </View>
-                <TouchableOpacity style={styles.checkOutBtn}>
+                <TouchableOpacity style={(carts.length == 0 ? styles.checkOutBtnDisable : styles.checkOutBtn)} disabled ={carts.length == 0} onPress={() => {
+                    checkOut()
+                    dispatch(cartActions.checkOut())
+                    
+                }}>
                     <Text style={{color: 'white' , fontWeight : 'bold'}}>CHECK OUT</Text>
                 </TouchableOpacity>
             </View>
@@ -103,6 +122,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FB00008C',
+        marginTop: width / 16,
+        marginRight : width / 14,
+        borderColor : 'lightgrey',
+    },
+    checkOutBtnDisable: {
+        width : width * 0.4,
+        height : width * 0.13,
+        borderWidth : width * 0.001,
+        borderRadius : width * 0.04,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#707070',
         marginTop: width / 16,
         marginRight : width / 14,
         borderColor : 'lightgrey',

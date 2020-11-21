@@ -33,7 +33,7 @@ const home = ({ navigation }) => {
                 sunLight: arrToConvert[key].sunLight,
                 temp:arrToConvert[key].temp,
                 water: arrToConvert[key].water,
-                soil: arrToConvert.soil,
+                soil: arrToConvert[key].soil,
                 information: arrToConvert[key].information,
                 image : arrToConvert[key].imgProduct
                })

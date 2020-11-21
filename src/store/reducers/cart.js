@@ -1,6 +1,6 @@
 import { act } from 'react-test-renderer'
 import CartItem from '../../model/CartItem'
-import {ADD_QUANTITY, ADD_TO_CART, SUB_QUANTITY} from '../actions/cartAction'
+import {ADD_QUANTITY, ADD_TO_CART, CHECK_OUT, SUB_QUANTITY} from '../actions/cartAction'
 
 
 
@@ -84,6 +84,8 @@ export default (state = initialState, action) => {
                     totalAmount: state.totalAmount - selectItem.productPrice
                 };    
             }
+        case CHECK_OUT: 
+            return initialState
     }
     
 
