@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, Dimensions, ScrollView, TouchableOpac
 import {useSelector , useDispatch} from 'react-redux'
 import CartItem from './itemCart'
 import firebase from 'firebase'
-import * as cartActions from '../store/actions/cartAction'
+import * as cartActions from '../../store/actions/cartAction'
 import moment from 'moment'
 const {width , height} = Dimensions.get('window')
 

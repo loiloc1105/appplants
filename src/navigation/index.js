@@ -4,25 +4,24 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import SignUpScreen from '../screens/SignUpScreen'
-import Icon from 'react-native-vector-icons/Ionicons'
+import SignUpScreen from '../screens/Login/SignUpScreen'
+import Icon from 'react-native-vector-icons/Ionicons
 import { createStore, combineReducers } from 'redux';
-import HomeScreen from '../screens/home'
-import CartScreen from '../screens/cart'
-import NewsScreen from '../screens/news'
-import NotificationScreen from '../screens/notification'
-import ProfileScreen from '../screens/profile'
-import SplashScreen from '../screens/SplashScreen';
-import LoginScreen from '../screens/LoginScreen';
-import SignUp2Screen from '../screens/SignUp2Screen';
-import DetailNewsScreen from '../screens/DetailNews'
+import HomeScreen from '../screens/Home/home'
+import CartScreen from '../screens/Carts/cart'
+import NewsScreen from '../screens/News/news'
+import NotificationScreen from '../screens/Notification/notification'
+import ProfileScreen from '../screens/Profile/profile'
+import SplashScreen from '../screens/Login/SplashScreen';
+import LoginScreen from '../screens/Login/LoginScreen';
+import DetailNewsScreen from '../screens/Home/DetailNews'
 
-import itemHomeScreen from '../screens/itemHome'
-import itemReqHomeScreen from '../screens/itemRequireHome'
-import itemNewsScreen from '../screens/itemNews'
-import itemNotificationScreen from '../screens/itemNotification'
-import SearchScreen from '../screens/SearchScreen';
-import DetailProduct from '../screens/DetailProduct';
+import itemHomeScreen from '../screens/Home/itemHome'
+import itemReqHomeScreen from '../screens/Home/itemRequireHome'
+import itemNewsScreen from '../screens/News/itemNews'
+import itemNotificationScreen from '../screens/Notification/itemNotification'
+import SearchScreen from '../screens/Home/SearchScreen';
+import DetailProduct from '../screens/Home/DetailProduct';
 import cartReducers from '../store/reducers/cart'
 import userReducers from '../store/reducers/user'
 import { Provider , useSelector,connect } from 'react-redux';
@@ -46,7 +45,6 @@ function userStack(){
       <UserStack.Screen name='SplashScreen' component={SplashScreen} />
       <UserStack.Screen name='LoginScreen' component={LoginScreen} />
       <UserStack.Screen name='SignUpScreen' component={SignUpScreen} />
-      <UserStack.Screen name = 'SignUp2Screen' component  ={SignUp2Screen} />
     </UserStack.Navigator>
   )
 }

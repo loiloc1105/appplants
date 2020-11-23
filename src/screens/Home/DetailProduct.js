@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useSelector, useDispatch } from 'react-redux';
-import * as cartActions from '../store/actions/cartAction';
+import * as cartActions from '../../store/actions/cartAction';
 const { width, height } = Dimensions.get('window');
 const DetailProduct = (props) => {
     const product = props.route.params.product;

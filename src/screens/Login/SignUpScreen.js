@@ -18,6 +18,27 @@ const SignUpScreen = () => {
             <View style={styles.block1}>
                 <View style={styles.display1}>
                     <View style={styles.form}>
+
+                    <TextInput
+                            style={styles.input}
+                            value={phone}
+                            placeholder='phone'
+                            onChangeText={(text) => setPhone(text)}
+
+                        />
+                        <TextInput
+                            style={styles.input}
+                            value={email}
+                            placeholder='password'
+                            onChangeText={(text) => setEmail(text)}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            value={address}
+                            placeholder='address'
+                            onChangeText={(text) => setAddress(text)}
+                        />
+
                         <TextInput
                             style={styles.input}
                             value={username}

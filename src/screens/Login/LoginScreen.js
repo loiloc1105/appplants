@@ -2,8 +2,8 @@ import React, {useEffect, useState}from 'react'
 import { StyleSheet, Text, View, TextInput, Image, ImageBackground, AsyncStorage ,Alert} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
-import * as userActions from '../store/actions/userAction'
-import UserItem from '../model/UserItem'
+import * as userActions from '../../store/actions/userAction'
+import UserItem from '../../model/UserItem'
 import firebase from 'firebase'
 console.disableYellowBox = true;
 const LoginScreen = (props) => {
@@ -41,7 +41,7 @@ const LoginScreen = (props) => {
 
                  
                     </View>
-                    <ImageBackground source={require('../assets/BG-Signin1.png')} style={styles.img} >
+                    <ImageBackground source={require('../../assets/BG-Signin1.png')} style={styles.img} >
                         <TouchableOpacity style={styles.btn}
                             onPress={  () => {
                                 ref.orderByChild('userName')
