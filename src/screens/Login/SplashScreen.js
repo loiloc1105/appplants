@@ -14,7 +14,7 @@ const SplashScreen = () => {
                         <Text style={styles.text2}>Greener.</Text>
                     </View>
                     <View style={styles.imageView}>
-                        <Image source = {require('../assets/background-app.jpg')} style = {styles.image} />
+                        <Image source = {require('../../assets/background-app.jpg')} style = {styles.image} />
                     </View>
                 </View>
             </View>

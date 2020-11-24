@@ -9,7 +9,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import * as userActions from '../store/actions/userAction'
+import * as userActions from '../../store/actions/userAction'
 import {useDispatch} from 'react-redux'
 const {width, height} = Dimensions.get('window');
 
@@ -22,7 +22,7 @@ const profile = () => {
       <View style={styles.bgTitle}>
         <Image
           style={styles.imgUser}
-          source={require('../assets/BG-plant1.jpg')}
+          source={require('../../assets/BG-plant1.jpg')}
         />
         <Text style={{color:'white', fontSize : width * 0.05}}>Hi UserName!</Text>
       </View>

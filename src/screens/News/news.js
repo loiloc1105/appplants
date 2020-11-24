@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View ,Dimensions, FlatList} from 'react-native'
 import CartNews from './itemNews'
-import {Data} from './Data'
+import {Data} from '../Data'
 const{width,height} = Dimensions.get('window')
 
 const news = (props) => {

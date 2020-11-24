@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View ,Dimensions, ImageBackground, SafeAreaView,ScrollView, TouchableOpacity} from 'react-native'
-import {Data} from './Data'
+import {Data} from '../Data'
 const{width,height} = Dimensions.get('window')
 
 const DetailNews = ({ route, navigation }) => {

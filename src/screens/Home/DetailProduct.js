@@ -14,6 +14,9 @@ import Icon from 'react-native-vector-icons/Feather';
 import { useSelector, useDispatch } from 'react-redux';
 import * as cartActions from '../../store/actions/cartAction';
 const { width, height } = Dimensions.get('window');
+
+Icon.loadFont();
+
 const DetailProduct = (props) => {
     const product = props.route.params.product;
     const dispatch = useDispatch();
@@ -46,28 +49,28 @@ const DetailProduct = (props) => {
                             <View style={styles.inforDetailProducts}>
                                 <View style={styles.inforDetailItems}>
                                     <Image
-                                        source={require('../assets/sunny.png')}
+                                        source={require('../../assets/sunny.png')}
                                         style={styles.icons}
                                     />
                                     <Text style={styles.textIcon}>{product.sunLight}</Text>
                                 </View>
                                 <View style={styles.inforDetailItems}>
                                     <Image
-                                        source={require('../assets/temp.png')}
+                                        source={require('../../assets/temp.png')}
                                         style={styles.icons}
                                     />
                                     <Text style={styles.textIcon}>{product.temp}</Text>
                                 </View>
                                 <View style={styles.inforDetailItems}>
                                     <Image
-                                        source={require('../assets/water.png')}
+                                        source={require('../../assets/water.png')}
                                         style={styles.icons}
                                     />
                                     <Text style={styles.textIcon}>{product.water}</Text>
                                 </View>
                                 <View style={styles.inforDetailItems}>
                                     <Image
-                                        source={require('../assets/flower.png')}
+                                        source={require('../../assets/flower.png')}
                                         style={styles.icons}
                                     />
                                     <Text style={styles.textIcon}>{product.soil}</Text>
@@ -87,19 +90,19 @@ const DetailProduct = (props) => {
 
                     <TouchableOpacity style={styles.btnIcon} onPress={() => setModalDetails(true)}>
                         <Image
-                            source={require('../assets/sunny.png')}
+                            source={require('../../assets/sunny.png')}
                             style={styles.icon}
                         />
                         <Image
-                            source={require('../assets/temp.png')}
+                            source={require('../../assets/temp.png')}
                             style={styles.icon}
                         />
                         <Image
-                            source={require('../assets/water.png')}
+                            source={require('../../assets/water.png')}
                             style={styles.icon}
                         />
                         <Image
-                            source={require('../assets/flower.png')}
+                            source={require('../../assets/flower.png')}
                             style={styles.icon}
                         />
                     </TouchableOpacity>

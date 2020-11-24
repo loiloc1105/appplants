@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SignUpScreen from '../screens/Login/SignUpScreen'
-import Icon from 'react-native-vector-icons/Ionicons
+import Icon from 'react-native-vector-icons/Ionicons'
 import { createStore, combineReducers } from 'redux';
 import HomeScreen from '../screens/Home/home'
 import CartScreen from '../screens/Carts/cart'
@@ -14,7 +14,7 @@ import NotificationScreen from '../screens/Notification/notification'
 import ProfileScreen from '../screens/Profile/profile'
 import SplashScreen from '../screens/Login/SplashScreen';
 import LoginScreen from '../screens/Login/LoginScreen';
-import DetailNewsScreen from '../screens/Home/DetailNews'
+import DetailNewsScreen from '../screens/News/DetailNews'
 
 import itemHomeScreen from '../screens/Home/itemHome'
 import itemReqHomeScreen from '../screens/Home/itemRequireHome'

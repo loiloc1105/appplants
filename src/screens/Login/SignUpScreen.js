@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/EvilIcons'
 import { StyleSheet, Text, View ,TextInput ,TouchableOpacity ,ImageBackground, Image } from 'react-native'
 
+Icon.loadFont();
+
 const SignUpScreen = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -63,7 +65,7 @@ const SignUpScreen = () => {
 
 
                     </View>
-                    <ImageBackground source={require('../assets/BG-Signin1.png')} style={styles.img} >
+                    <ImageBackground source={require('../../assets/BG-Signin1.png')} style={styles.img} >
                         <TouchableOpacity style={styles.btn}>
                             <Icon name = 'arrow-right' color = 'white' size = {100} />
                         </TouchableOpacity>

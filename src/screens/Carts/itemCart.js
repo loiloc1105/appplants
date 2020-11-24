@@ -2,7 +2,7 @@ import React ,{useState} from 'react'
 import { StyleSheet, Text, View , Image , Dimensions , TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import {useDispatch , useSelector} from 'react-redux'
-import * as cartActions from '../store/actions/cartAction'
+import * as cartActions from '../../store/actions/cartAction'
 
 const { width , height } = Dimensions.get('window')
 Icon.loadFont();

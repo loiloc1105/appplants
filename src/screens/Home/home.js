@@ -5,10 +5,8 @@ import ProductItem from './ProductItem';
 import ProductItemList2 from './ProductItemList2';
 import firebase from 'firebase'
 import { useSelector} from 'react-redux'
-import firebaseConfig from '../config'
+import firebaseConfig from '../../config'
 Icon.loadFont();
-
-
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -56,7 +54,7 @@ const home = ({ navigation }) => {
         <View style={styles.container}>
             <View style={styles.block1}>
                 <View style={styles.display}>
-                    <Image source={require('../assets/BG-Signup.png')} style = {styles.img} /> 
+                    <Image source={require('../../assets/BG-Signup.png')} style = {styles.img} /> 
                     <Text style={styles.title}>{nameUser}</Text>                  
                 </View>
                 <View style  ={styles.searchBar}>
