@@ -1,7 +1,9 @@
 import React  from 'react'
-import { StyleSheet, Text, View , Image,TouchableOpacity} from 'react-native'
+import { StyleSheet, Text, View , Image,TouchableOpacity , Alert , Dimensions , Platform} from 'react-native'
 
-const SplashScreen = () => {
+const { width, height} = Dimensions.get('window')
+
+const SplashScreen = (props) => {
      
     return (
         <View style = {styles.container}> 
@@ -14,16 +16,16 @@ const SplashScreen = () => {
                         <Text style={styles.text2}>Greener.</Text>
                     </View>
                     <View style={styles.imageView}>
-                        <Image source = {require('../../assets/background-app.jpg')} style = {styles.image} />
+                        <Image resizeMode={Platform.OS === 'ios' ? 'stretch' : 'cover'} style={styles.image} source = {require('../../assets/background-app.jpg')} />
                     </View>
                 </View>
             </View>
             <View style={styles.form}>
                 <View style={styles.blockForm}>
-                    <TouchableOpacity style={styles.btnSignIn} onPress={() => navigation.navigate('LoginScreen')}>
+                    <TouchableOpacity style={styles.btnSignIn} onPress={() => props.navigation.navigate('LoginScreen')}>
                         <Text style = {styles.signIn}>Sign In</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnSignUp}>
+                    <TouchableOpacity style={styles.btnSignUp} onPress={() => {Alert.alert('dang fix')}}>
                         <Text style={styles.signIn}>Sign Up</Text>
                     </TouchableOpacity>
                     <Text style = {styles.text}>Term Of Service</Text>
@@ -42,85 +44,89 @@ const styles = StyleSheet.create({
     },
     block1: {
         backgroundColor: '#23DE55',
-        flex : 0.6
+        flex : Platform.OS === 'ios' ? 0.6 : 0.7,
+        // borderWidth:1
     },
     block2: {
         backgroundColor: '#fff',
         flex: 1,
-        borderBottomRightRadius: 70
+        borderBottomRightRadius: Platform.OS === 'ios' ? width * 0.25 : width * 0.15,
+        // borderWidth:1
+    },
+    wrapText: {
+        marginTop: Platform.OS === 'ios' ? width * 0.1 : 0,
+        marginLeft: width * 0.1 
+        // borderWidth:1
+    },
+    wrapText2: {
+        justifyContent: 'flex-end',
+        flexDirection :'row',
+        // borderWidth:1
+    },
+    text1: {
+        fontSize: width * 0.08,
+        fontWeight: 'bold',
+        // borderWidth:1
+    },
+    text2: {
+        fontWeight: 'bold',
+        fontSize: width * 0.1,
+        color: '#4FE581',
+        // borderWidth:1
+    },
+    imageView: {
+        marginLeft : Platform.OS === 'ios' ? width * 0.25 : width * 0.35,
+    },
+    image: {
+        width: Platform.OS === 'ios' ? width * 0.85 : width * 0.7, 
+        height: Platform.OS === 'ios' ? width * 0.85 : width * 0.7, 
+        borderRadius: width / 2, 
+        borderWidth: 1,
+        borderColor:'#707070'
     },
     blockForm: {
         flex: 1,
         backgroundColor: '#23DE55',
-        borderTopLeftRadius: 70,
+        borderTopLeftRadius: Platform.OS === 'ios' ? width * 0.25 : width * 0.15,
         alignItems: 'center',
-        justifyContent : 'center'
+        justifyContent : 'center',
+        // borderWidth:1
     },
     form: {
         flex :0.4,
-        backgroundColor: '#fff'
-    },
-    wrapText: {
-        marginTop: 20,
-        marginLeft:25
-    },
-    wrapText2: {
-        justifyContent: 'flex-end',
-        flexDirection :'row'
-    },
-    text1: {
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
-    text2: {
-        fontWeight: '400',
-        fontSize: 50,
-        color: '#4FE581'
-    },
-    imageView: {
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-    
-    },
-    image: {
-        width: 250, 
-        height: 250,
-        borderRadius: 250 / 2,
-        borderWidth: 2,
-        borderColor:'#707070'
+        backgroundColor: '#fff',
+        // borderWidth:1
     },
     btnSignIn: {
         backgroundColor: '#33CC66C2',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 300,
+        width: width * 0.75,
+        height : width * 0.15,
         borderColor: '#707070',
         borderWidth: 2,
-        borderRadius: 10,
-        marginBottom: 20
-
-        
+        borderRadius: width * 0.03,
+        marginBottom: width * 0.05
     },
     btnSignUp: {
         backgroundColor: '#FFFFFF',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 300,
+        width: width * 0.75,
+        height : width * 0.15,
         borderColor: '#707070',
         borderWidth: 2,
-        borderRadius: 10,
-
+        borderRadius: width * 0.03,
     },
     signIn: {
-        fontSize: 20,
+        fontSize: width * 0.05,
         fontWeight: 'bold',
-        padding :15
     },
     text: {
-        fontWeight: '500',
+        fontWeight: 'bold',
         color: '#707070',
-        fontSize: 20,
-        padding:20,
+        fontSize: width * 0.05,
+        padding:width * 0.05,
     }
 
 })
