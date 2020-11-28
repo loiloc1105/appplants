@@ -1,14 +1,39 @@
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/EvilIcons'
-import { StyleSheet, Text, View ,TextInput ,TouchableOpacity ,ImageBackground, Image } from 'react-native'
+import { StyleSheet, Text, View ,TextInput ,TouchableOpacity , Dimensions, Alert } from 'react-native'
+const {width, height} = Dimensions.get('window');
 
+import firebase from 'firebase';
 Icon.loadFont();
 
-const SignUpScreen = () => {
+const SignUpScreen = (props) => {
     const [username, setUsername] = useState('')
+    const [fullName, setFullName] = useState('')
+    const [address, setAddress] = useState('')
+    const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
     const [confirm , setConfirm] = useState('')
+    const database = firebase.database().ref('users/');
 
+    const Signup = () => {
+        const ref = database.push();
+        const key = ref.key;
+        (username === '') ? Alert.alert('User name is empty !!!') :
+        (fullName === '') ? Alert.alert('Full name is empty !!!') :
+        (address === '') ? Alert.alert('Address is empty !!!') :
+        (phone === '') ? Alert.alert('Phone is empty !!!') :
+        (password === '' ) ? Alert.alert('Password is empty !!!') :
+        (password !== confirm ) ? Alert.alert('Password and confirm not matched !!!') : 
+        ref.set({
+            id: key,
+            userName:username,
+            fullName:fullName,
+            address:address,
+            phone:phone,
+            password:password,
+            type:1,
+        }).then(() => props.navigation.navigate('LoginScreen'))    
+    }
     return (
         <View style={styles.container}>
             <View style={styles.block}>
@@ -23,16 +48,16 @@ const SignUpScreen = () => {
 
                     <TextInput
                             style={styles.input}
-                            value={phone}
-                            placeholder='phone'
-                            onChangeText={(text) => setPhone(text)}
-
+                            value={username}
+                            placeholder='User Name'
+                            onChangeText={(text) => setUsername(text)}
+                            
                         />
                         <TextInput
                             style={styles.input}
-                            value={email}
-                            placeholder='password'
-                            onChangeText={(text) => setEmail(text)}
+                            value={fullName}
+                            placeholder='Full Name'
+                            onChangeText={(text) => setFullName(text)}
                         />
                         <TextInput
                             style={styles.input}
@@ -43,42 +68,44 @@ const SignUpScreen = () => {
 
                         <TextInput
                             style={styles.input}
-                            value={username}
-                            placeholder='username'
-                            onChangeText={(text) => setUsername(text)}
+                            value={phone}
+                            placeholder='Phone'
+                            keyboardType={'number-pad'}
+                            maxLength={10}
+                            onChangeText={(text) => setPhone(text)}
 
                         />
                         <TextInput
                             style={styles.input}
                             value={password}
                             placeholder='password'
+                            secureTextEntry={true}
                             onChangeText={(text) => setPassword(text)}
                         />
                         <TextInput
                             style={styles.input}
                             value={confirm}
                             placeholder='confirm password'
+                            secureTextEntry={true}
                             onChangeText={(text) => setConfirm(text)}
-
                         />
        
 
 
                     </View>
-                    <ImageBackground source={require('../../assets/BG-Signin1.png')} style={styles.img} >
+                   
                         <TouchableOpacity style={styles.btn}>
-                            <Icon name = 'arrow-right' color = 'white' size = {100} />
+                            <Icon name = 'arrow-right' color = 'white' size = {100} onPress={Signup}/>
                         </TouchableOpacity>
 
                         <View style={styles.wraptext}>
                             <TouchableOpacity>
                                 <Text style={styles.text1}>Have an account ?</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('LoginScreen')}>
                                 <Text style={styles.text2}>Sign In</Text>
                             </TouchableOpacity>
                         </View>
-                    </ImageBackground>
                 </View>
 
             </View>
@@ -94,18 +121,18 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     block: {
-        flex: 0.3,
+        flex: width / 5,
         backgroundColor: '#B9CEC9'
     },
     display: {
-        flex: 1,
+        flex: width / 2,
         backgroundColor: '#fff',
         borderBottomRightRadius: 70,
         justifyContent: 'center',
         alignItems: 'center'
     },
     block1: {
-        flex: 0.7,
+        flex: width / 2,
         backgroundColor: '#fff'
     },
     display1: {
@@ -115,7 +142,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        fontSize: 56,
+        fontSize: width / 10,
         fontWeight: '700',
         color:'#B9CEC9'
     },
@@ -163,12 +190,6 @@ const styles = StyleSheet.create({
     imageView: {
         borderWidth: 1,
 
-    },
-    img: {
-        width: 300,
-        height: 400,
-        position: 'absolute',
-        top: 190
     },
     form: {
         marginTop :5

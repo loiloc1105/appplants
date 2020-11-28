@@ -25,7 +25,7 @@ const SplashScreen = (props) => {
                     <TouchableOpacity style={styles.btnSignIn} onPress={() => props.navigation.navigate('LoginScreen')}>
                         <Text style = {styles.signIn}>Sign In</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnSignUp} onPress={() => {Alert.alert('dang fix')}}>
+                    <TouchableOpacity style={styles.btnSignUp} onPress={() => props.navigation.navigate('SignUpScreen')}>
                         <Text style={styles.signIn}>Sign Up</Text>
                     </TouchableOpacity>
                     <Text style = {styles.text}>Term Of Service</Text>
