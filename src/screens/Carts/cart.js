@@ -49,7 +49,7 @@ const cart = () => {
       type: 0,
       nameUser: user.userName,
     }).then(r=> {
-      console.log('item',r);
+      // console.log('item',r);
     });
 
   };
