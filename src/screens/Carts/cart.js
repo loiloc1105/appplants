@@ -36,18 +36,22 @@ const cart = () => {
     return arr;
   });
   const user = useSelector(state => state.user.user);
+  console.log('user', user);
   const [disable, setDisabel] = useState(cart.length == 0);
   const totalAmount = useSelector(state => state.cart.totalAmount);
   const checkOut = () => {
-    database.ref('order/' + moment(date).format('MMMM Do YYYY, hh:mm')).set({
+    database.ref('orders').push({
       idUser: user.idUser,
       phone: user.phoneUser,
       items: carts,
       totalAmount: totalAmount,
-      date: moment(date).format('MMMM Do YYYY, hh:mm'),
+      date: moment(date).format('MM DD YYYY, hh:mm'),
       type: 0,
-      nameUser: user.nameUser,
+      nameUser: user.userName,
+    }).then(r=> {
+      console.log('item',r);
     });
+
   };
   return (
     <View style={styles.container}>
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
   checkOutBtn: {
     width: width * 0.4,
     height: width * 0.13,
-    borderWidth: width * 0.001,
+    borderWidth: width * 0.001, 
     borderRadius: width * 0.04,
     justifyContent: 'center',
     alignItems: 'center',
