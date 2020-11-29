@@ -18,11 +18,12 @@ import LoginScreen from '../screens/Login/LoginScreen';
 import SignUpScreen from '../screens/Login/SignUpScreen';
 
 import DetailNewsScreen from '../screens/News/DetailNews';
-
 import itemNewsScreen from '../screens/News/itemNews';
+
 import itemNotificationScreen from '../screens/Notification/itemNotification';
 import SearchScreen from '../screens/Home/SearchScreen';
 import DetailProduct from '../screens/Home/DetailProduct';
+
 import cartReducers from '../store/reducers/cart';
 import userReducers from '../store/reducers/user';
 
@@ -82,6 +83,7 @@ const NewsTab = () => {
     <NewsStack.Navigator screenOptions={{headerShown: false}}>
       <NewsStack.Screen name="NewsMain" component={NewsScreen} />
       <NewsStack.Screen name="itemNews" component={itemNewsScreen} />
+      <NewsStack.Screen name="DetailNews" component={DetailNewsScreen} />
       {/* <NewsStack.Screen
         name="itemNotification"
         component={itemNotificationScreen}
