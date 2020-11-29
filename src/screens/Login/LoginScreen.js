@@ -22,8 +22,8 @@ const {width, height} = Dimensions.get('window');
 console.disableYellowBox = true;
 
 const LoginScreen = props => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('username1');
+  const [password, setPassword] = useState('123');
   const dispatch = useDispatch();
   const database = firebase.database();
   const ref = database.ref('users/');
