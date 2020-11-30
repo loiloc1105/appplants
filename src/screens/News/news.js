@@ -1,13 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Dimensions, FlatList} from 'react-native';
-import CartNews from './itemNews';
+import CardNews from './itemNews';
+
+import firebase from 'firebase'
 import {Data} from '../Data';
 const {width, height} = Dimensions.get('window');
 
+const database = firebase.database()
+
 const news = props => {
+
+  database.ref('infotmations').once('value', (snapshot) => {
+    snapshot.forEach((childSnapshot) => {
+      const childKey = childSnapshot.key;
+      const childData = childSnapshot.val();
+    });
+  });
+
   const renderItemNews = itemData => {
     return (
-      <CartNews
+      <CardNews
         itemName={itemData.item.nameProduct}
         itemImgUrl={itemData.item.imgURL}
         itemContent={itemData.item.content}

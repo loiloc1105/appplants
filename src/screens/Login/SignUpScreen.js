@@ -13,6 +13,7 @@ const SignUpScreen = (props) => {
     const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
     const [confirm , setConfirm] = useState('')
+    const [imgUser,setImgUser] = useState('https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/tree.png')
     const database = firebase.database().ref('users/');
 
     const Signup = () => {
@@ -31,6 +32,7 @@ const SignUpScreen = (props) => {
             address:address,
             phone:phone,
             password:password,
+            imgUser: imgUser,
             type:1,
         }).then(() => props.navigation.navigate('LoginScreen'))    
     }

@@ -4,9 +4,7 @@ import {
   Text,
   View,
   TextInput,
-  Image,
   ImageBackground,
-  AsyncStorage,
   Alert,
   Platform,
   Dimensions,
@@ -18,15 +16,47 @@ import UserItem from '../../model/UserItem';
 import firebase from 'firebase';
 
 const {width, height} = Dimensions.get('window');
+const database = firebase.database();
 
 console.disableYellowBox = true;
 
 const LoginScreen = props => {
-  const [username, setUsername] = useState('username1');
+  const [username, setUsername] = useState('username2');
   const [password, setPassword] = useState('123');
   const dispatch = useDispatch();
-  const database = firebase.database();
-  const ref = database.ref('users/');
+
+  const btnLogin = () => {
+    database
+      .ref('users')
+      .orderByChild('userName')
+      .equalTo(username)
+      .once('value', snapshot => {
+        const users = Object.values(snapshot.val());
+        console.log('user', users);
+
+        if (users != null && password === users[0].password) {
+          const profileUser = new UserItem(
+            users[0].userName,
+            users[0].address,
+            users[0].phone,
+            users[0].id,
+          );
+          dispatch(userActions.signIn(users[0].userName, profileUser));
+        } else {
+          Alert.alert(
+            'Thông Báo',
+            'Sai Tài Khoản Hoặc Mật Khẫu',
+            [
+              {
+                text: 'OK',
+                onPress: () => console.log('OK Pressed'),
+              },
+            ],
+            {cancelable: false},
+          );
+        }
+      }).then( r => console.log(r));
+  };
 
   return (
     <View style={styles.container}>
@@ -47,47 +77,13 @@ const LoginScreen = props => {
             <TextInput
               style={styles.input}
               value={password}
+              secureTextEntry={true}
               placeholder="password"
               onChangeText={text => setPassword(text)}
             />
           </View>
 
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              ref
-                .orderByChild('userName')
-                .equalTo(username)
-                .on('value', snapshot => {
-                  let user = {...Object.values(snapshot.val())};
-                  if (user != null && password == user[0].password) {
-                    const profileUser = new UserItem(
-                      user[0].userName,
-                      user[0].address,
-                      user[0].phone,
-                      user[0].id,
-                    );
-                    dispatch(userActions.signIn(user[0].userName, profileUser));
-                  } else {
-                    Alert.alert(
-                      'Thông Báo',
-                      'Sai Tài Khoản Hoặc Mật Khẫu',
-                      [
-                        {
-                          text: 'Cancel',
-                          onPress: () => console.log('Cancel Pressed'),
-                          style: 'cancel',
-                        },
-                        {
-                          text: 'OK',
-                          onPress: () => console.log('OK Pressed'),
-                        },
-                      ],
-                      {cancelable: false},
-                    );
-                  }
-                });
-            }}>
+          <TouchableOpacity style={styles.btn} onPress={btnLogin}>
             <Text style={styles.titleBtn}>SIGN IN NOW</Text>
           </TouchableOpacity>
           <View style={styles.wraptext}>
@@ -98,7 +94,8 @@ const LoginScreen = props => {
                 <TouchableOpacity>
                   <Text style={styles.text1}>Don't have an account ? </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => props.navigation.navigate('SignUpScreen')}>
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate('SignUpScreen')}>
                   <Text style={styles.text2}>Sign Up</Text>
                 </TouchableOpacity>
               </View>
@@ -179,7 +176,7 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
   },
   btnSignIn: {
-    flexDirection:'row',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
