@@ -137,7 +137,13 @@ const DetailProduct = props => {
               dispatch(cartActions.addToCart(product, quantity));
               setQuantity(0);
             } else {
-              alert('hay chon so luong');
+              Alert.alert('Warning!!!', 'Enter quantity please', [
+                {
+                  text: 'OK',
+                  onPress: () => console.log('OK Pressed'),
+                  style: 'cancel',
+                },
+              ]);
             }
           }}>
           <Text style={styles.addTocart}>Add To Cart</Text>

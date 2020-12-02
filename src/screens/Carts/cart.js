@@ -5,9 +5,8 @@ import {
   View,
   FlatList,
   Dimensions,
-  ScrollView,
   TouchableOpacity,
-  Image,
+  Alert,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import CartItem from './itemCart';
@@ -40,18 +39,20 @@ const cart = () => {
   const [disable, setDisabel] = useState(cart.length == 0);
   const totalAmount = useSelector(state => state.cart.totalAmount);
   const checkOut = () => {
-    database.ref('orders').push({
-      idUser: user.idUser,
-      phone: user.phoneUser,
-      items: carts,
-      totalAmount: totalAmount,
-      date: moment(date).format('MM DD YYYY, hh:mm'),
-      type: 0,
-      nameUser: user.userName,
-    }).then(r=> {
-      // console.log('item',r);
-    });
-
+    database
+      .ref('orders')
+      .push({
+        idUser: user.idUser,
+        phone: user.phoneUser,
+        items: carts,
+        totalAmount: totalAmount,
+        date: moment(date).format('MM DD YYYY, hh:mm'),
+        type: 0,
+        nameUser: user.userName,
+      })
+      .then(r => {
+        // console.log('item',r);
+      });
   };
   return (
     <View style={styles.container}>
@@ -84,8 +85,25 @@ const cart = () => {
           }
           disabled={carts.length == 0}
           onPress={() => {
-            checkOut();
-            dispatch(cartActions.checkOut());
+            Alert.alert(
+              'Notifications',
+              'Are you sure to continue?',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'Continue',
+                  onPress: () => {
+                    checkOut();
+                    dispatch(cartActions.checkOut());
+                  },
+                },
+              ],
+              {cancelable: false},
+            );
           }}>
           <Text style={{color: 'white', fontWeight: 'bold'}}>CHECK OUT</Text>
         </TouchableOpacity>
@@ -101,17 +119,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bgTitle: {
-    height: width / 4.8,
+    width: width,
+    height: height * 0.1,
     backgroundColor: '#028E62CC',
     alignItems: 'center',
-    borderBottomLeftRadius: width * 0.03,
-    borderBottomRightRadius: width * 0.03,
+    borderBottomLeftRadius: width * 0.02,
+    borderBottomRightRadius: width * 0.02,
+    paddingTop: width * 0.1,
   },
   txtTitle: {
     color: 'white',
     fontSize: width * 0.05,
     fontWeight: 'bold',
-    marginTop: width * 0.11,
   },
   itemCart: {
     flex: 1,
@@ -131,13 +150,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: width / 10,
     marginTop: width / 20,
-    // borderWidth : width * 0.001,
     fontWeight: 'bold',
   },
   checkOutBtn: {
     width: width * 0.4,
     height: width * 0.13,
-    borderWidth: width * 0.001, 
+    borderWidth: width * 0.001,
     borderRadius: width * 0.04,
     justifyContent: 'center',
     alignItems: 'center',

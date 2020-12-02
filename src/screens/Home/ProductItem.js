@@ -7,8 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const {width, height} = Dimensions.get('window')
 const ProductItem = ({itemTitle, itemPrice, itemUrl, viewDetail}) => {
   return (
     <View style={styles.container}>
@@ -16,7 +15,7 @@ const ProductItem = ({itemTitle, itemPrice, itemUrl, viewDetail}) => {
         <Image source={{uri: itemUrl}} style={styles.img} />
       </TouchableOpacity>
       <View style={styles.wraptext}>
-        <Text style={styles.title}>{itemTitle}</Text>
+        <Text numberOfLines={2} style={styles.title}>{itemTitle}</Text>
         <Text style={styles.price}>${itemPrice}</Text>
       </View>
     </View>
@@ -27,34 +26,38 @@ export default ProductItem;
 
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    margin: width * 0.02,
     shadowOffset: {width: 0, height: 2},
     shadowColor: '#000',
     elevation: 5,
     backgroundColor: '#fff',
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    borderRadius: width * 0.02,
+    borderWidth: 1,
+    borderColor:'lightgrey'
   },
 
   img: {
-    width: 125,
-    height: 130,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    width: width * 0.41,
+    height: width * 0.41,
+    borderTopLeftRadius: width * 0.02,
+    borderTopRightRadius: width * 0.02,
   },
   wraptext: {
     flexDirection: 'row',
-    height: 40,
+    height: width * 0.1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
+    width: width * 0.3,
     fontWeight: 'bold',
-    paddingRight: 10,
+    paddingRight: width * 0.02,
     fontSize: 15,
     textTransform: 'uppercase',
+    marginLeft: width * 0.01
   },
   price: {
+    width:width * 0.1,
     color: '#707070',
     fontSize: 15,
     fontWeight: 'bold',

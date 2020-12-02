@@ -43,18 +43,30 @@ const notification = () => {
       );
       switch (itemData.item.type) {
         case 0:
-          if ( i <= 0) {
-            itemStatus.push(<Text key={i}>Waiting</Text>);
+          if (i <= 0) {
+            itemStatus.push(
+              <Text style={{color: 'gray'}} key={i}>
+                Waiting
+              </Text>,
+            );
           }
           break;
         case 1:
-          if(i <= 0){
-            itemStatus.push(<Text key={i}>Delivery</Text>);
+          if (i <= 0) {
+            itemStatus.push(
+              <Text style={{color: 'blue'}} key={i}>
+                Delivery
+              </Text>,
+            );
           }
           break;
         case 2:
-          if ( i <= 0) {
-            itemStatus.push(<Text key={i}>Canceled</Text>);
+          if (i <= 0) {
+            itemStatus.push(
+              <Text style={{color: 'red'}} key={i}>
+                Canceled
+              </Text>,
+            );
           }
           break;
       }
@@ -64,6 +76,7 @@ const notification = () => {
       <View style={styles.itemCard}>
         {itemCard}
         <View style={styles.txtItem}>
+          <Text>TOTAL BILL : ${itemData.item.totalAmount}</Text>
           <Text>STATUS : {itemStatus}</Text>
         </View>
       </View>

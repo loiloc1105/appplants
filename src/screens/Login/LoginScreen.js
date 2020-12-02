@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 56,
+    fontSize: width / 6.5,
     fontWeight: 'bold',
     color: '#B9CEC9',
   },
