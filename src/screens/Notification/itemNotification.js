@@ -1,31 +1,28 @@
 import React from 'react';
-import {StyleSheet, Text, View, Dimensions, Image} from 'react-native';
-const {width, height} = Dimensions.get('window');
+import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+const { width, height } = Dimensions.get('window');
 const itemNotification = ({
   itemName,
   itemImgUrl,
   itemPrice,
   itemAmount,
-  itemType,
 }) => {
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.itemContent}>
-        <Image style={styles.itemImg} source={{uri: itemImgUrl}} />
+        <Image style={styles.itemImg} source={{ uri: itemImgUrl}} />
         <View style={styles.itemName}>
-          <Text style={{fontSize: 22}}>{itemName}</Text>
+          <Text style={{ fontSize: 22 }}>{itemName}</Text>
           <Text>Price : ${itemPrice}</Text>
         </View>
         <View style={styles.itemAmount}>
-          <Text style={{fontSize: 20}}>X {itemAmount} </Text>
+          <Text style={{ fontSize: 20 }}>X {itemAmount} </Text>
         </View>
-      </View>
-      <View style={styles.itemStatus}>
-        <Text>Status :{itemType ? "delivery" : "waiting"}</Text>
       </View>
     </View>
   );
+
 };
 
 export default itemNotification;
@@ -34,12 +31,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: width * 0.8,
-    marginHorizontal: width * 0.1,
+    marginHorizontal: width * 0.05,
     marginVertical: width * 0.03,
-    borderWidth: 1,
-    borderRadius: width * 0.02,
-    borderColor:'lightgrey',
-    padding : width * 0.01,
   },
   itemContent: {
     flexDirection: 'row',
@@ -62,8 +55,4 @@ const styles = StyleSheet.create({
     marginTop: width / 10,
     marginLeft: width * 0.1,
   },
-  itemStatus:{
-      justifyContent: 'center',
-      alignItems:'center'
-  }
 });

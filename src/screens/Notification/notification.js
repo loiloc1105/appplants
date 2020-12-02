@@ -1,15 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, Dimensions, FlatList} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Dimensions, FlatList } from 'react-native';
 import CardNotification from './itemNotification';
 import firebase from 'firebase';
-import {useSelector} from 'react-redux';
-import {Data} from '../Data';
-const {width, height} = Dimensions.get('window');
+import { useSelector } from 'react-redux';
+import { Data } from '../Data';
+const { width, height } = Dimensions.get('window');
 
 const database = firebase.database();
 
 const notification = () => {
   const [dataNotifi, setDataNotifi] = useState([]);
+  const [itemStatus, setItemStatus] = useState('')
   let flag = 1;
   const userKey = useSelector(state => state.user.user.idUser);
 
@@ -23,20 +24,64 @@ const notification = () => {
         }
       });
       setDataNotifi(updateData);
+      // console.log('type la '+ JSON.stringify(updateData.type));
+
     });
+    // setStatus(dataNotifi.item.type);
+
   }, []);
 
   const renderNotification = itemData => {
-    console.log('itemData', itemData.item.items.length);
+    // const itemTest = itemData.item.items[0]
+    // console.log('itemData', itemData);
+    // console.log('item ', itemTest);
+    const itemCard = []
+    for (let i = 0; i <= itemData.item.items.length - 1; i++) {
+      // console.log('item ', itemData.item.items);
+      itemCard.push(<CardNotification
+        itemName={itemData.item.items[i].productTitle}
+        itemImgUrl={itemData.item.items[i].productImage}
+        itemPrice={itemData.item.items[i].productPrice}
+        itemAmount={itemData.item.items[i].quantity}
+      />)
+    }
+
+    const setStatus = (type) => {
+      switch (type) {
+        case 0:
+          setItemStatus('waiting');
+          break;
+        case 1:
+          setItemStatus('delivery');
+          break;
+        case 2:
+          setItemStatus('cancel')
+          break;
+      }
+
+
+    }
+
+    // if (itemData.item.type === 0) {
+    //   setItemStatus('Waiting')
+    // }
+    // if (itemData.item.type === 1) {
+    //   setItemStatus('Delivery')
+    // }
+    // if (itemData.item.type === 2) {
+    //   setItemStatus('Canceled')
+    // }
+
     return (
-      <CardNotification
-        itemName={itemData.item.items[0].productTitle}
-        itemImgUrl={itemData.item.items[0].productImage}
-        itemPrice={itemData.item.items[0].productPrice}
-        itemAmount={itemData.item.items[0].quantity}
-        itemType={itemData.item.type}
-      />
+      <View style={styles.itemCard}>
+        { itemCard}
+        <View style={styles.txtItem}>
+          <Text>STATUS : {itemStatus}</Text>
+        </View>
+      </View>
+
     );
+
   };
   return (
     <View style={styles.container}>
@@ -47,7 +92,7 @@ const notification = () => {
         keyExtractor={(item, index) => index.toString()}
         data={dataNotifi}
         showsVerticalScrollIndicator={false}
-        renderItem={item => renderNotification(item)}
+        renderItem={renderNotification}
       />
     </View>
   );
@@ -74,4 +119,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  itemCard: {
+    borderWidth: 1,
+    borderRadius: width * 0.02,
+    borderColor: 'lightgrey',
+    margin: width * 0.02
+
+  },
+  txtItem: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: width * 0.02
+  }
 });
