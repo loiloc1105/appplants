@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Dimensions, FlatList } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, Text, View, Dimensions, FlatList} from 'react-native';
 import CardNotification from './itemNotification';
 import firebase from 'firebase';
-import { useSelector } from 'react-redux';
-import { Data } from '../Data';
-const { width, height } = Dimensions.get('window');
+import {useSelector} from 'react-redux';
+const {width, height} = Dimensions.get('window');
 
 const database = firebase.database();
 
 const notification = () => {
   const [dataNotifi, setDataNotifi] = useState([]);
-  const [itemStatus, setItemStatus] = useState('')
-  let flag = 1;
   const userKey = useSelector(state => state.user.user.idUser);
 
   useEffect(() => {
@@ -24,65 +21,55 @@ const notification = () => {
         }
       });
       setDataNotifi(updateData);
-      // console.log('type la '+ JSON.stringify(updateData.type));
-
     });
-    // setStatus(dataNotifi.item.type);
-
   }, []);
 
   const renderNotification = itemData => {
     // const itemTest = itemData.item.items[0]
-    // console.log('itemData', itemData);
+    // console.log('itemData', itemData.item);
     // console.log('item ', itemTest);
-    const itemCard = []
-    for (let i = 0; i <= itemData.item.items.length - 1; i++) {
+    const itemCard = [];
+    const itemStatus = [];
+    for (let i = 0; i < itemData.item.items.length; i++) {
       // console.log('item ', itemData.item.items);
-      itemCard.push(<CardNotification
-        itemName={itemData.item.items[i].productTitle}
-        itemImgUrl={itemData.item.items[i].productImage}
-        itemPrice={itemData.item.items[i].productPrice}
-        itemAmount={itemData.item.items[i].quantity}
-      />)
-    }
-
-    const setStatus = (type) => {
-      switch (type) {
+      itemCard.push(
+        <CardNotification
+          key={i}
+          itemName={itemData.item.items[i].productTitle}
+          itemImgUrl={itemData.item.items[i].productImage}
+          itemPrice={itemData.item.items[i].productPrice}
+          itemAmount={itemData.item.items[i].quantity}
+        />,
+      );
+      switch (itemData.item.type) {
         case 0:
-          setItemStatus('waiting');
+          if ( i <= 0) {
+            itemStatus.push(<Text key={i}>Waiting</Text>);
+          }
           break;
         case 1:
-          setItemStatus('delivery');
+          if(i <= 0){
+            itemStatus.push(<Text key={i}>Delivery</Text>);
+          }
           break;
         case 2:
-          setItemStatus('cancel')
+          if ( i <= 0) {
+            itemStatus.push(<Text key={i}>Canceled</Text>);
+          }
           break;
       }
-
-
     }
-
-    // if (itemData.item.type === 0) {
-    //   setItemStatus('Waiting')
-    // }
-    // if (itemData.item.type === 1) {
-    //   setItemStatus('Delivery')
-    // }
-    // if (itemData.item.type === 2) {
-    //   setItemStatus('Canceled')
-    // }
 
     return (
       <View style={styles.itemCard}>
-        { itemCard}
+        {itemCard}
         <View style={styles.txtItem}>
           <Text>STATUS : {itemStatus}</Text>
         </View>
       </View>
-
     );
-
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.bgTitle}>
@@ -92,7 +79,7 @@ const notification = () => {
         keyExtractor={(item, index) => index.toString()}
         data={dataNotifi}
         showsVerticalScrollIndicator={false}
-        renderItem={renderNotification}
+        renderItem={item => renderNotification(item)}
       />
     </View>
   );
@@ -123,12 +110,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: width * 0.02,
     borderColor: 'lightgrey',
-    margin: width * 0.02
-
+    margin: width * 0.02,
   },
   txtItem: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: width * 0.02
-  }
+    marginBottom: width * 0.02,
+  },
 });

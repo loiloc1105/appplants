@@ -1,28 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
-const { width, height } = Dimensions.get('window');
-const itemNotification = ({
-  itemName,
-  itemImgUrl,
-  itemPrice,
-  itemAmount,
-}) => {
-  
+import {StyleSheet, Text, View, Dimensions, Image} from 'react-native';
+const {width, height} = Dimensions.get('window');
+const itemNotification = ({itemName, itemImgUrl, itemPrice, itemAmount}) => {
   return (
     <View style={styles.container}>
       <View style={styles.itemContent}>
-        <Image style={styles.itemImg} source={{ uri: itemImgUrl}} />
+        <Image style={styles.itemImg} source={{uri: itemImgUrl}} />
         <View style={styles.itemName}>
-          <Text style={{ fontSize: 22 }}>{itemName}</Text>
+          <Text style={{fontSize: 22}}>{itemName}</Text>
           <Text>Price : ${itemPrice}</Text>
         </View>
         <View style={styles.itemAmount}>
-          <Text style={{ fontSize: 20 }}>X {itemAmount} </Text>
+          <Text style={{fontSize: 20}}>X {itemAmount} </Text>
         </View>
       </View>
     </View>
   );
-
 };
 
 export default itemNotification;
