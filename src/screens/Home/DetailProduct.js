@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Modal,
   Alert,
+  Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {useSelector, useDispatch} from 'react-redux';
@@ -231,8 +232,8 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   img: {
-    width: width * 0.6,
-    height: height * 0.7,
+    width: Platform.OS === 'ios' ? width * 0.6 : width * 0.6,
+    height: Platform.OS === 'ios' ? height * 0.7 : height * 0.65,
     borderTopLeftRadius: 70,
     borderBottomLeftRadius: 70,
   },
@@ -243,8 +244,7 @@ const styles = StyleSheet.create({
     // borderWidth : 1,
   },
   block2: {
-    margin: 10,
-    marginBottom: 20,
+    marginTop: Platform.OS === 'ios' ? 10 : 0,
   },
   itemText: {
     flexDirection: 'row',
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   },
   block3: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: Platform.OS === 'ios' ? 20 : 0,
   },
   btnAddToCart: {
     width: width * 0.5,

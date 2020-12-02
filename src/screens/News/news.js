@@ -57,13 +57,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   bgTitle: {
-    width: width,
     height: height * 0.1,
     backgroundColor: '#028E62CC',
     alignItems: 'center',
     borderBottomLeftRadius: width * 0.02,
     borderBottomRightRadius: width * 0.02,
-    paddingTop: width * 0.1
+    paddingTop: width * 0.05,
+    justifyContent: 'center',
   },
   fontTitle: {
     fontSize: width * 0.05,

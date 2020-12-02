@@ -116,7 +116,7 @@ const SignUpScreen = props => {
             <Icon
               name="arrow-right"
               color="white"
-              size={100}
+              size={Platform.OS === 'ios' ? 90 : 60}
               onPress={Signup}
             />
           </TouchableOpacity>
@@ -177,15 +177,15 @@ const styles = StyleSheet.create({
     color: '#B9CEC9',
   },
   scrollView: {
-    height: width * 0.9,
-    marginTop: width * 0.07
+    height: Platform.OS === 'ios' ? width * 1 : width * 0.8,
+    marginTop: Platform.OS === 'ios' ? width * 0.07 : width * 0.02,
   },
   input: {
     backgroundColor: '#fff',
     textAlign: 'center',
     marginTop: width * 0.01,
-    width: width * 0.8,
-    height: width * 0.15,
+    width: Platform.OS === 'ios' ? width * 0.8 : width * 0.7,
+    height: Platform.OS === 'ios' ? width * 0.15 : width * 0.12,
     fontSize: 20,
     color: '#9B6F6F',
     fontWeight: 'bold',
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     alignItems: 'center',
-    marginTop: width * 0.05,
+    marginTop: Platform.OS === 'ios' ? width * 0.05 : width * 0.02,
     borderColor: '#707070',
   },
   wraptext: {
@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
   },
   btnSignUp: {
+    height : Platform.OS === 'android' ? width * 0.02 : width * 0.05,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
