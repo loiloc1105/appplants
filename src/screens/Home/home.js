@@ -67,7 +67,7 @@ const home = ({navigation}) => {
       <View style={styles.block1}>
         <View style={styles.display}>
           <Image
-            source={require('../../assets/BG-Signup.png')}
+            source={require('../../assets/BG-plant1.jpg')}
             style={styles.img}
           />
           <Text style={styles.title}>{nameUser}</Text>

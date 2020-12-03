@@ -8,8 +8,10 @@ import {
   Alert,
   Platform,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+// import {TouchableOpacity} from 'react-native-gesture-handler';
+import Icons from 'react-native-vector-icons/Entypo';
 import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../store/actions/userAction';
 import UserItem from '../../model/UserItem';
@@ -17,32 +19,26 @@ import firebase from 'firebase';
 
 const {width, height} = Dimensions.get('window');
 const database = firebase.database();
+Icons.loadFont();
 
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
 
 const LoginScreen = props => {
   const [username, setUsername] = useState('username2');
   const [password, setPassword] = useState('123');
+  const [securiTxt, setSecuriTxt] = useState(true);
   const dispatch = useDispatch();
 
   const btnLogin = () => {
     database
-      .ref('users')
+      .ref('users/')
       .orderByChild('userName')
       .equalTo(username)
       .once('value', snapshot => {
-        const users = Object.values(snapshot.val());
-        console.log('user', users);
-
-        if (users != null && password === users[0].password) {
-          const profileUser = new UserItem(
-            users[0].userName,
-            users[0].address,
-            users[0].phone,
-            users[0].id,
-          );
-          dispatch(userActions.signIn(users[0].userName, profileUser));
-        } else {
+        // const users = Object.values(snapshot.val());
+        const users = snapshot.val();
+        console.log('users', users);
+        if (users === null) {
           Alert.alert(
             'Thông Báo',
             'Sai Tài Khoản Hoặc Mật Khẫu',
@@ -54,8 +50,39 @@ const LoginScreen = props => {
             ],
             {cancelable: false},
           );
+        } else if (users.userName === username) {
+          const passwords = Object.values(snapshot.val());
+          if (password === passwords[0].password) {
+            Alert.alert(
+              'Thông Báo',
+              'Sai Tài Khoản Hoặc Mật Khẫu',
+              [
+                {
+                  text: 'OK',
+                  onPress: () => console.log('OK Pressed'),
+                },
+              ],
+              {cancelable: false},
+            );
+          }
         }
-      }).then( r => console.log(r));
+        snapshot.forEach(childSnapshot => {
+          const childKey = childSnapshot.key;
+          const childData = childSnapshot.val();
+          console.log('childData', childData.password);
+          if (username != null && password === childData.password) {
+            const profileUser = new UserItem(
+              childData.userName,
+              childData.address,
+              childData.phone,
+              childData.id,
+            );
+            dispatch(userActions.signIn(childKey, profileUser));
+          }
+        });
+        // const users = snapshot.val();
+        // console.log('user', users);
+      });
   };
 
   return (
@@ -77,11 +104,15 @@ const LoginScreen = props => {
             <TextInput
               style={styles.input}
               value={password}
-              secureTextEntry={true}
+              secureTextEntry={securiTxt}
               placeholder="password"
               onChangeText={text => setPassword(text)}
             />
           </View>
+
+          <TouchableOpacity onPress={() => setSecuriTxt(!securiTxt)}>
+            <Icons name={securiTxt ? 'eye-with-line' : 'eye'} size={20} />
+          </TouchableOpacity>
 
           <TouchableOpacity style={styles.btn} onPress={btnLogin}>
             <Text style={styles.titleBtn}>SIGN IN NOW</Text>
