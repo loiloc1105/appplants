@@ -59,28 +59,28 @@ const DetailProduct = props => {
                     source={require('../../assets/temp.png')}
                     style={styles.icons}
                   />
-                  <Text style={styles.textIcon}>{product.temp}</Text>
+                  <Text style={styles.textIcon}>{product.temp}*C</Text>
                 </View>
                 <View style={styles.inforDetailItems}>
                   <Image
                     source={require('../../assets/water.png')}
                     style={styles.icons}
                   />
-                  <Text style={styles.textIcon}>{product.water}</Text>
+                  <Text style={styles.textIcon}>{product.water} lần/tuần</Text>
                 </View>
                 <View style={styles.inforDetailItems}>
                   <Image
                     source={require('../../assets/flower.png')}
                     style={styles.icons}
                   />
-                  <Text style={styles.textIcon}>{product.soil}</Text>
+                  <Text style={styles.textIcon}>{product.soil}mg</Text>
                 </View>
                 <View style={styles.btnModal}>
                   <TouchableOpacity
                     onPress={() => {
                       setModalDetails(!modalDetails);
                     }}>
-                    <Text style={styles.openBtn}>Hide Modal</Text>
+                    <Text style={styles.openBtn}>Close</Text>
                   </TouchableOpacity>
                 </View>
               </View>

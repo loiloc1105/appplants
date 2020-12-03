@@ -6,17 +6,18 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  AsyncStorage
+  Modal
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as userActions from '../../store/actions/userAction'
-import {useDispatch} from 'react-redux'
+import {useDispatch , useSelector} from 'react-redux'
 const {width, height} = Dimensions.get('window');
 
 Icon.loadFont();
 
 const profile = () => {
   const dispatch  =useDispatch()
+  const userName = useSelector(state => state.user.user)
   return (
     <View style={styles.container}>
       <View style={styles.bgTitle}>
@@ -24,7 +25,7 @@ const profile = () => {
           style={styles.imgUser}
           source={require('../../assets/BG-plant1.jpg')}
         />
-        <Text style={{color:'white', fontSize : width * 0.05}}>Hi UserName!</Text>
+        <Text style={{color:'white', fontSize : width * 0.05}}>Hi {userName.userName}!</Text>
       </View>
       <View style={styles.itemContent}>
         <TouchableOpacity style={styles.btnItem}>

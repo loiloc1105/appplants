@@ -1,28 +1,37 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Dimensions, FlatList} from 'react-native';
 import CardNews from './itemNews';
 
-import firebase from 'firebase'
-import {Data} from '../Data';
+import firebase from 'firebase';
 const {width, height} = Dimensions.get('window');
 
-const database = firebase.database()
+const database = firebase.database();
 
 const news = props => {
+  const [dataNews, setDataNews] = useState([]);
 
-  database.ref('infotmations').once('value', (snapshot) => {
-    snapshot.forEach((childSnapshot) => {
-      const childKey = childSnapshot.key;
-      const childData = childSnapshot.val();
+  useEffect(() => {
+    database.ref('informations').once('value', snapshot => {
+      // setDataNews(snapshot.val())
+      let updateNews = [];
+      snapshot.forEach(childSnapshot => {
+        updateNews = [...updateNews, childSnapshot.val()];
+        // console.log('updateNews',updateNews);
+      });
+      setDataNews(updateNews);
     });
-  });
+  }, [setDataNews]);
+  // console.log('dataNews',dataNews);
 
   const renderItemNews = itemData => {
+    // const dataItem = itemData.item.id;
+    // console.log('dataItem', dataItem);
+
     return (
       <CardNews
-        itemName={itemData.item.nameProduct}
-        itemImgUrl={itemData.item.imgURL}
-        itemContent={itemData.item.content}
+        itemName={itemData.item.nameInformation}
+        itemImgUrl={itemData.item.imgInformation}
+        itemContent={itemData.item.descripInformation}
         onSelected={() =>
           props.navigation.navigate('DetailNews', {
             itemId: itemData.item.id,
@@ -36,14 +45,12 @@ const news = props => {
       <View style={styles.bgTitle}>
         <Text style={styles.fontTitle}>NEWS</Text>
       </View>
-      <View style={styles.viewContent}>
-        <FlatList
-          keyExtractor={item => `${item.id}`}
-          data={Data}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItemNews}
-        />
-      </View>
+      <FlatList
+        keyExtractor={(item, index) => item.id.toString()}
+        data={dataNews}
+        showsVerticalScrollIndicator={false}
+        renderItem={item => renderItemNews(item)}
+      />
     </View>
   );
 };
@@ -53,7 +60,6 @@ export default news;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
     backgroundColor: 'white',
   },
   bgTitle: {
@@ -69,9 +75,5 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05,
     fontWeight: 'bold',
     color: 'white',
-  },
-  viewContent: {
-    width: width,
-    marginBottom: width * 0.2,
   },
 });

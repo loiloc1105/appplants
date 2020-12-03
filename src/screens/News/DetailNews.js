@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   StyleSheet,
@@ -10,22 +10,43 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {Data} from '../Data';
+import firebase from 'firebase';
 const {width, height} = Dimensions.get('window');
+
+const database = firebase.database();
 
 const DetailNews = ({route, navigation}) => {
   const {itemId} = route.params;
-  const selectedNews = Data.find(news => news.id === itemId);
+  const [dataItemNews, setDataItemNews] = useState([]);
+
+  // console.log('itemId', itemId);
+
+  useEffect(() => {
+    database.ref('informations').once('value', snapshot => {
+      let updateNews = [];
+      snapshot.forEach(childSnapshot => {
+        if (childSnapshot.val().id === itemId) {
+          updateNews = childSnapshot.val();
+        }
+        // console.log('updateNews',updateNews);
+      });
+      setDataItemNews(updateNews);
+    });
+  }, [setDataItemNews]);
+
+  // console.log('dataItemNews', dataItemNews);
 
   return (
     <ImageBackground
       style={styles.container}
-      source={{uri: selectedNews.imgURL}}>
+      source={{uri: dataItemNews.imgInformation}}>
       <View style={styles.cartDetail}>
-        <Text style={styles.cartTitle}>{selectedNews.nameProduct}</Text>
+        <Text style={styles.cartTitle}>{dataItemNews.nameInformation}</Text>
         <SafeAreaView style={styles.safeView}>
           <ScrollView>
-            <Text style={styles.cartContent}>{selectedNews.content}.</Text>
+            <Text style={styles.cartContent}>
+              {dataItemNews.descripInformation}.
+            </Text>
           </ScrollView>
         </SafeAreaView>
         <TouchableOpacity
