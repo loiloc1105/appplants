@@ -35,7 +35,7 @@ const cart = () => {
     return arr;
   });
   const user = useSelector(state => state.user.user);
-  console.log('user', user);
+  // console.log('user', user);
   const [disable, setDisabel] = useState(cart.length == 0);
   const totalAmount = useSelector(state => state.cart.totalAmount);
   const checkOut = () => {
@@ -44,6 +44,7 @@ const cart = () => {
       .push({
         idUser: user.idUser,
         phone: user.phoneUser,
+        address: user.addressUser,
         items: carts,
         totalAmount: totalAmount,
         date: moment(date).format('MM DD YYYY, hh:mm'),

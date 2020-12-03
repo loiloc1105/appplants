@@ -10,9 +10,6 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  ActivityIndicator,
-  AsyncStorage,
-  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import ProductItem from './ProductItem';
@@ -29,12 +26,13 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
   console.log('connect');
 }
+const database = firebase.database()
 
 const home = ({navigation}) => {
   useEffect(() => {
-    firebase
-      .database()
+    database
       .ref('products/')
+      .limitToFirst(10)
       .on('value', function(snapshot) {
         let arr = [];
         const arrToConvert = snapshot.val();
@@ -50,6 +48,7 @@ const home = ({navigation}) => {
             soil: arrToConvert[key].soil,
             information: arrToConvert[key].information,
             image: arrToConvert[key].imgProduct,
+            type : arrToConvert[key].type,
           });
         }
         setData(arr);

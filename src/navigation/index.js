@@ -84,10 +84,6 @@ const NewsTab = () => {
       <NewsStack.Screen name="NewsMain" component={NewsScreen} />
       <NewsStack.Screen name="itemNews" component={itemNewsScreen} />
       <NewsStack.Screen name="DetailNews" component={DetailNewsScreen} />
-      {/* <NewsStack.Screen
-        name="itemNotification"
-        component={itemNotificationScreen}
-      /> */}
     </NewsStack.Navigator>
   );
 };

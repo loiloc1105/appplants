@@ -6,18 +6,18 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  Modal
+  Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import * as userActions from '../../store/actions/userAction'
-import {useDispatch , useSelector} from 'react-redux'
+import * as userActions from '../../store/actions/userAction';
+import {useDispatch, useSelector} from 'react-redux';
 const {width, height} = Dimensions.get('window');
 
 Icon.loadFont();
 
 const profile = () => {
-  const dispatch  =useDispatch()
-  const userName = useSelector(state => state.user.user)
+  const dispatch = useDispatch();
+  const users = useSelector(state => state.user.user);
   return (
     <View style={styles.container}>
       <View style={styles.bgTitle}>
@@ -25,7 +25,10 @@ const profile = () => {
           style={styles.imgUser}
           source={require('../../assets/BG-plant1.jpg')}
         />
-        <Text style={{color:'white', fontSize : width * 0.05}}>Hi {userName.userName}!</Text>
+        <Text
+          style={{color: 'white', fontSize: width * 0.05, fontWeight: 'bold'}}>
+          Hi {users.userName}!
+        </Text>
       </View>
       <View style={styles.itemContent}>
         <TouchableOpacity style={styles.btnItem}>
@@ -57,11 +60,15 @@ const profile = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.btnSignout} onPress={() => {
-        dispatch(userActions.signOut())
-      }} >
+      <View style={styles.viewSignout}>
+        <TouchableOpacity
+          style={styles.btnSignout}
+          onPress={() => {
+            dispatch(userActions.signOut());
+          }}>
           <Text style={styles.txtSignout}>Sign Out</Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -74,10 +81,9 @@ const styles = StyleSheet.create({
   },
   bgTitle: {
     backgroundColor: '#028E62CC',
-    width: width,
     height: width / 2,
-    borderBottomRightRadius: width * 0.14,
-    borderBottomLeftRadius: width * 0.14,
+    borderBottomRightRadius: width * 0.12,
+    borderBottomLeftRadius: width * 0.12,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -87,11 +93,11 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.1,
   },
   itemContent: {
-    marginTop : width * 0.05,
+    marginTop: width * 0.05,
     shadowColor: '#000000',
     shadowOffset: {
-        width: 0,
-        height: 2
+      width: 0,
+      height: 2,
     },
     shadowRadius: 5,
     shadowOpacity: 0.8,
@@ -101,10 +107,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderWidth: width * 0.003,
     borderRadius: width * 0.03,
-    borderColor : 'lightgrey',
-    height : width * 0.12,
+    borderColor: 'lightgrey',
+    height: width * 0.12,
     alignItems: 'center',
-    marginTop : width * 0.05
+    marginTop: width * 0.05,
   },
   btnBorder: {
     borderRadius: width * 0.1,
@@ -113,23 +119,27 @@ const styles = StyleSheet.create({
     height: width / 12,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: width * 0.1
+    marginLeft: width * 0.1,
   },
-  txtEdit:{
-      marginLeft : width * 0.03,
-      color:'#00000080'
+  txtEdit: {
+    marginLeft: width * 0.03,
+    color: '#00000080',
+  },
+  viewSignout:{
+    alignItems: 'center',
   },
   btnSignout: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor:'#FF00008C',
-      height:width * 0.15,
-      marginTop : width * 0.1,
-      borderRadius : width * 0.03
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF00008C',
+    height: width * 0.15,
+    marginTop: width * 0.08,
+    borderRadius: width * 0.03,
+    width: width * 0.98,
   },
   txtSignout: {
-      color:'white',
-      fontSize: width * 0.06,
-      fontWeight:'bold',
-  }
+    color: 'white',
+    fontSize: width * 0.06,
+    fontWeight: 'bold',
+  },
 });
