@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor:'lightgrey'
   },
-
   img: {
     width: width * 0.41,
     height: width * 0.41,

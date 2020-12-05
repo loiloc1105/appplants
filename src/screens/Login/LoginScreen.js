@@ -10,9 +10,8 @@ import {
   Dimensions,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard,
+  Keyboard
 } from 'react-native';
-// import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icons from 'react-native-vector-icons/Entypo';
 import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../store/actions/userAction';
@@ -23,7 +22,9 @@ const {width, height} = Dimensions.get('window');
 const database = firebase.database();
 Icons.loadFont();
 
-// console.disableYellowBox = true;
+// console.ignoredYellowBox = ['Setting a timer'];
+
+console.disableYellowBox = true;
 
 const LoginScreen = props => {
   const [username, setUsername] = useState('username2');
@@ -112,8 +113,9 @@ const LoginScreen = props => {
                 onChangeText={text => setPassword(text)}
               />
               <View style={styles.iconShow}>
-                <TouchableOpacity onPress={() => setSecuriTxt(!securiTxt)}>
+                <TouchableOpacity style={styles.iconBtnShow} onPress={() => setSecuriTxt(!securiTxt)}>
                   <Icons name={securiTxt ? 'eye-with-line' : 'eye'} size={20} />
+                  <Text style={{marginTop : width * 0.008}}> {securiTxt ? 'Show' : 'Hidden'} Password</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -190,9 +192,12 @@ const styles = StyleSheet.create({
     borderColor: '#707070',
   },
   iconShow:{
-    alignItems: 'flex-end',
+    alignItems:'flex-start',
     marginRight : width * 0.02,
-    marginTop: width * 0.005
+    marginTop: width * 0.01,
+  },
+  iconBtnShow:{
+    flexDirection:'row',
   },
   btn: {
     backgroundColor: '#33CC66BA',

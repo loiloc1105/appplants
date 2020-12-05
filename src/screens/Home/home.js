@@ -10,6 +10,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import ProductItem from './ProductItem';
@@ -95,14 +96,14 @@ const home = ({navigation}) => {
         <ScrollView>
           <View style={styles.bodyTitle}>
             <Text style={styles.reccommend}>Recommended</Text>
-            <TouchableOpacity style={styles.moreBtn}>
+            <TouchableOpacity style={styles.moreBtn} onPress={() =>{navigation.navigate('MoreProductScreen')}}>
               <Text style={styles.more}>More +</Text>
             </TouchableOpacity>
           </View>
 
           <FlatList
             data={data}
-            style={{marginLeft: 20}}
+            style={{marginLeft: windowWidth * 0.03}}
             showsHorizontalScrollIndicator={false}
             horizontal
             keyExtractor={item => `${item.id}`}
@@ -120,13 +121,13 @@ const home = ({navigation}) => {
 
           <View style={styles.bodyTitle}>
             <Text style={styles.reccommend}>Category</Text>
-            <TouchableOpacity style={styles.moreBtn}>
+            <TouchableOpacity style={styles.moreBtn} onPress={() =>{navigation.navigate('MoreProductScreen')}}>
               <Text style={styles.more}>More +</Text>
             </TouchableOpacity>
           </View>
           <FlatList
             data={data}
-            style={{marginLeft: 20}}
+            style={{marginLeft: windowWidth * 0.03}}
             showsHorizontalScrollIndicator={false}
             horizontal
             keyExtractor={item => `${item.id}`}
@@ -143,13 +144,13 @@ const home = ({navigation}) => {
           />
           <View style={styles.bodyTitle}>
             <Text style={styles.reccommend}>Accessories</Text>
-            <TouchableOpacity style={styles.moreBtn}>
+            <TouchableOpacity style={styles.moreBtn} onPress={() =>{navigation.navigate('MoreProductScreen')}}>
               <Text style={styles.more}>More +</Text>
             </TouchableOpacity>
           </View>
           <FlatList
             data={data}
-            style={{marginLeft: 20}}
+            style={{marginLeft: windowWidth * 0.03}}
             showsHorizontalScrollIndicator={false}
             horizontal
             keyExtractor={item => `${item.id}`}
@@ -178,29 +179,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   block1: {
-    height: windowHeight / 5,
+    height: Platform.OS === 'ios' ? windowHeight / 5.5 : windowHeight / 5,
     width: windowWidth,
     backgroundColor: '#028E62CC',
-    borderBottomLeftRadius: 50,
-    borderBottomRightRadius: 50,
-    justifyContent: 'center',
+    borderBottomLeftRadius: Platform.OS === 'ios' ? windowWidth * 0.15 : windowWidth * 0.1,
+    borderBottomRightRadius: Platform.OS === 'ios' ? windowWidth * 0.15 : windowWidth * 0.1,
+    // justifyContent: 'center',
     alignItems: 'center',
+    // borderWidth: 1,
+    // borderColor:'black'
   },
   display: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
+    marginVertical: Platform.OS === 'ios' ? windowWidth * 0.09 : windowWidth * 0.05,
   },
   img: {
-    width: 70,
-    height: 70,
-    borderRadius: 70 / 2,
+    width: windowWidth * 0.15,
+    height: windowWidth * 0.15,
+    borderRadius: windowWidth * 0.15 / 2,
     borderWidth: 2,
     borderColor: '#707070',
-    marginRight: 10,
+    marginRight: windowWidth * 0.05,
   },
   title: {
+    marginTop: windowWidth * 0.05,
     fontSize: 20,
     color: '#fff',
   },
@@ -210,13 +212,13 @@ const styles = StyleSheet.create({
     height : windowWidth * 0.1,
     alignItems: 'center',
     borderWidth: 2,
-    borderRadius: 8,
+    borderRadius: windowWidth * 0.02,
     borderColor: '#707070',
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     elevation: 5,
-    marginTop: 0,
-    marginBottom: -40,
+    marginTop: Platform.OS === 'ios' ? 0 : windowWidth * 0.02,
+    // justifyContent:'flex-end'
   },
   input: {
     flexDirection: 'row',
@@ -225,13 +227,13 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   block2: {
-    marginTop: 30,
+    marginTop: windowWidth * 0.05,
     width: windowWidth,
     height: windowHeight / 1.5,
   },
   bodyTitle: {
     flexDirection: 'row',
-    marginTop: 5,
+    marginTop: windowWidth * 0.02,
     alignItems: 'center',
   },
   reccommend: {
@@ -240,7 +242,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontWeight: 'bold',
     flex: 1,
-    marginLeft: 30,
+    marginLeft: windowWidth * 0.05,
   },
   more: {
     fontSize: 18,
@@ -250,6 +252,6 @@ const styles = StyleSheet.create({
   moreBtn: {
     backgroundColor: '#33CC33',
     borderRadius: 8,
-    marginRight: 30,
+    marginRight: windowWidth * 0.05,
   },
 });

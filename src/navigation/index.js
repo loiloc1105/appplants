@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, AsyncStorage} from 'react-native';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Icons from 'react-native-vector-icons/AntDesign'
 import {createStore, combineReducers} from 'redux';
 
 import HomeScreen from '../screens/Home/home';
@@ -23,6 +23,7 @@ import itemNewsScreen from '../screens/News/itemNews';
 import itemNotificationScreen from '../screens/Notification/itemNotification';
 import SearchScreen from '../screens/Home/SearchScreen';
 import DetailProduct from '../screens/Home/DetailProduct';
+import MoreProduct from '../screens/Home/moreProducts'
 
 import cartReducers from '../store/reducers/cart';
 import userReducers from '../store/reducers/user';
@@ -37,6 +38,7 @@ const HomeStack = createStackNavigator();
 const MainStack = createStackNavigator();
 
 Icon.loadFont();
+Icons.loadFont();
 
 const rootReducer = combineReducers({
   cart: cartReducers,
@@ -72,6 +74,8 @@ const HomeTab = () => {
       <HomeStack.Screen name="HomeMain" component={HomeScreen} />
       <HomeStack.Screen name="SearchScreen" component={SearchScreen} />
       <HomeStack.Screen name="DetailProduct" component={DetailProduct} />
+      <HomeStack.Screen name="MoreProductScreen" component={MoreProduct} />
+      {/* <HomeStack.Screen options={{ headerLeft: () =>{<Icons name="left" size={20} onPress={() => navigation.goBack()}/>} }} name="MoreProductScreen" component={MoreProduct} /> */}
       {/* <HomeStack.Screen name="itemHome" component={itemHomeScreen} />
       <HomeStack.Screen name="itemReqHome" component={itemReqHomeScreen} /> */}
     </HomeStack.Navigator>
@@ -153,4 +157,3 @@ const authenTication = () => {
 };
 export default authenTication;
 
-const styles = StyleSheet.create({});
