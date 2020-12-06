@@ -39,9 +39,11 @@ const cart = () => {
   const [disable, setDisabel] = useState(cart.length == 0);
   const totalAmount = useSelector(state => state.cart.totalAmount);
   const checkOut = () => {
-    database
-      .ref('orders')
-      .push({
+    const ref = database.ref('orders/').push();
+    const key = ref.key;
+    ref
+      .set({
+        id: key,
         idUser: user.idUser,
         phone: user.phoneUser,
         address: user.addressUser,

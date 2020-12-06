@@ -106,7 +106,7 @@ const home = ({navigation}) => {
             style={{marginLeft: windowWidth * 0.03}}
             showsHorizontalScrollIndicator={false}
             horizontal
-            keyExtractor={item => `${item.id}`}
+            keyExtractor={(item,index) => index.toString()}
             renderItem={({item}) => (
               <ProductItem
                 viewDetail={() =>
@@ -130,7 +130,7 @@ const home = ({navigation}) => {
             style={{marginLeft: windowWidth * 0.03}}
             showsHorizontalScrollIndicator={false}
             horizontal
-            keyExtractor={item => `${item.id}`}
+            keyExtractor={(item,index) => index.toString()}
             renderItem={({item}) => (
               <ProductItemList2
                 viewDetail={() =>
@@ -153,7 +153,7 @@ const home = ({navigation}) => {
             style={{marginLeft: windowWidth * 0.03}}
             showsHorizontalScrollIndicator={false}
             horizontal
-            keyExtractor={item => `${item.id}`}
+            keyExtractor={(item,index) => index.toString()}
             renderItem={({item}) => (
               <ProductItem
                 viewDetail={() =>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     borderRadius: windowWidth * 0.15 / 2,
     borderWidth: 2,
     borderColor: '#707070',
-    marginRight: windowWidth * 0.05,
+    marginRight: windowWidth * 0.02,
   },
   title: {
     marginTop: windowWidth * 0.05,

@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     borderColor: '#707070',
   },
   iconShow:{
-    alignItems:'flex-start',
+    alignItems:'flex-end',
     marginRight : width * 0.02,
     marginTop: width * 0.01,
   },

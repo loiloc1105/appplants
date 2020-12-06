@@ -32,10 +32,11 @@ import {Provider, useSelector, connect} from 'react-redux';
 import firebase from 'firebase';
 
 const Tab = createBottomTabNavigator();
-const UserStack = createStackNavigator();
+
 const Stack = createStackNavigator();
+const UserStack = createStackNavigator();
 const HomeStack = createStackNavigator();
-const MainStack = createStackNavigator();
+const NewsStack = createStackNavigator();
 
 Icon.loadFont();
 Icons.loadFont();
@@ -44,10 +45,9 @@ const rootReducer = combineReducers({
   cart: cartReducers,
   user: userReducers,
 });
-const AuthContext = React.createContext();
 const store = createStore(rootReducer);
 
-function userStack() {
+const userStack = () => {
   return (
     <UserStack.Navigator
       initialRouteName="SplashScreen"
@@ -58,16 +58,6 @@ function userStack() {
     </UserStack.Navigator>
   );
 }
-// function homeStack() {
-//   return (
-//     <MainStack.Navigator screenOptions={{headerShown: false}}>
-//       <MainStack.Screen name="Tab" component={TabHome} />
-//       <MainStack.Screen name="SearchScreen" component={SearchScreen} />
-//       <MainStack.Screen name="DetailProduct" component={DetailProduct} />
-//       {/* <MainStack.Screen name="DetailNews" component={DetailNewsScreen} /> */}
-//     </MainStack.Navigator>
-//   );
-// }
 const HomeTab = () => {
   return (
     <HomeStack.Navigator screenOptions={{headerShown: false}}>
@@ -75,13 +65,9 @@ const HomeTab = () => {
       <HomeStack.Screen name="SearchScreen" component={SearchScreen} />
       <HomeStack.Screen name="DetailProduct" component={DetailProduct} />
       <HomeStack.Screen name="MoreProductScreen" component={MoreProduct} />
-      {/* <HomeStack.Screen options={{ headerLeft: () =>{<Icons name="left" size={20} onPress={() => navigation.goBack()}/>} }} name="MoreProductScreen" component={MoreProduct} /> */}
-      {/* <HomeStack.Screen name="itemHome" component={itemHomeScreen} />
-      <HomeStack.Screen name="itemReqHome" component={itemReqHomeScreen} /> */}
     </HomeStack.Navigator>
   );
 };
-const NewsStack = createStackNavigator();
 const NewsTab = () => {
   return (
     <NewsStack.Navigator screenOptions={{headerShown: false}}>
@@ -91,6 +77,7 @@ const NewsTab = () => {
     </NewsStack.Navigator>
   );
 };
+
 
 const TabHome = () => {
   return (
