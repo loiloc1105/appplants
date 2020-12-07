@@ -75,6 +75,10 @@ const LoginScreen = props => {
           console.log('childData', childData.password);
           if (username != null && password === childData.password) {
             const profileUser = new UserItem(
+              childData.imgUser,
+              childData.type,
+              childData.fullName,
+              childData.password,
               childData.userName,
               childData.address,
               childData.phone,

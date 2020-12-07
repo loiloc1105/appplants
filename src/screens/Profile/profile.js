@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,17 +7,58 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import TextFloatInputs from '../../components/profile/textInput';
+import firebase from 'firebase';
+
 import * as userActions from '../../store/actions/userAction';
 import {useDispatch, useSelector} from 'react-redux';
 const {width, height} = Dimensions.get('window');
+const database = firebase.database();
 
 Icon.loadFont();
 
 const profile = () => {
   const dispatch = useDispatch();
   const users = useSelector(state => state.user.user);
+
+  const [modalShow, setModalShow] = useState(false);
+  const [valueId, setValueId] = useState(users.idUser);
+  const [valueUserName, setValueUserName] = useState(users.userName);
+  const [valuePassword, setValuePassword] = useState(users.password);
+  const [valueFullName, setValueFullName] = useState(users.fullName);
+  const [valueAddress, setValueAddress] = useState(users.addressUser);
+  const [valuePhone, setValuePhone] = useState(users.phoneUser);
+  const [valueImgUser, setValueImgUser] = useState(users.imageUser);
+  const [valueType, setValueType] = useState(users.type);
+  // console.log('fullname', users.fullName);
+
+  const onFocusText = text => {
+    if (text !== null) {
+      return true;
+    }
+    return false;
+  };
+  // console.log('test onFocusText',onFocusText(valueFullName));
+
+  const editSaveProfiles = () => {
+    database.ref('users/' + valueId).set({
+      fullName: valueFullName,
+      address: valueAddress,
+      phone: valuePhone,
+      userName: valueUserName,
+      password: valuePassword,
+      imgUser: valueImgUser,
+      type: valueType,
+      id: valueId,
+    });
+    setModalShow(!modalShow);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.bgTitle}>
@@ -31,7 +72,9 @@ const profile = () => {
         </Text>
       </View>
       <View style={styles.itemContent}>
-        <TouchableOpacity style={styles.btnItem}>
+        <TouchableOpacity
+          style={styles.btnItem}
+          onPress={() => setModalShow(true)}>
           <View style={styles.btnBorder}>
             <Icon name="brush-outline" color="black" size={20} />
           </View>
@@ -69,6 +112,66 @@ const profile = () => {
           <Text style={styles.txtSignout}>Sign Out</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Open Modal Edit User  */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalShow}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalTxt}>
+                <Text style={styles.modalTxtEdit}>Edit Profile</Text>
+              </View>
+              <View style={styles.modalInputTxt}>
+                <TextFloatInputs
+                  label="FullName"
+                  value={valueFullName}
+                  onChangeText={text => setValueFullName(text)}
+                  onFocusing={onFocusText(valueFullName)}
+                />
+
+                <TextFloatInputs
+                  label="Address"
+                  value={valueAddress}
+                  onChangeText={text => setValueAddress(text)}
+                  onFocusing={onFocusText(valueAddress)}
+                />
+
+                <TextFloatInputs
+                  label="Phone Number"
+                  keyboardType='number-pad'
+                  maxLength={10}
+                  value={valuePhone}
+                  onChangeText={text => setValuePhone(text)}
+                  onFocusing={onFocusText(valuePhone)}
+                />
+              </View>
+              <View style={styles.modalBtn}>
+                <TouchableOpacity
+                  style={styles.modalBtnClose}
+                  onPress={() => {
+                    setModalShow(!modalShow);
+                  }}>
+                  <Text style={{color: 'white'}}>Close</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modalBtnSave}
+                  onPress={() => {
+                    editSaveProfiles();
+                  }}>
+                  <Text style={{color: 'white'}}>Save</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+      {/* Close Modal Edit User */}
     </View>
   );
 };
@@ -99,9 +202,10 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowRadius: 5,
-    shadowOpacity: 0.8,
+    shadowRadius: 3,
+    shadowOpacity: 0.5,
     elevation: 2,
+    alignItems: 'center',
   },
   btnItem: {
     flexDirection: 'row',
@@ -111,6 +215,7 @@ const styles = StyleSheet.create({
     height: width * 0.12,
     alignItems: 'center',
     marginTop: width * 0.05,
+    width: width * 0.98,
   },
   btnBorder: {
     borderRadius: width * 0.1,
@@ -125,7 +230,7 @@ const styles = StyleSheet.create({
     marginLeft: width * 0.03,
     color: '#00000080',
   },
-  viewSignout:{
+  viewSignout: {
     alignItems: 'center',
   },
   btnSignout: {
@@ -141,5 +246,54 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: width * 0.06,
     fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(181,181,181,0.35)',
+  },
+  modalContent: {
+    // borderWidth: 1,
+    borderColor: 'black',
+    width: 0.8 * width,
+    height: 0.5 * height,
+    borderRadius: width * 0.03,
+    backgroundColor: 'white',
+  },
+  modalTxt: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: width * 0.05,
+    borderBottomWidth: 1,
+    borderBottomColor: 'grey',
+  },
+  modalTxtEdit: {
+    fontSize: 20,
+  },
+  modalInputTxt: {
+    marginVertical: width * 0.05,
+  },
+  modalBtn: {
+    height: width * 0.1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-end',
+  },
+  modalBtnClose: {
+    height: width * 0.1,
+    width: width * 0.3,
+    backgroundColor: '#FF00008C',
+    borderRadius: width * 0.01,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalBtnSave: {
+    height: width * 0.1,
+    width: width * 0.3,
+    backgroundColor: '#99CC99',
+    borderRadius: width * 0.01,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

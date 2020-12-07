@@ -93,7 +93,8 @@ const notification = () => {
     return (
       <View style={styles.itemCard}>
         <View style={styles.txtIDItem}>
-          <Text>ID BILL: {itemData.item.id}</Text>
+          {/* <Text>ID BILL: {itemData.item.id}</Text> */}
+          <Text>Date: {itemData.item.date}</Text>
         </View>
         {itemCard}
         <View style={styles.txtItem}>

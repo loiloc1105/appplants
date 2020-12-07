@@ -29,6 +29,8 @@ if (!firebase.apps.length) {
 }
 const database = firebase.database()
 
+// SUA LAI DUNG 1 item PRODUCT DE LEN FLATLIST
+
 const home = ({navigation}) => {
   useEffect(() => {
     database
@@ -132,6 +134,7 @@ const home = ({navigation}) => {
             horizontal
             keyExtractor={(item,index) => index.toString()}
             renderItem={({item}) => (
+              //Can sua thanh ProductItem va style lai
               <ProductItemList2
                 viewDetail={() =>
                   navigation.navigate('DetailProduct', {product: item})
