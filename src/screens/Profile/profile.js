@@ -46,17 +46,78 @@ const profile = () => {
   // console.log('test onFocusText',onFocusText(valueFullName));
 
   const editSaveProfiles = () => {
-    database.ref('users/' + valueId).set({
-      fullName: valueFullName,
-      address: valueAddress,
-      phone: valuePhone,
-      userName: valueUserName,
-      password: valuePassword,
-      imgUser: valueImgUser,
-      type: valueType,
-      id: valueId,
-    });
-    setModalShow(!modalShow);
+    if (valueFullName === '') {
+      console.log('valueFullName', valueFullName);
+
+      Alert.alert('Warning!!!', 'Full Name can not emty!!!', [
+        {
+          text: 'OK',
+          onPress: () => console.log('OK Pressed'),
+          style: 'cancel',
+        },
+      ]);
+    } else if (valueAddress === '') {
+      console.log('valueAddress', valueAddress);
+
+      Alert.alert('Warning!!!', 'Address can not emty!!!', [
+        {
+          text: 'OK',
+          onPress: () => console.log('OK Pressed'),
+          style: 'cancel',
+        },
+      ]);
+    } else if (valuePhone === '') {
+      console.log('valuePhone', valuePhone);
+
+      Alert.alert('Warning!!!', 'Phone Number can not emty!!!', [
+        {
+          text: 'OK',
+          onPress: () => console.log('OK Pressed'),
+          style: 'cancel',
+        },
+      ]);
+    } else {
+      database.ref('users/' + valueId).set({
+        fullName: valueFullName,
+        address: valueAddress,
+        phone: valuePhone,
+        userName: valueUserName,
+        password: valuePassword,
+        imgUser: valueImgUser,
+        type: valueType,
+        id: valueId,
+      });
+      setModalShow(!modalShow);
+    }
+  };
+  const editCloseProfiles = () => {
+    if (valueFullName === '') {
+      Alert.alert('Warning!!!', 'Full Name can not emty!!!', [
+        {
+          text: 'OK',
+          onPress: () => console.log('OK Pressed'),
+          style: 'cancel',
+        },
+      ]);
+    } else if (valueAddress === '') {
+      Alert.alert('Warning!!!', 'Address can not emty!!!', [
+        {
+          text: 'OK',
+          onPress: () => console.log('OK Pressed'),
+          style: 'cancel',
+        },
+      ]);
+    } else if (valuePhone === '') {
+      Alert.alert('Warning!!!', 'Phone Number can not emty!!!', [
+        {
+          text: 'OK',
+          onPress: () => console.log('OK Pressed'),
+          style: 'cancel',
+        },
+      ]);
+    } else {
+      setModalShow(!modalShow);
+    }
   };
 
   return (
@@ -121,55 +182,72 @@ const profile = () => {
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
         }}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <View style={styles.modalTxt}>
-                <Text style={styles.modalTxtEdit}>Edit Profile</Text>
-              </View>
-              <View style={styles.modalInputTxt}>
-                <TextFloatInputs
-                  label="FullName"
-                  value={valueFullName}
-                  onChangeText={text => setValueFullName(text)}
-                  onFocusing={onFocusText(valueFullName)}
-                />
+        {/* <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}> */}
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalTxt}>
+              <Text style={styles.modalTxtEdit}>Edit Profile</Text>
+            </View>
+            <View style={styles.modalInputTxt}>
+              <TextFloatInputs
+                label="FullName"
+                value={valueFullName}
+                onChangeText={text => setValueFullName(text)}
+                onFocusing={onFocusText(valueFullName)}
+              />
 
-                <TextFloatInputs
-                  label="Address"
-                  value={valueAddress}
-                  onChangeText={text => setValueAddress(text)}
-                  onFocusing={onFocusText(valueAddress)}
-                />
+              <TextFloatInputs
+                label="Address"
+                value={valueAddress}
+                onChangeText={text => setValueAddress(text)}
+                onFocusing={onFocusText(valueAddress)}
+              />
 
-                <TextFloatInputs
-                  label="Phone Number"
-                  keyboardType='number-pad'
-                  maxLength={10}
-                  value={valuePhone}
-                  onChangeText={text => setValuePhone(text)}
-                  onFocusing={onFocusText(valuePhone)}
-                />
-              </View>
-              <View style={styles.modalBtn}>
-                <TouchableOpacity
-                  style={styles.modalBtnClose}
-                  onPress={() => {
-                    setModalShow(!modalShow);
-                  }}>
-                  <Text style={{color: 'white'}}>Close</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.modalBtnSave}
-                  onPress={() => {
-                    editSaveProfiles();
-                  }}>
-                  <Text style={{color: 'white'}}>Save</Text>
-                </TouchableOpacity>
-              </View>
+              <TextFloatInputs
+                label="Phone Number"
+                keyboardType="number-pad"
+                maxLength={10}
+                value={valuePhone}
+                onChangeText={text => setValuePhone(text)}
+                onFocusing={onFocusText(valuePhone)}
+              />
+            </View>
+            <View style={styles.modalBtn}>
+              <TouchableOpacity
+                style={styles.modalBtnClose}
+                onPress={() => {
+                  editCloseProfiles();
+                }}>
+                <Text style={{color: 'white'}}>Close</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalBtnSave}
+                onPress={() => {
+                  Alert.alert(
+                    'Warning',
+                    'Are you sure to save profile?',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Continue',
+                        onPress: () => {
+                          editSaveProfiles();
+                        },
+                      },
+                    ],
+                    {cancelable: false},
+                  );
+                }}>
+                <Text style={{color: 'white'}}>Save</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </View>
+        {/* </TouchableWithoutFeedback> */}
       </Modal>
       {/* Close Modal Edit User */}
     </View>

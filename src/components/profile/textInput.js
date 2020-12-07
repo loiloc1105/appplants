@@ -1,22 +1,47 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TextInput, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Dimensions,
+  Animated,
+} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
 
 const textInput = props => {
   const [isFocused, setIsFocused] = useState(props.onFocusing);
+  const [value,setValue] = useState();
+  var position = new Animated.Value( isFocused ? 1 : 0)
 
   const handleFocus = () => {
-    setIsFocused(isFocused);
+    if (!isFocused) {
+      //   console.log('handleFocus', isFocused);
+      setIsFocused(true);
+      Animated.timing( position , {
+          toValue : 1,
+          duration :150,
+          useNativeDriver: true
+      }).start()
+    }
   };
   const handleBlur = () => {
-    setIsFocused(!isFocused);
+    if (isFocused && !props.value) {
+      //   console.log('handleBlur', isFocused);
+      setIsFocused(false);
+      Animated.timing( position , {
+        toValue : 0,
+        duration :150,
+        useNativeDriver: false
+    }).start()
+    }
   };
   const labelStyle = {
     position: 'absolute',
     left: width * 0.05,
     top: !isFocused ? width * 0.05 : 0,
-    fontSize: !isFocused ? width * 0.04: width * 0.03,
+    fontSize: !isFocused ? width * 0.04 : width * 0.03,
     color: !isFocused ? '#aaa' : '#000',
   };
 
@@ -27,7 +52,7 @@ const textInput = props => {
         {...props}
         style={styles.textInput}
         onFocus={handleFocus}
-        // onBlur={handleBlur}
+        onBlur={handleBlur}
         blurOnSubmit
       />
     </View>
