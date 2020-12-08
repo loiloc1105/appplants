@@ -54,13 +54,31 @@ const notification = () => {
         case 1:
           if (i <= 0) {
             itemStatus.push(
+              <Text style={{color: 'orange'}} key={i}>
+                Checking
+              </Text>,
+            );
+          }
+          break;
+        case 2:
+          if (i <= 0) {
+            itemStatus.push(
               <Text style={{color: 'blue'}} key={i}>
                 Delivery
               </Text>,
             );
           }
           break;
-        case 2:
+        case 3:
+          if (i <= 0) {
+            itemStatus.push(
+              <Text style={{color: 'green'}} key={i}>
+                Completed
+              </Text>,
+            );
+          }
+          break;
+        case 4:
           if (i <= 0) {
             itemStatus.push(
               <Text style={{color: 'red'}} key={i}>
@@ -74,9 +92,13 @@ const notification = () => {
 
     return (
       <View style={styles.itemCard}>
+        <View style={styles.txtIDItem}>
+          {/* <Text>ID BILL: {itemData.item.id}</Text> */}
+          <Text>Date: {itemData.item.date}</Text>
+        </View>
         {itemCard}
         <View style={styles.txtItem}>
-          <Text>TOTAL BILL : ${itemData.item.totalAmount}</Text>
+          <Text>TOTAL BILL: ${itemData.item.totalAmount}</Text>
           <Text>STATUS : {itemStatus}</Text>
         </View>
       </View>
@@ -124,6 +146,11 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.02,
     borderColor: 'lightgrey',
     margin: width * 0.02,
+  },
+  txtIDItem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: width * 0.02,
   },
   txtItem: {
     justifyContent: 'center',

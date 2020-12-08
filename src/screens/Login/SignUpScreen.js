@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Icon from 'react-native-vector-icons/EvilIcons';
+import Icon from 'react-native-vector-icons/AntDesign';
 import {
   StyleSheet,
   Text,
@@ -11,6 +11,9 @@ import {
   ImageBackground,
   Platform,
   ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
 } from 'react-native';
 const {width, height} = Dimensions.get('window');
 
@@ -33,17 +36,77 @@ const SignUpScreen = props => {
     const ref = database.push();
     const key = ref.key;
     username === ''
-      ? Alert.alert('User name is empty !!!')
+      ? Alert.alert(
+          'WARNING',
+          'User Name is empty !',
+          [
+            {
+              text: 'OK',
+              onPress: () => console.log('OK Pressed'),
+            },
+          ],
+          {cancelable: false},
+        )
       : fullName === ''
-      ? Alert.alert('Full name is empty !!!')
+      ?  Alert.alert(
+        'WARNING',
+        'Full Name is empty !',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      )
       : address === ''
-      ? Alert.alert('Address is empty !!!')
+      ?  Alert.alert(
+        'WARNING',
+        'Your Address is empty !',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      )
       : phone === ''
-      ? Alert.alert('Phone is empty !!!')
+      ?  Alert.alert(
+        'WARNING',
+        'Your Phone is empty !',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      )
       : password === ''
-      ? Alert.alert('Password is empty !!!')
+      ?  Alert.alert(
+        'WARNING',
+        'Your Password is empty !',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      )
       : password !== confirm
-      ? Alert.alert('Password and confirm not matched !!!')
+      ?  Alert.alert(
+        'WARNING',
+        'Password confirm is not matched !',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      )
       : ref
           .set({
             id: key,
@@ -65,78 +128,82 @@ const SignUpScreen = props => {
         </View>
       </View>
       <View style={styles.block1}>
-        <View style={styles.display1}>
-          <View style={styles.scrollView}>
-            <ScrollView style={styles.form}>
-              <TextInput
-                style={styles.input}
-                value={username}
-                placeholder="User Name"
-                onChangeText={text => setUsername(text)}
-              />
-              <TextInput
-                style={styles.input}
-                value={fullName}
-                placeholder="Full Name"
-                onChangeText={text => setFullName(text)}
-              />
-              <TextInput
-                style={styles.input}
-                value={address}
-                placeholder="Address"
-                onChangeText={text => setAddress(text)}
-              />
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.display1}>
+            <View style={styles.scrollView}>
+              <KeyboardAvoidingView behavior={'height'}>
+                <ScrollView style={styles.form}>
+                  <TextInput
+                    style={styles.input}
+                    value={username}
+                    placeholder="User Name"
+                    onChangeText={text => setUsername(text)}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    value={fullName}
+                    placeholder="Full Name"
+                    onChangeText={text => setFullName(text)}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    value={address}
+                    placeholder="Address"
+                    onChangeText={text => setAddress(text)}
+                  />
 
-              <TextInput
-                style={styles.input}
-                value={phone}
-                placeholder="Phone"
-                keyboardType={'number-pad'}
-                maxLength={10}
-                onChangeText={text => setPhone(text)}
+                  <TextInput
+                    style={styles.input}
+                    value={phone}
+                    placeholder="Phone"
+                    keyboardType={'number-pad'}
+                    maxLength={10}
+                    onChangeText={text => setPhone(text)}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    value={password}
+                    placeholder="Password"
+                    secureTextEntry={true}
+                    onChangeText={text => setPassword(text)}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    value={confirm}
+                    placeholder="Confirm Password"
+                    secureTextEntry={true}
+                    onChangeText={text => setConfirm(text)}
+                  />
+                </ScrollView>
+              </KeyboardAvoidingView>
+            </View>
+
+            <TouchableOpacity style={styles.btn}>
+              <Icon
+                name="check"
+                color="white"
+                size={Platform.OS === 'ios' ? 90 : 60}
+                onPress={Signup}
               />
-              <TextInput
-                style={styles.input}
-                value={password}
-                placeholder="Password"
-                secureTextEntry={true}
-                onChangeText={text => setPassword(text)}
-              />
-              <TextInput
-                style={styles.input}
-                value={confirm}
-                placeholder="Confirm Password"
-                secureTextEntry={true}
-                onChangeText={text => setConfirm(text)}
-              />
-            </ScrollView>
+            </TouchableOpacity>
+
+            <View style={styles.wraptext}>
+              <ImageBackground
+                source={require('../../assets/BG-Signin1.png')}
+                style={styles.img}>
+                <View style={styles.btnSignUp}>
+                  <TouchableOpacity>
+                    <Text style={styles.text1}>Have an account ?</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => props.navigation.navigate('LoginScreen')}>
+                    <Text style={styles.text2}>Sign In</Text>
+                  </TouchableOpacity>
+                </View>
+              </ImageBackground>
+            </View>
           </View>
-
-          <TouchableOpacity style={styles.btn}>
-            <Icon
-              name="arrow-right"
-              color="white"
-              size={Platform.OS === 'ios' ? 90 : 60}
-              onPress={Signup}
-            />
-          </TouchableOpacity>
-
-          <View style={styles.wraptext}>
-            <ImageBackground
-              source={require('../../assets/BG-Signin1.png')}
-              style={styles.img}>
-              <View style={styles.btnSignUp}>
-                <TouchableOpacity>
-                  <Text style={styles.text1}>Have an account ?</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => props.navigation.navigate('LoginScreen')}>
-                  <Text style={styles.text2}>Sign In</Text>
-                </TouchableOpacity>
-              </View>
-            </ImageBackground>
-          </View>
-        </View>
+        </TouchableWithoutFeedback>
       </View>
     </View>
   );
@@ -197,6 +264,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: Platform.OS === 'ios' ? width * 0.05 : width * 0.02,
     borderColor: '#707070',
+    borderWidth: 2,
+    borderRadius: width * 1,
+    borderColor: 'white',
+    padding: width * 0.005,
+    backgroundColor: '#33FF99',
   },
   wraptext: {
     marginTop: width * 0.05,
@@ -207,7 +279,7 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
   },
   btnSignUp: {
-    height : Platform.OS === 'android' ? width * 0.02 : width * 0.05,
+    height: Platform.OS === 'android' ? width * 0.02 : width * 0.05,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

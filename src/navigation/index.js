@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, AsyncStorage} from 'react-native';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Icons from 'react-native-vector-icons/AntDesign'
 import {createStore, combineReducers} from 'redux';
 
 import HomeScreen from '../screens/Home/home';
@@ -23,6 +23,7 @@ import itemNewsScreen from '../screens/News/itemNews';
 import itemNotificationScreen from '../screens/Notification/itemNotification';
 import SearchScreen from '../screens/Home/SearchScreen';
 import DetailProduct from '../screens/Home/DetailProduct';
+import MoreProduct from '../screens/Home/moreProducts'
 
 import cartReducers from '../store/reducers/cart';
 import userReducers from '../store/reducers/user';
@@ -31,21 +32,22 @@ import {Provider, useSelector, connect} from 'react-redux';
 import firebase from 'firebase';
 
 const Tab = createBottomTabNavigator();
-const UserStack = createStackNavigator();
+
 const Stack = createStackNavigator();
+const UserStack = createStackNavigator();
 const HomeStack = createStackNavigator();
-const MainStack = createStackNavigator();
+const NewsStack = createStackNavigator();
 
 Icon.loadFont();
+Icons.loadFont();
 
 const rootReducer = combineReducers({
   cart: cartReducers,
   user: userReducers,
 });
-const AuthContext = React.createContext();
 const store = createStore(rootReducer);
 
-function userStack() {
+const userStack = () => {
   return (
     <UserStack.Navigator
       initialRouteName="SplashScreen"
@@ -56,41 +58,26 @@ function userStack() {
     </UserStack.Navigator>
   );
 }
-// function homeStack() {
-//   return (
-//     <MainStack.Navigator screenOptions={{headerShown: false}}>
-//       <MainStack.Screen name="Tab" component={TabHome} />
-//       <MainStack.Screen name="SearchScreen" component={SearchScreen} />
-//       <MainStack.Screen name="DetailProduct" component={DetailProduct} />
-//       {/* <MainStack.Screen name="DetailNews" component={DetailNewsScreen} /> */}
-//     </MainStack.Navigator>
-//   );
-// }
 const HomeTab = () => {
   return (
     <HomeStack.Navigator screenOptions={{headerShown: false}}>
       <HomeStack.Screen name="HomeMain" component={HomeScreen} />
       <HomeStack.Screen name="SearchScreen" component={SearchScreen} />
       <HomeStack.Screen name="DetailProduct" component={DetailProduct} />
-      {/* <HomeStack.Screen name="itemHome" component={itemHomeScreen} />
-      <HomeStack.Screen name="itemReqHome" component={itemReqHomeScreen} /> */}
+      <HomeStack.Screen name="MoreProductScreen" component={MoreProduct} />
     </HomeStack.Navigator>
   );
 };
-const NewsStack = createStackNavigator();
 const NewsTab = () => {
   return (
     <NewsStack.Navigator screenOptions={{headerShown: false}}>
       <NewsStack.Screen name="NewsMain" component={NewsScreen} />
       <NewsStack.Screen name="itemNews" component={itemNewsScreen} />
       <NewsStack.Screen name="DetailNews" component={DetailNewsScreen} />
-      {/* <NewsStack.Screen
-        name="itemNotification"
-        component={itemNotificationScreen}
-      /> */}
     </NewsStack.Navigator>
   );
 };
+
 
 const TabHome = () => {
   return (
@@ -157,4 +144,3 @@ const authenTication = () => {
 };
 export default authenTication;
 
-const styles = StyleSheet.create({});

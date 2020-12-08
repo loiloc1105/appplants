@@ -9,8 +9,9 @@ import {
   Platform,
   Dimensions,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
-// import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icons from 'react-native-vector-icons/Entypo';
 import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../store/actions/userAction';
@@ -21,7 +22,9 @@ const {width, height} = Dimensions.get('window');
 const database = firebase.database();
 Icons.loadFont();
 
-// console.disableYellowBox = true;
+// console.ignoredYellowBox = ['Setting a timer'];
+
+console.disableYellowBox = true;
 
 const LoginScreen = props => {
   const [username, setUsername] = useState('username2');
@@ -72,6 +75,10 @@ const LoginScreen = props => {
           console.log('childData', childData.password);
           if (username != null && password === childData.password) {
             const profileUser = new UserItem(
+              childData.imgUser,
+              childData.type,
+              childData.fullName,
+              childData.password,
               childData.userName,
               childData.address,
               childData.phone,
@@ -93,46 +100,50 @@ const LoginScreen = props => {
         </View>
       </View>
       <View style={styles.block1}>
-        <View style={styles.display1}>
-          <View style={styles.form}>
-            <TextInput
-              style={styles.input}
-              value={username}
-              placeholder="username"
-              onChangeText={text => setUsername(text)}
-            />
-            <TextInput
-              style={styles.input}
-              value={password}
-              secureTextEntry={securiTxt}
-              placeholder="password"
-              onChangeText={text => setPassword(text)}
-            />
-          </View>
-
-          <TouchableOpacity onPress={() => setSecuriTxt(!securiTxt)}>
-            <Icons name={securiTxt ? 'eye-with-line' : 'eye'} size={20} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.btn} onPress={btnLogin}>
-            <Text style={styles.titleBtn}>SIGN IN NOW</Text>
-          </TouchableOpacity>
-          <View style={styles.wraptext}>
-            <ImageBackground
-              source={require('../../assets/BG-Signin1.png')}
-              style={styles.img}>
-              <View style={styles.btnSignIn}>
-                <TouchableOpacity>
-                  <Text style={styles.text1}>Don't have an account ? </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => props.navigation.navigate('SignUpScreen')}>
-                  <Text style={styles.text2}>Sign Up</Text>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.display1}>
+            <View style={styles.form}>
+              <TextInput
+                style={styles.input}
+                value={username}
+                placeholder="username"
+                onChangeText={text => setUsername(text)}
+              />
+              <TextInput
+                style={styles.input}
+                value={password}
+                secureTextEntry={securiTxt}
+                placeholder="password"
+                onChangeText={text => setPassword(text)}
+              />
+              <View style={styles.iconShow}>
+                <TouchableOpacity style={styles.iconBtnShow} onPress={() => setSecuriTxt(!securiTxt)}>
+                  <Icons name={securiTxt ? 'eye-with-line' : 'eye'} size={20} />
+                  <Text style={{marginTop : width * 0.008}}> {securiTxt ? 'Show' : 'Hidden'} Password</Text>
                 </TouchableOpacity>
               </View>
-            </ImageBackground>
+            </View>
+
+            <TouchableOpacity style={styles.btn} onPress={btnLogin}>
+              <Text style={styles.titleBtn}>SIGN IN NOW</Text>
+            </TouchableOpacity>
+            <View style={styles.wraptext}>
+              <ImageBackground
+                source={require('../../assets/BG-Signin1.png')}
+                style={styles.img}>
+                <View style={styles.btnSignIn}>
+                  <TouchableOpacity>
+                    <Text style={styles.text1}>Don't have an account ? </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => props.navigation.navigate('SignUpScreen')}>
+                    <Text style={styles.text2}>Sign Up</Text>
+                  </TouchableOpacity>
+                </View>
+              </ImageBackground>
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </View>
     </View>
   );
@@ -183,6 +194,14 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.03,
     borderWidth: 2,
     borderColor: '#707070',
+  },
+  iconShow:{
+    alignItems:'flex-end',
+    marginRight : width * 0.02,
+    marginTop: width * 0.01,
+  },
+  iconBtnShow:{
+    flexDirection:'row',
   },
   btn: {
     backgroundColor: '#33CC66BA',

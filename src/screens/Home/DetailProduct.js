@@ -134,9 +134,17 @@ const DetailProduct = props => {
         <TouchableOpacity
           style={styles.btnAddToCart}
           onPress={() => {
-            if (quantity > 0) {
+            if (quantity > 0 && quantity <= 10) {
               dispatch(cartActions.addToCart(product, quantity));
               setQuantity(0);
+            }else if (quantity >= 11){
+              Alert.alert('Warning!!!', 'Quantity can not over 10/times! Please check again', [
+                {
+                  text: 'OK',
+                  onPress: () => console.log('OK Pressed'),
+                  style: 'cancel',
+                },
+              ]);
             } else {
               Alert.alert('Warning!!!', 'Enter quantity please', [
                 {
