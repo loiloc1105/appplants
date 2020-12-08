@@ -39,8 +39,9 @@ const LoginScreen = props => {
       .equalTo(username)
       .once('value', snapshot => {
         // const users = Object.values(snapshot.val());
-        const users = snapshot.val();
-        console.log('users', users);
+        let users = snapshot.val();
+        console.log('users la '+ users);
+      
         if (users === null) {
           Alert.alert(
             'Notification',
