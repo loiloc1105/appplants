@@ -43,8 +43,8 @@ const LoginScreen = props => {
         console.log('users', users);
         if (users === null) {
           Alert.alert(
-            'Thông Báo',
-            'Sai Tài Khoản Hoặc Mật Khẫu',
+            'Notification',
+            'Username or Password incorrect! Please try again!',
             [
               {
                 text: 'OK',
@@ -57,8 +57,8 @@ const LoginScreen = props => {
           const passwords = Object.values(snapshot.val());
           if (password === passwords[0].password) {
             Alert.alert(
-              'Thông Báo',
-              'Sai Tài Khoản Hoặc Mật Khẫu',
+              'Notification',
+            'Username or Password incorrect! Please try again!',
               [
                 {
                   text: 'OK',

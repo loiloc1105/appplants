@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Modal,
   Alert,
-  Platform
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {useSelector, useDispatch} from 'react-redux';
@@ -75,14 +75,13 @@ const DetailProduct = props => {
                   />
                   <Text style={styles.textIcon}>{product.soil}mg</Text>
                 </View>
-                <View style={styles.btnModal}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setModalDetails(!modalDetails);
-                    }}>
-                    <Text style={styles.openBtn}>Close</Text>
-                  </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                  style={styles.btnModal}
+                  onPress={() => {
+                    setModalDetails(!modalDetails);
+                  }}>
+                  <Text style={styles.openBtn}>Close</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </Modal>
@@ -137,14 +136,18 @@ const DetailProduct = props => {
             if (quantity > 0 && quantity <= 10) {
               dispatch(cartActions.addToCart(product, quantity));
               setQuantity(0);
-            }else if (quantity >= 11){
-              Alert.alert('Warning!!!', 'Quantity can not over 10/times! Please check again', [
-                {
-                  text: 'OK',
-                  onPress: () => console.log('OK Pressed'),
-                  style: 'cancel',
-                },
-              ]);
+            } else if (quantity >= 11) {
+              Alert.alert(
+                'Warning!!!',
+                'Quantity can not over 10/times! Please check again',
+                [
+                  {
+                    text: 'OK',
+                    onPress: () => console.log('OK Pressed'),
+                    style: 'cancel',
+                  },
+                ],
+              );
             } else {
               Alert.alert('Warning!!!', 'Enter quantity please', [
                 {
@@ -181,7 +184,7 @@ const styles = StyleSheet.create({
     width: width * 0.4,
     justifyContent: 'center',
     alignItems: 'center',
-    height: height * 0.7,
+    height: Platform.OS === 'ios' ? height * 0.71 : height * 0.69,
   },
   modalBody: {
     flex: 1,
@@ -215,7 +218,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   textIcon: {
-    paddingLeft: width * 0.15,
+    paddingLeft: width * 0.12,
     fontStyle: 'italic',
     color: 'gray',
     fontSize: 20,

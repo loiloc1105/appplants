@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
   Modal,
   Alert,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TextFloatInputs from '../../components/profile/textInput';
@@ -92,6 +90,8 @@ const profile = () => {
   };
   const editCloseProfiles = () => {
     if (valueFullName === '') {
+      // console.log('valueFullName', valueFullName);
+
       Alert.alert('Warning!!!', 'Full Name can not emty!!!', [
         {
           text: 'OK',
@@ -100,6 +100,8 @@ const profile = () => {
         },
       ]);
     } else if (valueAddress === '') {
+      // console.log('valueAddress', valueAddress);
+
       Alert.alert('Warning!!!', 'Address can not emty!!!', [
         {
           text: 'OK',
@@ -108,6 +110,8 @@ const profile = () => {
         },
       ]);
     } else if (valuePhone === '') {
+      // console.log('valuePhone', valuePhone);
+
       Alert.alert('Warning!!!', 'Phone Number can not emty!!!', [
         {
           text: 'OK',
@@ -116,6 +120,16 @@ const profile = () => {
         },
       ]);
     } else {
+      database.ref('users/' + valueId).set({
+        fullName: valueFullName,
+        address: valueAddress,
+        phone: valuePhone,
+        userName: valueUserName,
+        password: valuePassword,
+        imgUser: valueImgUser,
+        type: valueType,
+        id: valueId,
+      });
       setModalShow(!modalShow);
     }
   };
@@ -216,7 +230,24 @@ const profile = () => {
               <TouchableOpacity
                 style={styles.modalBtnClose}
                 onPress={() => {
-                  editCloseProfiles();
+                  Alert.alert(
+                    'Warning',
+                    'Do you want to save this before close',
+                    [
+                      {
+                        text: 'No',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Yes',
+                        onPress: () => {
+                          editCloseProfiles();
+                        },
+                      },
+                    ],
+                    {cancelable: false},
+                  );
                 }}>
                 <Text style={{color: 'white'}}>Close</Text>
               </TouchableOpacity>
