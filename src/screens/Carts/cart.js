@@ -12,10 +12,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import CartItem from './itemCart';
 import firebase from 'firebase';
 import * as cartActions from '../../store/actions/cartAction';
-import moment from 'moment';
 const {width, height} = Dimensions.get('window');
 
-var date = new Date();
 const cart = () => {
   const database = firebase.database();
 
@@ -41,6 +39,14 @@ const cart = () => {
   const checkOut = () => {
     const ref = database.ref('orders/').push();
     const key = ref.key;
+
+    const date = new Date();
+    const options = {year: 'numeric', month: 'numeric', day: 'numeric'};
+    const dateCart =
+      date.toLocaleDateString(undefined, options) +
+      ' ' +
+      date.toLocaleTimeString('vn-VN');
+
     ref
       .set({
         id: key,
@@ -49,7 +55,7 @@ const cart = () => {
         address: user.addressUser,
         items: carts,
         totalAmount: totalAmount,
-        date: moment(date).format('MM DD YYYY, hh:mm'),
+        date: dateCart,
         type: 0,
         nameUser: user.userName,
       })

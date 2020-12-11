@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Platform
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import ProductItem from './ProductItem';
@@ -26,7 +26,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
   console.log('connect');
 }
-const database = firebase.database()
+const database = firebase.database();
 
 // SUA LAI DUNG 1 item PRODUCT DE LEN FLATLIST
 
@@ -50,7 +50,7 @@ const home = ({navigation}) => {
             soil: arrToConvert[key].soil,
             information: arrToConvert[key].information,
             image: arrToConvert[key].imgProduct,
-            type : arrToConvert[key].type,
+            type: arrToConvert[key].type,
           });
         }
         setData(arr);
@@ -77,18 +77,15 @@ const home = ({navigation}) => {
           <TouchableOpacity
             style={styles.input}
             onPress={() => {
-              navigation.navigate('SearchScreen')
+              navigation.navigate('SearchScreen');
             }}>
+            <Icon name="search" color="#707070" size={35} />
             <TextInput
-              placeholder="Search"
+              style={{marginLeft:windowWidth * 0.02 , marginTop: windowHeight * 0.005,fontSize:18}}
+              placeholder="Search Here"
               pointerEvents="none"
               onChangeText={text => setSearch(text)}
               value={search}
-            />
-            <Icon
-              name="search"
-              color="#707070"
-              size={40}
             />
           </TouchableOpacity>
         </View>
@@ -97,7 +94,11 @@ const home = ({navigation}) => {
         <ScrollView>
           <View style={styles.bodyTitle}>
             <Text style={styles.reccommend}>Recommended</Text>
-            <TouchableOpacity style={styles.moreBtn} onPress={() =>{navigation.navigate('MoreProductScreen')}}>
+            <TouchableOpacity
+              style={styles.moreBtn}
+              onPress={() => {
+                navigation.navigate('MoreProductScreen');
+              }}>
               <Text style={styles.more}>More +</Text>
             </TouchableOpacity>
           </View>
@@ -107,7 +108,7 @@ const home = ({navigation}) => {
             style={{marginLeft: windowWidth * 0.03}}
             showsHorizontalScrollIndicator={false}
             horizontal
-            keyExtractor={(item,index) => index.toString()}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({item}) => (
               <ProductItem
                 viewDetail={() =>
@@ -122,7 +123,11 @@ const home = ({navigation}) => {
 
           <View style={styles.bodyTitle}>
             <Text style={styles.reccommend}>Category</Text>
-            <TouchableOpacity style={styles.moreBtn} onPress={() =>{navigation.navigate('MoreProductScreen')}}>
+            <TouchableOpacity
+              style={styles.moreBtn}
+              onPress={() => {
+                navigation.navigate('MoreProductScreen');
+              }}>
               <Text style={styles.more}>More +</Text>
             </TouchableOpacity>
           </View>
@@ -131,7 +136,7 @@ const home = ({navigation}) => {
             style={{marginLeft: windowWidth * 0.03}}
             showsHorizontalScrollIndicator={false}
             horizontal
-            keyExtractor={(item,index) => index.toString()}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({item}) => (
               //Can sua thanh ProductItem va style lai
               <ProductItemList2
@@ -146,7 +151,11 @@ const home = ({navigation}) => {
           />
           <View style={styles.bodyTitle}>
             <Text style={styles.reccommend}>Accessories</Text>
-            <TouchableOpacity style={styles.moreBtn} onPress={() =>{navigation.navigate('MoreProductScreen')}}>
+            <TouchableOpacity
+              style={styles.moreBtn}
+              onPress={() => {
+                navigation.navigate('MoreProductScreen');
+              }}>
               <Text style={styles.more}>More +</Text>
             </TouchableOpacity>
           </View>
@@ -155,7 +164,7 @@ const home = ({navigation}) => {
             style={{marginLeft: windowWidth * 0.03}}
             showsHorizontalScrollIndicator={false}
             horizontal
-            keyExtractor={(item,index) => index.toString()}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({item}) => (
               <ProductItem
                 viewDetail={() =>
@@ -184,8 +193,10 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? windowHeight / 5.5 : windowHeight / 5,
     width: windowWidth,
     backgroundColor: '#028E62CC',
-    borderBottomLeftRadius: Platform.OS === 'ios' ? windowWidth * 0.15 : windowWidth * 0.1,
-    borderBottomRightRadius: Platform.OS === 'ios' ? windowWidth * 0.15 : windowWidth * 0.1,
+    borderBottomLeftRadius:
+      Platform.OS === 'ios' ? windowWidth * 0.15 : windowWidth * 0.1,
+    borderBottomRightRadius:
+      Platform.OS === 'ios' ? windowWidth * 0.15 : windowWidth * 0.1,
     // justifyContent: 'center',
     alignItems: 'center',
     // borderWidth: 1,
@@ -193,12 +204,13 @@ const styles = StyleSheet.create({
   },
   display: {
     flexDirection: 'row',
-    marginVertical: Platform.OS === 'ios' ? windowWidth * 0.09 : windowWidth * 0.05,
+    marginVertical:
+      Platform.OS === 'ios' ? windowWidth * 0.09 : windowWidth * 0.05,
   },
   img: {
     width: windowWidth * 0.15,
     height: windowWidth * 0.15,
-    borderRadius: windowWidth * 0.15 / 2,
+    borderRadius: (windowWidth * 0.15) / 2,
     borderWidth: 2,
     borderColor: '#707070',
     marginRight: windowWidth * 0.02,
@@ -211,8 +223,8 @@ const styles = StyleSheet.create({
   searchBar: {
     backgroundColor: '#fff',
     width: windowWidth / 1.5,
-    height : windowWidth * 0.1,
-    alignItems: 'center',
+    height: windowWidth * 0.1,
+    // alignItems: 'center',
     borderWidth: 2,
     borderRadius: windowWidth * 0.02,
     borderColor: '#707070',
@@ -226,7 +238,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     color: '#fff',
     fontSize: 20,
-    marginLeft: 10,
+    marginLeft: windowWidth * 0.02,
+    marginTop: windowWidth * 0.007
   },
   block2: {
     marginTop: windowWidth * 0.05,

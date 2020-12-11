@@ -112,7 +112,7 @@ const notification = () => {
       </View>
       <FlatList
         keyExtractor={(item, index) => index.toString()}
-        data={dataNotifi}
+        data={dataNotifi.reverse()}
         showsVerticalScrollIndicator={false}
         renderItem={item => renderNotification(item)}
       />
