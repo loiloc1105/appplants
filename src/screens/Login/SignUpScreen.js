@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
   StyleSheet,
@@ -14,27 +14,107 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
+  Image,
+  Modal,
 } from 'react-native';
-const {width, height} = Dimensions.get('window');
-
+import * as Picker from 'react-native-image-picker';
 import firebase from 'firebase';
 Icon.loadFont();
 
+const {width, height} = Dimensions.get('window');
+
 const SignUpScreen = props => {
+  const [modalVisible, setModalVisible] = useState(false);
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [imgUser, setImgUser] = useState(
-    'https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/tree.png',
-  );
+  const [imgUser, setImgUser] = useState(null);
+  const [imgUserAva, setImgUserAva] = useState('');
+  const [keyNew, setKeyNew] = useState();
+
   const database = firebase.database().ref('users/');
 
-  const Signup = () => {
-    const ref = database.push();
-    const key = ref.key;
+  // useEffect(() => {
+  //   const ref = database.push();
+  //   const key = ref.key;
+  //   setKeyNew(key)
+
+  // },[keyNew])
+
+  const takePhotoCamera = () => {
+    console.log('open camera');
+  };
+
+  const takePhotoLibrary = async () => {
+    const ref = database.push().key;
+    // const key = ref.key;
+    setKeyNew(ref);
+    await Picker.launchImageLibrary(
+      {
+        maxWidth: 300,
+        maxHeight: 400,
+        mediaType: 'photo',
+        quality: 1,
+      },
+      res => {
+        console.log('res', res);
+        uploadImage(res.uri, ref);
+        setImgUser(res.uri);
+        // setImgName('day la cay bong');
+        setModalVisible(!modalVisible);
+      },
+    );
+    console.log('Library');
+  };
+
+  const uploadImage = async (uri, fileName) => {
+    const responsive = await fetch(uri);
+    // console.log('responsive', responsive);
+
+    const blob = await responsive.blob();
+    // console.log('blob', blob);
+
+    // let randomMath = Math.random() * 100000;
+    // let ref = firebase.storage().ref(`images/${randomMath}/` + imageName);
+
+    let ref = await firebase.storage().ref(`images/users/${fileName}`);
+    if (ref !== '') {
+      ref.put(blob).then(snapshot => {
+        console.log('snapshot', snapshot);
+        Alert.alert('Success!');
+      });
+    }
+  };
+
+  const downloadImage = async fileName => {
+    await firebase
+      .storage()
+      .ref(`images/users/${fileName}`)
+      .getDownloadURL()
+      .then(downloadURL => {
+        console.log('downloadURL', downloadURL);
+        setImgUserAva(downloadURL);
+        console.log('imgUserAva', imgUserAva);
+      });
+  };
+
+  const Signup = async (keyImg) => {
+    // await uploadImage(imgUser, key);
+    await downloadImage(keyImg);
+    console.log('URL', imgUserAva);
+
+    // await firebase
+    //   .storage()
+    //   .ref(`images/users/${key}`)
+    //   .getDownloadURL()
+    //   .then(downloadURL => {
+    //     console.log('downloadURL', downloadURL);
+    //     setImgUserAva(downloadURL);
+    //   })
+
     username === ''
       ? Alert.alert(
           'WARNING',
@@ -48,77 +128,79 @@ const SignUpScreen = props => {
           {cancelable: false},
         )
       : fullName === ''
-      ?  Alert.alert(
-        'WARNING',
-        'Full Name is empty !',
-        [
-          {
-            text: 'OK',
-            onPress: () => console.log('OK Pressed'),
-          },
-        ],
-        {cancelable: false},
-      )
+      ? Alert.alert(
+          'WARNING',
+          'Full Name is empty !',
+          [
+            {
+              text: 'OK',
+              onPress: () => console.log('OK Pressed'),
+            },
+          ],
+          {cancelable: false},
+        )
       : address === ''
-      ?  Alert.alert(
-        'WARNING',
-        'Your Address is empty !',
-        [
-          {
-            text: 'OK',
-            onPress: () => console.log('OK Pressed'),
-          },
-        ],
-        {cancelable: false},
-      )
+      ? Alert.alert(
+          'WARNING',
+          'Your Address is empty !',
+          [
+            {
+              text: 'OK',
+              onPress: () => console.log('OK Pressed'),
+            },
+          ],
+          {cancelable: false},
+        )
       : phone === ''
-      ?  Alert.alert(
-        'WARNING',
-        'Your Phone is empty !',
-        [
-          {
-            text: 'OK',
-            onPress: () => console.log('OK Pressed'),
-          },
-        ],
-        {cancelable: false},
-      )
+      ? Alert.alert(
+          'WARNING',
+          'Your Phone is empty !',
+          [
+            {
+              text: 'OK',
+              onPress: () => console.log('OK Pressed'),
+            },
+          ],
+          {cancelable: false},
+        )
       : password === ''
-      ?  Alert.alert(
-        'WARNING',
-        'Your Password is empty !',
-        [
-          {
-            text: 'OK',
-            onPress: () => console.log('OK Pressed'),
-          },
-        ],
-        {cancelable: false},
-      )
+      ? Alert.alert(
+          'WARNING',
+          'Your Password is empty !',
+          [
+            {
+              text: 'OK',
+              onPress: () => console.log('OK Pressed'),
+            },
+          ],
+          {cancelable: false},
+        )
       : password !== confirm
-      ?  Alert.alert(
-        'WARNING',
-        'Password confirm is not matched !',
-        [
-          {
-            text: 'OK',
-            onPress: () => console.log('OK Pressed'),
-          },
-        ],
-        {cancelable: false},
-      )
-      : ref
+      ? Alert.alert(
+          'WARNING',
+          'Password confirm is not matched !',
+          [
+            {
+              text: 'OK',
+              onPress: () => console.log('OK Pressed'),
+            },
+          ],
+          {cancelable: false},
+        )
+      : await firebase
+          .database()
+          .ref('users/' + keyNew)
           .set({
-            id: key,
+            id: keyNew,
             userName: username,
             fullName: fullName,
             address: address,
             phone: phone,
             password: password,
-            imgUser: imgUser,
+            imgUser: imgUserAva,
             type: 1,
           })
-          .then(() => props.navigation.navigate('LoginScreen'));
+          .then(res => console.log('res', res));
   };
   return (
     <View style={styles.container}>
@@ -133,6 +215,15 @@ const SignUpScreen = props => {
             <View style={styles.scrollView}>
               <KeyboardAvoidingView behavior={'height'}>
                 <ScrollView style={styles.form}>
+                  <TouchableOpacity
+                    style={styles.btnImgInput}
+                    onPress={() => setModalVisible(!modalVisible)}>
+                    <Image
+                      style={styles.imgInput}
+                      resizeMode="stretch"
+                      source={{uri: imgUser}}
+                    />
+                  </TouchableOpacity>
                   <TextInput
                     style={styles.input}
                     value={username}
@@ -183,7 +274,7 @@ const SignUpScreen = props => {
                 name="check"
                 color="white"
                 size={Platform.OS === 'ios' ? 90 : 60}
-                onPress={Signup}
+                onPress={() => Signup(keyNew)}
               />
             </TouchableOpacity>
 
@@ -202,6 +293,61 @@ const SignUpScreen = props => {
                 </View>
               </ImageBackground>
             </View>
+
+            {/* Open Modal */}
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
+              }}>
+              <TouchableWithoutFeedback
+                onPress={() => setModalVisible(!modalVisible)}>
+                <View style={styles.viewModal}>
+                  <View style={styles.modalContent}>
+                    <TouchableOpacity
+                      style={styles.btnModal}
+                      onPress={takePhotoCamera}>
+                      <Text
+                        style={{
+                          color: 'blue',
+                          fontSize: 18,
+                        }}>
+                        Take a photo to camera
+                      </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={styles.btnModal}
+                      onPress={takePhotoLibrary}>
+                      <Text
+                        style={{
+                          color: 'blue',
+                          fontSize: 18,
+                        }}>
+                        Take a photo to library
+                      </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={styles.btnModalCancel}
+                      onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                      <Text
+                        style={{
+                          color: 'red',
+                          fontSize: 18,
+                        }}>
+                        Cancel
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            </Modal>
+            {/* end Modal */}
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -246,6 +392,18 @@ const styles = StyleSheet.create({
   scrollView: {
     height: Platform.OS === 'ios' ? width * 1 : width * 0.8,
     marginTop: Platform.OS === 'ios' ? width * 0.07 : width * 0.02,
+  },
+  btnImgInput: {
+    width: Platform.OS === 'ios' ? width * 0.3 : width * 0.2,
+    height: Platform.OS === 'ios' ? width * 0.3 : width * 0.2,
+    borderRadius: width * 0.03,
+    borderWidth: 1,
+  },
+  imgInput: {
+    marginTop: width * 0.01,
+    width: '100%',
+    height: '100%',
+    borderRadius: width * 0.03,
   },
   input: {
     backgroundColor: '#fff',
@@ -294,5 +452,41 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
     fontSize: 20,
+  },
+
+  viewModal: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(181,181,181,0.1)',
+    // opacity: 0.5
+  },
+  modalContent: {
+    width: width * 1,
+    height: height * 0.25,
+    alignItems: 'center',
+    // backgroundColor:'white',
+    // borderWidth: 1,
+  },
+  btnModal: {
+    marginTop: width * 0.02,
+    // borderWidth: 1,
+    width: width * 0.9,
+    height: Platform.OS === 'ios' ? width * 0.15 : width * 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: width * 0.03,
+    backgroundColor: 'white',
+  },
+  btnModalCancel: {
+    marginTop: width * 0.05,
+    // borderWidth: 1,
+    width: width * 0.9,
+    height: width * 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: width * 0.03,
+    backgroundColor: 'white',
   },
 });

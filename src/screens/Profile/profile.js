@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Modal,
   Alert,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TextFloatInputs from '../../components/profile/textInput';
@@ -196,89 +197,109 @@ const profile = () => {
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
         }}>
-        {/* <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}> */}
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalTxt}>
-              <Text style={styles.modalTxtEdit}>Edit Profile</Text>
-            </View>
-            <View style={styles.modalInputTxt}>
-              <TextFloatInputs
-                label="FullName"
-                value={valueFullName}
-                onChangeText={text => setValueFullName(text)}
-                onFocusing={onFocusText(valueFullName)}
-              />
+        <TouchableWithoutFeedback
+          onPress={() =>
+            Alert.alert(
+              'Warning',
+              'Do you want to save this before close',
+              [
+                {
+                  text: 'No',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'Yes',
+                  onPress: () => {
+                    editCloseProfiles();
+                  },
+                },
+              ],
+              {cancelable: false},
+            )
+          }>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalTxt}>
+                <Text style={styles.modalTxtEdit}>Edit Profile</Text>
+              </View>
+              <View style={styles.modalInputTxt}>
+                <TextFloatInputs
+                  label="FullName"
+                  value={valueFullName}
+                  onChangeText={text => setValueFullName(text)}
+                  onFocusing={onFocusText(valueFullName)}
+                />
 
-              <TextFloatInputs
-                label="Address"
-                value={valueAddress}
-                onChangeText={text => setValueAddress(text)}
-                onFocusing={onFocusText(valueAddress)}
-              />
+                <TextFloatInputs
+                  label="Address"
+                  value={valueAddress}
+                  onChangeText={text => setValueAddress(text)}
+                  onFocusing={onFocusText(valueAddress)}
+                />
 
-              <TextFloatInputs
-                label="Phone Number"
-                keyboardType="number-pad"
-                maxLength={10}
-                value={valuePhone}
-                onChangeText={text => setValuePhone(text)}
-                onFocusing={onFocusText(valuePhone)}
-              />
-            </View>
-            <View style={styles.modalBtn}>
-              <TouchableOpacity
-                style={styles.modalBtnClose}
-                onPress={() => {
-                  Alert.alert(
-                    'Warning',
-                    'Do you want to save this before close',
-                    [
-                      {
-                        text: 'No',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                      },
-                      {
-                        text: 'Yes',
-                        onPress: () => {
-                          editCloseProfiles();
+                <TextFloatInputs
+                  label="Phone Number"
+                  keyboardType="number-pad"
+                  maxLength={10}
+                  value={valuePhone}
+                  onChangeText={text => setValuePhone(text)}
+                  onFocusing={onFocusText(valuePhone)}
+                />
+              </View>
+              <View style={styles.modalBtn}>
+                <TouchableOpacity
+                  style={styles.modalBtnClose}
+                  onPress={() => {
+                    Alert.alert(
+                      'Warning',
+                      'Do you want to save this before close',
+                      [
+                        {
+                          text: 'No',
+                          onPress: () => console.log('Cancel Pressed'),
+                          style: 'cancel',
                         },
-                      },
-                    ],
-                    {cancelable: false},
-                  );
-                }}>
-                <Text style={{color: 'white'}}>Close</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.modalBtnSave}
-                onPress={() => {
-                  Alert.alert(
-                    'Warning',
-                    'Are you sure to save profile?',
-                    [
-                      {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                      },
-                      {
-                        text: 'Continue',
-                        onPress: () => {
-                          editSaveProfiles();
+                        {
+                          text: 'Yes',
+                          onPress: () => {
+                            editCloseProfiles();
+                          },
                         },
-                      },
-                    ],
-                    {cancelable: false},
-                  );
-                }}>
-                <Text style={{color: 'white'}}>Save</Text>
-              </TouchableOpacity>
+                      ],
+                      {cancelable: false},
+                    );
+                  }}>
+                  <Text style={{color: 'white'}}>Close</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modalBtnSave}
+                  onPress={() => {
+                    Alert.alert(
+                      'Warning',
+                      'Are you sure to save profile?',
+                      [
+                        {
+                          text: 'Cancel',
+                          onPress: () => console.log('Cancel Pressed'),
+                          style: 'cancel',
+                        },
+                        {
+                          text: 'Continue',
+                          onPress: () => {
+                            editSaveProfiles();
+                          },
+                        },
+                      ],
+                      {cancelable: false},
+                    );
+                  }}>
+                  <Text style={{color: 'white'}}>Save</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-        {/* </TouchableWithoutFeedback> */}
+        </TouchableWithoutFeedback>
       </Modal>
       {/* Close Modal Edit User */}
     </View>
