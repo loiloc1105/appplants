@@ -61,14 +61,15 @@ const home = ({navigation}) => {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [nameUser, setNameUser] = useState(user.userName);
-  const [imgUser, setImgUser] = useState('');
+  const [imgUser, setImgUser] = useState(user.imgUser);
 
   return (
     <View style={styles.container}>
       <View style={styles.block1}>
         <View style={styles.display}>
           <Image
-            source={require('../../assets/BG-plant1.jpg')}
+            resizeMode="stretch"
+            source={{uri: imgUser}}
             style={styles.img}
           />
           <Text style={styles.title}>{nameUser}</Text>
@@ -81,7 +82,11 @@ const home = ({navigation}) => {
             }}>
             <Icon name="search" color="#707070" size={35} />
             <TextInput
-              style={{marginLeft:windowWidth * 0.02 , marginTop: windowHeight * 0.005,fontSize:18}}
+              style={{
+                marginLeft: windowWidth * 0.02,
+                marginTop: windowHeight * 0.005,
+                fontSize: 18,
+              }}
               placeholder="Search Here"
               pointerEvents="none"
               onChangeText={text => setSearch(text)}
@@ -204,19 +209,20 @@ const styles = StyleSheet.create({
   },
   display: {
     flexDirection: 'row',
-    marginVertical:
-      Platform.OS === 'ios' ? windowWidth * 0.09 : windowWidth * 0.05,
+    marginTop: Platform.OS === 'ios' ? windowWidth * 0.09 : windowWidth * 0.05,
+    marginBottom:
+      Platform.OS === 'ios' ? windowWidth * 0.055 : windowWidth * 0.05,
   },
   img: {
-    width: windowWidth * 0.15,
-    height: windowWidth * 0.15,
-    borderRadius: (windowWidth * 0.15) / 2,
-    borderWidth: 2,
+    width: windowWidth * 0.2,
+    height: windowWidth * 0.2,
+    borderRadius: windowWidth * 0.05,
+    // borderWidth: 2,
     borderColor: '#707070',
     marginRight: windowWidth * 0.02,
   },
   title: {
-    marginTop: windowWidth * 0.05,
+    marginTop: windowWidth * 0.07,
     fontSize: 20,
     color: '#fff',
   },
@@ -239,7 +245,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     marginLeft: windowWidth * 0.02,
-    marginTop: windowWidth * 0.007
+    marginTop: windowWidth * 0.005,
   },
   block2: {
     marginTop: windowWidth * 0.05,

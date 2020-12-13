@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,7 +13,11 @@ const {width, height} = Dimensions.get('window');
 const textInput = props => {
   const [isFocused, setIsFocused] = useState(props.onFocusing);
   const [value,setValue] = useState();
-  var position = new Animated.Value( isFocused ? 1 : 0)
+  const [position,setPosition] = useState()
+
+  useEffect(() => {
+    setPosition(new Animated.Value( isFocused ? 1 : 0))
+  },[])
 
   const handleFocus = () => {
     if (!isFocused) {

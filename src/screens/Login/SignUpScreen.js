@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
   StyleSheet,
@@ -31,8 +31,7 @@ const SignUpScreen = props => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [imgUser, setImgUser] = useState(null);
-  const [imgUserAva, setImgUserAva] = useState('');
+  const [imgUser, setImgUser] = useState('https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/camera-512.png');
   const [keyNew, setKeyNew] = useState();
 
   const database = firebase.database().ref('users/');
@@ -44,8 +43,26 @@ const SignUpScreen = props => {
 
   // },[keyNew])
 
-  const takePhotoCamera = () => {
-    console.log('open camera');
+  const takePhotoCamera = async () => {
+    const ref = database.push().key;
+    // const key = ref.key;
+    setKeyNew(ref);
+    await Picker.launchCamera(
+      {
+        maxWidth: 300,
+        maxHeight: 400,
+        mediaType: 'photo',
+        quality:1
+      },
+      res => {
+        console.log('res', res);
+        uploadImage(res.uri, ref);
+        setImgUser(res.uri);
+        // setImgName('day la cay bong');
+        setModalVisible(!modalVisible);
+      },
+    );
+    console.log('Open camera');
   };
 
   const takePhotoLibrary = async () => {
@@ -57,7 +74,7 @@ const SignUpScreen = props => {
         maxWidth: 300,
         maxHeight: 400,
         mediaType: 'photo',
-        quality: 1,
+        quality:1
       },
       res => {
         console.log('res', res);
@@ -84,37 +101,20 @@ const SignUpScreen = props => {
     if (ref !== '') {
       ref.put(blob).then(snapshot => {
         console.log('snapshot', snapshot);
-        Alert.alert('Success!');
+        // Alert.alert('Success!');
       });
     }
   };
 
-  const downloadImage = async fileName => {
-    await firebase
+  const downloadImage = async () => {
+
+    setTimeout( async() => {
+    const dataImage = await firebase
       .storage()
-      .ref(`images/users/${fileName}`)
-      .getDownloadURL()
-      .then(downloadURL => {
-        console.log('downloadURL', downloadURL);
-        setImgUserAva(downloadURL);
-        console.log('imgUserAva', imgUserAva);
-      });
-  };
-
-  const Signup = async (keyImg) => {
-    // await uploadImage(imgUser, key);
-    await downloadImage(keyImg);
-    console.log('URL', imgUserAva);
-
-    // await firebase
-    //   .storage()
-    //   .ref(`images/users/${key}`)
-    //   .getDownloadURL()
-    //   .then(downloadURL => {
-    //     console.log('downloadURL', downloadURL);
-    //     setImgUserAva(downloadURL);
-    //   })
-
+      .ref(`images/users/${keyNew}`)
+      .getDownloadURL();
+      console.log('URL', dataImage);
+      
     username === ''
       ? Alert.alert(
           'WARNING',
@@ -187,7 +187,7 @@ const SignUpScreen = props => {
           ],
           {cancelable: false},
         )
-      : await firebase
+      : firebase
           .database()
           .ref('users/' + keyNew)
           .set({
@@ -197,11 +197,12 @@ const SignUpScreen = props => {
             address: address,
             phone: phone,
             password: password,
-            imgUser: imgUserAva,
+            imgUser: dataImage,
             type: 1,
-          })
-          .then(res => console.log('res', res));
+          }).then( props.navigation.navigate('LoginScreen'));
+        }, 1000)
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.block}>
@@ -214,7 +215,9 @@ const SignUpScreen = props => {
           <View style={styles.display1}>
             <View style={styles.scrollView}>
               <KeyboardAvoidingView behavior={'height'}>
-                <ScrollView style={styles.form}>
+                <ScrollView
+                  style={styles.form}
+                  showsVerticalScrollIndicator={false}>
                   <TouchableOpacity
                     style={styles.btnImgInput}
                     onPress={() => setModalVisible(!modalVisible)}>
@@ -228,17 +231,20 @@ const SignUpScreen = props => {
                     style={styles.input}
                     value={username}
                     placeholder="User Name"
+                    maxLength={30}
                     onChangeText={text => setUsername(text)}
                   />
                   <TextInput
                     style={styles.input}
                     value={fullName}
+                    maxLength={50}
                     placeholder="Full Name"
                     onChangeText={text => setFullName(text)}
                   />
                   <TextInput
                     style={styles.input}
                     value={address}
+                    maxLength={100}
                     placeholder="Address"
                     onChangeText={text => setAddress(text)}
                   />
@@ -246,6 +252,7 @@ const SignUpScreen = props => {
                   <TextInput
                     style={styles.input}
                     value={phone}
+                    maxLength={10}
                     placeholder="Phone"
                     keyboardType={'number-pad'}
                     maxLength={10}
@@ -254,6 +261,7 @@ const SignUpScreen = props => {
                   <TextInput
                     style={styles.input}
                     value={password}
+                    maxLength={20}
                     placeholder="Password"
                     secureTextEntry={true}
                     onChangeText={text => setPassword(text)}
@@ -261,6 +269,7 @@ const SignUpScreen = props => {
                   <TextInput
                     style={styles.input}
                     value={confirm}
+                    maxLength={20}
                     placeholder="Confirm Password"
                     secureTextEntry={true}
                     onChangeText={text => setConfirm(text)}
@@ -269,12 +278,13 @@ const SignUpScreen = props => {
               </KeyboardAvoidingView>
             </View>
 
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => downloadImage()}>
               <Icon
                 name="check"
                 color="white"
                 size={Platform.OS === 'ios' ? 90 : 60}
-                onPress={() => Signup(keyNew)}
               />
             </TouchableOpacity>
 
@@ -394,13 +404,15 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? width * 0.07 : width * 0.02,
   },
   btnImgInput: {
-    width: Platform.OS === 'ios' ? width * 0.3 : width * 0.2,
-    height: Platform.OS === 'ios' ? width * 0.3 : width * 0.2,
+    width: width * 0.3,
+    height: width * 0.3,
     borderRadius: width * 0.03,
     borderWidth: 1,
+    borderColor:'rgba(255,255,255,0.7)',
+    marginVertical: width * 0.01,
+    marginLeft: Platform.OS === 'android' ? width * 0.2 : width * 0.25,
   },
   imgInput: {
-    marginTop: width * 0.01,
     width: '100%',
     height: '100%',
     borderRadius: width * 0.03,

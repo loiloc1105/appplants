@@ -32,7 +32,7 @@ const profile = () => {
   const [valueFullName, setValueFullName] = useState(users.fullName);
   const [valueAddress, setValueAddress] = useState(users.addressUser);
   const [valuePhone, setValuePhone] = useState(users.phoneUser);
-  const [valueImgUser, setValueImgUser] = useState(users.imageUser);
+  const [valueImgUser, setValueImgUser] = useState(users.imgUser);
   const [valueType, setValueType] = useState(users.type);
   // console.log('fullname', users.fullName);
 
@@ -139,13 +139,11 @@ const profile = () => {
     <View style={styles.container}>
       <View style={styles.bgTitle}>
         <Image
+          resizeMode="stretch"
           style={styles.imgUser}
-          source={require('../../assets/BG-plant1.jpg')}
+          source={{uri: valueImgUser}}
         />
-        <Text
-          style={{color: 'white', fontSize: width * 0.05, fontWeight: 'bold'}}>
-          Hi {users.userName}!
-        </Text>
+        <Text style={styles.textName}>Hi {users.userName}!</Text>
       </View>
       <View style={styles.itemContent}>
         <TouchableOpacity
@@ -324,6 +322,12 @@ const styles = StyleSheet.create({
     width: width / 5,
     height: width / 5,
     borderRadius: width * 0.1,
+  },
+  textName: {
+    color: 'white',
+    fontSize: width * 0.05,
+    fontWeight: 'bold',
+    marginTop: width * 0.02
   },
   itemContent: {
     marginTop: width * 0.05,

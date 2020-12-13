@@ -1,6 +1,6 @@
 class UserItem {
-    constructor(imageUser,type,fullName,password, userName,addressUser ,phoneUser,idUser ) {
-            this.imageUser = imageUser;
+    constructor(imgUser,type,fullName,password, userName,addressUser ,phoneUser,idUser ) {
+            this.imgUser = imgUser;
             this.type = type;
             this.fullName = fullName;
             this.password = password;
