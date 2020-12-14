@@ -54,10 +54,10 @@ const LoginScreen = props => {
         .once('value', snapshot => {
           // const users = Object.values(snapshot.val());
           let users = snapshot.val();
-          console.log('users', users);
+          // console.log('users', users);
 
-          let usersData = JSON.stringify(users);
-          console.log('usersData la ' + usersData);
+          // let usersData = JSON.stringify(users);
+          // console.log('usersData la ' + usersData);
 
           if (users === null) {
             Alert.alert(

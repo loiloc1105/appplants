@@ -108,7 +108,44 @@ const SignUpScreen = props => {
     }
   };
 
+  //check user name truyen vao (k dc (space) hoac (_) hoac (.) dau dong hoac cuoi) (nhap 8-20 tu)
+  const validateUserName = (valUN) => {
+    const paternUN = /^(?=[a-zA-Z0-9]{8,20}$)[^_.].*[^_.]$/;
+    return paternUN.test(valUN)
+  }
+
+  //check password truyen vao
+  const validatePassword = (valPWN) => {
+    const paternPWN = /^(?=[a-zA-Z0-9]{8,20}$)(?!.*[_.]{1})[^_.].*[^_.]$/
+    return paternPWN.test(valPWN)
+  }
+
+  //check full name
+  const validateFullName = (valFN) => {
+    const paternFN = /^(?=[a-zA-Z0-9\s._]{5,50}$)[^_.].*[^_.]$/;
+    return paternFN.test(valFN)
+  }
+
+  // check address
+  const validateAddress = (valAN) => {
+    const paternAN = /^(?=[a-zA-Z0-9\s._/-]{8,100}$)[^_.].*[^_.]$/;
+    return paternAN.test(valAN)
+  }
+
+
+  //check phone number
+  const validatePhoneNumber = (valPN) => {
+    const paternPN = /^[09]\d{9,9}$/;
+    return paternPN.test(valPN)
+  }
+
+
+
   const signUp = async () => {
+
+    // console.log('check',validatePassword('Ll22331144'));
+    
+
     if (
       username === '' ||
       fullName === '' ||
@@ -128,7 +165,67 @@ const SignUpScreen = props => {
         ],
         {cancelable: false},
       );
-    } else if (confirm !== password) {
+    }else if (validateUserName(username) === false) {
+      Alert.alert(
+        'User Name Field Error!!!',
+        'User Name have not special key word, have a lot 8-20 key words',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      );
+    }else if (validateFullName(fullName) === false) {
+      Alert.alert(
+        'Full Name Field Error!!!',
+        'Full Name have not special key word, have a lot 5-50 key words',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      );
+    }else if (validateAddress(address) === false) {
+      Alert.alert(
+        'Address Field Error!!!',
+        'Address have not special key word, have a lot 8-100 key words',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      );
+    }else if (validatePhoneNumber(phone) === false) {
+      Alert.alert(
+        'Phone Number Field Error!!!',
+        'Phone Number have not special key word, have a 10 number',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      );
+    }else if (validatePassword(password) === false) {
+      Alert.alert(
+        'Password Field Error!!!',
+        'Password have not special key word, have a lot 8-20 key words',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      );
+    }else if (confirm !== password) {
       Alert.alert(
         'Warning!!!',
         'Password confirm not macth password',
@@ -259,7 +356,7 @@ const SignUpScreen = props => {
                     style={styles.input}
                     value={username}
                     placeholder="User Name"
-                    maxLength={30}
+                    maxLength={20}
                     onChangeText={text => setUsername(text)}
                   />
                   <TextInput
