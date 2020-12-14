@@ -32,7 +32,7 @@ const SignUpScreen = props => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [imgUser, setImgUser] = useState(
-    'https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/camera-512.png',
+    'https://i.pinimg.com/originals/97/62/e9/9762e9ad3f5213f07c6aa423fc1e5c8f.png',
   );
   const [keyNew, setKeyNew] = useState();
 
@@ -105,47 +105,123 @@ const SignUpScreen = props => {
         console.log('snapshot', snapshot);
         // Alert.alert('Success!');
       });
-    } else {
-      Alert.alert(
-        'Warning!!!',
-        'Choosen Image for Avatar',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-        ],
-        {cancelable: false},
-      );
     }
   };
 
   const signUp = async () => {
-    setTimeout(async () => {
-      // download image tu storage ve
-      const dataImage = await firebase
-        .storage()
-        .ref(`images/users/${keyNew}`)
-        .getDownloadURL();
-      console.log('URL', dataImage);
-
-      //push du lieu len realtime
+    if (
+      username === '' ||
+      fullName === '' ||
+      address === '' ||
+      phone === '' ||
+      password === '' ||
+      confirm === ''
+    ) {
+      Alert.alert(
+        'Warning!!!',
+        'Do not empty 1 field',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      );
+    } else if (confirm !== password) {
+      Alert.alert(
+        'Warning!!!',
+        'Password confirm not macth password',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      );
+    } else {
       firebase
         .database()
-        .ref('users/' + keyNew)
-        .set({
-          id: keyNew,
-          userName: username,
-          fullName: fullName,
-          address: address,
-          phone: phone,
-          password: password,
-          imgUser: dataImage,
-          type: 1,
-        })
-        .then(props.navigation.navigate('LoginScreen'));
-    }, 1000);
+        .ref('users/')
+        .orderByChild('userName')
+        .equalTo(username)
+        .once('value', snapshot => {
+          // const users = Object.values(snapshot.val());
+          let users = snapshot.val();
+          console.log('users', users);
+
+          let usersData = JSON.stringify(users);
+          console.log('usersData la ' + usersData);
+
+          if (users === null) {
+            if (
+              imgUser ===
+              'https://i.pinimg.com/originals/97/62/e9/9762e9ad3f5213f07c6aa423fc1e5c8f.png'
+            ) {
+              //chon hinh anh mac dinh cua app
+              const keyABC = database.push().key;
+              firebase
+                .database()
+                .ref('users/' + keyABC)
+                .set({
+                  id: keyABC,
+                  userName: username,
+                  fullName: fullName,
+                  address: address,
+                  phone: phone,
+                  password: password,
+                  imgUser: imgUser,
+                  type: 1,
+                })
+                .then(props.navigation.navigate('LoginScreen'));
+            } else {
+              //chon hinh anh tu library may
+              setTimeout(async () => {
+                // download image tu storage ve
+                const dataImage = await firebase
+                  .storage()
+                  .ref(`images/users/${keyNew}`)
+                  .getDownloadURL();
+                console.log('URL', dataImage);
+
+                //push du lieu len realtime
+                firebase
+                  .database()
+                  .ref('users/' + keyNew)
+                  .set({
+                    id: keyNew,
+                    userName: username,
+                    fullName: fullName,
+                    address: address,
+                    phone: phone,
+                    password: password,
+                    imgUser: dataImage,
+                    type: 1,
+                  })
+                  .then(props.navigation.navigate('LoginScreen'));
+              }, 1000);
+            }
+          }
+          snapshot.forEach(childSnapshot => {
+            const childData = childSnapshot.val();
+            const userNData = childData.userName
+            if (userNData === username) {
+              Alert.alert(
+                'Warning!!!',
+                'User Name you choose has been exist, please choose a different User Name',
+                [
+                  {
+                    text: 'OK',
+                    onPress: () => console.log('OK Pressed'),
+                  },
+                ],
+                {cancelable: false},
+              );
+            }
+          })
+        });
+    }
   };
 
   return (
@@ -163,15 +239,22 @@ const SignUpScreen = props => {
                 <ScrollView
                   style={styles.form}
                   showsVerticalScrollIndicator={false}>
-                  <TouchableOpacity
-                    style={styles.btnImgInput}
-                    onPress={() => setModalVisible(!modalVisible)}>
+                  <View style={styles.viewImgInput}>
                     <Image
                       style={styles.imgInput}
                       resizeMode="stretch"
                       source={{uri: imgUser}}
                     />
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.btnChooseAva}
+                      onPress={() => setModalVisible(!modalVisible)}>
+                      <Icon
+                        name="camera"
+                        size={25}
+                        color="rgba(255,255,255,0.7)"
+                      />
+                    </TouchableOpacity>
+                  </View>
                   <TextInput
                     style={styles.input}
                     value={username}
@@ -346,19 +429,26 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? width * 1 : width * 0.8,
     marginTop: Platform.OS === 'ios' ? width * 0.07 : width * 0.02,
   },
-  btnImgInput: {
+  viewImgInput: {
     width: width * 0.3,
-    height: width * 0.3,
-    borderRadius: width * 0.03,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.7)',
+    height: width * 0.35,
+    // borderRadius: width * 0.03,
+    // borderWidth: 1,
     marginVertical: width * 0.01,
     marginLeft: Platform.OS === 'android' ? width * 0.2 : width * 0.25,
   },
   imgInput: {
     width: '100%',
-    height: '100%',
+    height: width * 0.3,
     borderRadius: width * 0.03,
+    borderColor: 'rgba(255,255,255,0.7)',
+    borderWidth: 1,
+  },
+  btnChooseAva: {
+    alignItems: 'flex-end',
+    height: width * 0.05,
+    marginTop: -(width * 0.06),
+    // borderWidth:1
   },
   input: {
     backgroundColor: '#fff',
