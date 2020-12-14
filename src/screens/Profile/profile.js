@@ -319,9 +319,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imgUser: {
-    width: width / 5,
-    height: width / 5,
-    borderRadius: width * 0.1,
+    width: width * 0.2,
+    height: width * 0.2,
+    borderRadius: Platform.OS === 'android' ? width * 0.05 : width * 0.03,
   },
   textName: {
     color: 'white',

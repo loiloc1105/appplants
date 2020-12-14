@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
+import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
   StyleSheet,
@@ -31,7 +31,9 @@ const SignUpScreen = props => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [imgUser, setImgUser] = useState('https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/camera-512.png');
+  const [imgUser, setImgUser] = useState(
+    'https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/camera-512.png',
+  );
   const [keyNew, setKeyNew] = useState();
 
   const database = firebase.database().ref('users/');
@@ -52,7 +54,7 @@ const SignUpScreen = props => {
         maxWidth: 300,
         maxHeight: 400,
         mediaType: 'photo',
-        quality:1
+        quality: 1,
       },
       res => {
         console.log('res', res);
@@ -74,7 +76,7 @@ const SignUpScreen = props => {
         maxWidth: 300,
         maxHeight: 400,
         mediaType: 'photo',
-        quality:1
+        quality: 1,
       },
       res => {
         console.log('res', res);
@@ -103,104 +105,47 @@ const SignUpScreen = props => {
         console.log('snapshot', snapshot);
         // Alert.alert('Success!');
       });
+    } else {
+      Alert.alert(
+        'Warning!!!',
+        'Choosen Image for Avatar',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        ],
+        {cancelable: false},
+      );
     }
   };
 
-  const downloadImage = async () => {
-
-    setTimeout( async() => {
-    const dataImage = await firebase
-      .storage()
-      .ref(`images/users/${keyNew}`)
-      .getDownloadURL();
+  const signUp = async () => {
+    setTimeout(async () => {
+      // download image tu storage ve
+      const dataImage = await firebase
+        .storage()
+        .ref(`images/users/${keyNew}`)
+        .getDownloadURL();
       console.log('URL', dataImage);
-      
-    username === ''
-      ? Alert.alert(
-          'WARNING',
-          'User Name is empty !',
-          [
-            {
-              text: 'OK',
-              onPress: () => console.log('OK Pressed'),
-            },
-          ],
-          {cancelable: false},
-        )
-      : fullName === ''
-      ? Alert.alert(
-          'WARNING',
-          'Full Name is empty !',
-          [
-            {
-              text: 'OK',
-              onPress: () => console.log('OK Pressed'),
-            },
-          ],
-          {cancelable: false},
-        )
-      : address === ''
-      ? Alert.alert(
-          'WARNING',
-          'Your Address is empty !',
-          [
-            {
-              text: 'OK',
-              onPress: () => console.log('OK Pressed'),
-            },
-          ],
-          {cancelable: false},
-        )
-      : phone === ''
-      ? Alert.alert(
-          'WARNING',
-          'Your Phone is empty !',
-          [
-            {
-              text: 'OK',
-              onPress: () => console.log('OK Pressed'),
-            },
-          ],
-          {cancelable: false},
-        )
-      : password === ''
-      ? Alert.alert(
-          'WARNING',
-          'Your Password is empty !',
-          [
-            {
-              text: 'OK',
-              onPress: () => console.log('OK Pressed'),
-            },
-          ],
-          {cancelable: false},
-        )
-      : password !== confirm
-      ? Alert.alert(
-          'WARNING',
-          'Password confirm is not matched !',
-          [
-            {
-              text: 'OK',
-              onPress: () => console.log('OK Pressed'),
-            },
-          ],
-          {cancelable: false},
-        )
-      : firebase
-          .database()
-          .ref('users/' + keyNew)
-          .set({
-            id: keyNew,
-            userName: username,
-            fullName: fullName,
-            address: address,
-            phone: phone,
-            password: password,
-            imgUser: dataImage,
-            type: 1,
-          }).then( props.navigation.navigate('LoginScreen'));
-        }, 1000)
+
+      //push du lieu len realtime
+      firebase
+        .database()
+        .ref('users/' + keyNew)
+        .set({
+          id: keyNew,
+          userName: username,
+          fullName: fullName,
+          address: address,
+          phone: phone,
+          password: password,
+          imgUser: dataImage,
+          type: 1,
+        })
+        .then(props.navigation.navigate('LoginScreen'));
+    }, 1000);
   };
 
   return (
@@ -278,9 +223,7 @@ const SignUpScreen = props => {
               </KeyboardAvoidingView>
             </View>
 
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => downloadImage()}>
+            <TouchableOpacity style={styles.btn} onPress={() => signUp()}>
               <Icon
                 name="check"
                 color="white"
@@ -293,9 +236,9 @@ const SignUpScreen = props => {
                 source={require('../../assets/BG-Signin1.png')}
                 style={styles.img}>
                 <View style={styles.btnSignUp}>
-                  <TouchableOpacity>
+                  <View>
                     <Text style={styles.text1}>Have an account ?</Text>
-                  </TouchableOpacity>
+                  </View>
                   <TouchableOpacity
                     onPress={() => props.navigation.navigate('LoginScreen')}>
                     <Text style={styles.text2}>Sign In</Text>
@@ -408,7 +351,7 @@ const styles = StyleSheet.create({
     height: width * 0.3,
     borderRadius: width * 0.03,
     borderWidth: 1,
-    borderColor:'rgba(255,255,255,0.7)',
+    borderColor: 'rgba(255,255,255,0.7)',
     marginVertical: width * 0.01,
     marginLeft: Platform.OS === 'android' ? width * 0.2 : width * 0.25,
   },

@@ -31,6 +31,14 @@ const database = firebase.database();
 // SUA LAI DUNG 1 item PRODUCT DE LEN FLATLIST
 
 const home = ({navigation}) => {
+ 
+  const user = useSelector(state => state.user.user);
+  const [search, setSearch] = useState('');
+  const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [nameUser, setNameUser] = useState(user.userName);
+  const [imgUser, setImgUser] = useState(user.imgUser);
+
   useEffect(() => {
     database
       .ref('products/')
@@ -55,13 +63,7 @@ const home = ({navigation}) => {
         }
         setData(arr);
       });
-  }, [data]);
-  const user = useSelector(state => state.user.user);
-  const [search, setSearch] = useState('');
-  const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-  const [nameUser, setNameUser] = useState(user.userName);
-  const [imgUser, setImgUser] = useState(user.imgUser);
+  }, [setData]);
 
   return (
     <View style={styles.container}>
@@ -84,8 +86,7 @@ const home = ({navigation}) => {
             <TextInput
               style={{
                 marginLeft: windowWidth * 0.02,
-                marginTop: windowHeight * 0.005,
-                fontSize: 18,
+                fontSize: Platform.OS === 'ios' ? 18 : 15,
               }}
               placeholder="Search Here"
               pointerEvents="none"
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
   },
   block1: {
     height: Platform.OS === 'ios' ? windowHeight / 5.5 : windowHeight / 5,
-    width: windowWidth,
+    // width: windowWidth,
     backgroundColor: '#028E62CC',
     borderBottomLeftRadius:
       Platform.OS === 'ios' ? windowWidth * 0.15 : windowWidth * 0.1,
@@ -211,12 +212,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: Platform.OS === 'ios' ? windowWidth * 0.09 : windowWidth * 0.05,
     marginBottom:
-      Platform.OS === 'ios' ? windowWidth * 0.055 : windowWidth * 0.05,
+      Platform.OS === 'ios' ? windowWidth * 0.055 : windowWidth * 0.02,
   },
   img: {
     width: windowWidth * 0.2,
     height: windowWidth * 0.2,
-    borderRadius: windowWidth * 0.05,
+    borderRadius: Platform.OS === 'android' ? windowWidth * 0.05 : windowWidth * 0.03,
     // borderWidth: 2,
     borderColor: '#707070',
     marginRight: windowWidth * 0.02,
@@ -229,16 +230,18 @@ const styles = StyleSheet.create({
   searchBar: {
     backgroundColor: '#fff',
     width: windowWidth / 1.5,
-    height: windowWidth * 0.1,
-    // alignItems: 'center',
+    height: windowWidth * 0.11,
     borderWidth: 2,
     borderRadius: windowWidth * 0.02,
     borderColor: '#707070',
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    elevation: 5,
-    marginTop: Platform.OS === 'ios' ? 0 : windowWidth * 0.02,
-    // justifyContent:'flex-end'
+    shadowOffset: {width: 1, height: 10},
+    elevation: 10,
+    paddingTop : Platform.OS === 'android' ? windowWidth * 0.005 : windowWidth * 0.009,
+    // marginTop: Platform.OS === 'ios' ? 0 : windowWidth * 0.02,
+    // justifyContent:'flex-end',
+    // alignItems: 'center',
+
   },
   input: {
     flexDirection: 'row',

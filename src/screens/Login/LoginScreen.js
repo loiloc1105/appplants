@@ -10,13 +10,14 @@ import {
   Dimensions,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/Entypo';
 import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../store/actions/userAction';
 import UserItem from '../../model/UserItem';
 import firebase from 'firebase';
+import user from '../../store/reducers/user';
 
 const {width, height} = Dimensions.get('window');
 const database = firebase.database();
@@ -27,39 +28,41 @@ Icons.loadFont();
 console.disableYellowBox = true;
 
 const LoginScreen = props => {
-  const [username, setUsername] = useState('username2');
+  const [username, setUsername] = useState('loiloc');
   const [password, setPassword] = useState('123');
   const [securiTxt, setSecuriTxt] = useState(true);
   const dispatch = useDispatch();
 
   const btnLogin = () => {
-    database
-      .ref('users/')
-      .orderByChild('userName')
-      .equalTo(username)
-      .once('value', snapshot => {
-        // const users = Object.values(snapshot.val());
-        let users = snapshot.val();
-        console.log('users la '+ users);
-      
-        if (users === null) {
-          Alert.alert(
-            'Notification',
-            'Username or Password incorrect! Please try again!',
-            [
-              {
-                text: 'OK',
-                onPress: () => console.log('OK Pressed'),
-              },
-            ],
-            {cancelable: false},
-          );
-        } else if (users.userName === username) {
-          const passwords = Object.values(snapshot.val());
-          if (password === passwords[0].password) {
+    if (username === '' || password === '') {
+      Alert.alert(
+        'Notification',
+        'Username or Password incorrect! Please try again!',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      );
+    } else {
+      database
+        .ref('users/')
+        .orderByChild('userName')
+        .equalTo(username)
+        .once('value', snapshot => {
+          // const users = Object.values(snapshot.val());
+          let users = snapshot.val();
+          console.log('users', users);
+
+          let usersData = JSON.stringify(users);
+          console.log('usersData la ' + usersData);
+
+          if (users === null) {
             Alert.alert(
               'Notification',
-            'Username or Password incorrect! Please try again!',
+              'Username or Password incorrect! Please try again!',
               [
                 {
                   text: 'OK',
@@ -69,28 +72,40 @@ const LoginScreen = props => {
               {cancelable: false},
             );
           }
-        }
-        snapshot.forEach(childSnapshot => {
-          const childKey = childSnapshot.key;
-          const childData = childSnapshot.val();
-          console.log('childData', childData.password);
-          if (username != null && password === childData.password) {
-            const profileUser = new UserItem(
-              childData.imgUser,
-              childData.type,
-              childData.fullName,
-              childData.password,
-              childData.userName,
-              childData.address,
-              childData.phone,
-              childData.id,
-            );
-            dispatch(userActions.signIn(childKey, profileUser));
-          }
+          snapshot.forEach(childSnapshot => {
+            const childKey = childSnapshot.key;
+            const childData = childSnapshot.val();
+            // console.log('childData', childData.password);
+            if (password !== childData.password || childData.type !== 1) {
+              Alert.alert(
+                'Notification',
+                'Username or Password incorrect! Please try again!',
+                [
+                  {
+                    text: 'OK',
+                    onPress: () => console.log('OK Pressed'),
+                  },
+                ],
+                {cancelable: false},
+              );
+            } else if (username != null && password === childData.password) {
+              const profileUser = new UserItem(
+                childData.imgUser,
+                childData.type,
+                childData.fullName,
+                childData.password,
+                childData.userName,
+                childData.address,
+                childData.phone,
+                childData.id,
+              );
+              dispatch(userActions.signIn(childKey, profileUser));
+            }
+          });
+          // const users = snapshot.val();
+          // console.log('user', users);
         });
-        // const users = snapshot.val();
-        // console.log('user', users);
-      });
+    }
   };
 
   return (
@@ -118,9 +133,14 @@ const LoginScreen = props => {
                 onChangeText={text => setPassword(text)}
               />
               <View style={styles.iconShow}>
-                <TouchableOpacity style={styles.iconBtnShow} onPress={() => setSecuriTxt(!securiTxt)}>
+                <TouchableOpacity
+                  style={styles.iconBtnShow}
+                  onPress={() => setSecuriTxt(!securiTxt)}>
                   <Icons name={securiTxt ? 'eye-with-line' : 'eye'} size={20} />
-                  <Text style={{marginTop : width * 0.008}}> {securiTxt ? 'Show' : 'Hidden'} Password</Text>
+                  <Text style={{marginTop: width * 0.008}}>
+                    {' '}
+                    {securiTxt ? 'Show' : 'Hidden'} Password
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -133,9 +153,9 @@ const LoginScreen = props => {
                 source={require('../../assets/BG-Signin1.png')}
                 style={styles.img}>
                 <View style={styles.btnSignIn}>
-                  <TouchableOpacity>
+                  <View>
                     <Text style={styles.text1}>Don't have an account ? </Text>
-                  </TouchableOpacity>
+                  </View>
                   <TouchableOpacity
                     onPress={() => props.navigation.navigate('SignUpScreen')}>
                     <Text style={styles.text2}>Sign Up</Text>
@@ -196,13 +216,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#707070',
   },
-  iconShow:{
-    alignItems:'flex-end',
-    marginRight : width * 0.02,
+  iconShow: {
+    alignItems: 'flex-end',
+    marginRight: width * 0.02,
     marginTop: width * 0.01,
   },
-  iconBtnShow:{
-    flexDirection:'row',
+  iconBtnShow: {
+    flexDirection: 'row',
   },
   btn: {
     backgroundColor: '#33CC66BA',

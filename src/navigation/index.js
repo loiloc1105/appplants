@@ -4,7 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Icons from 'react-native-vector-icons/AntDesign'
+import Icons from 'react-native-vector-icons/AntDesign';
 import {createStore, combineReducers} from 'redux';
 
 import HomeScreen from '../screens/Home/home';
@@ -23,7 +23,7 @@ import itemNewsScreen from '../screens/News/itemNews';
 import itemNotificationScreen from '../screens/Notification/itemNotification';
 import SearchScreen from '../screens/Home/SearchScreen';
 import DetailProduct from '../screens/Home/DetailProduct';
-import MoreProduct from '../screens/Home/moreProducts'
+import MoreProduct from '../screens/Home/moreProducts';
 
 import cartReducers from '../store/reducers/cart';
 import userReducers from '../store/reducers/user';
@@ -57,7 +57,7 @@ const userStack = () => {
       <UserStack.Screen name="SignUpScreen" component={SignUpScreen} />
     </UserStack.Navigator>
   );
-}
+};
 const HomeTab = () => {
   return (
     <HomeStack.Navigator screenOptions={{headerShown: false}}>
@@ -77,7 +77,6 @@ const NewsTab = () => {
     </NewsStack.Navigator>
   );
 };
-
 
 const TabHome = () => {
   return (
@@ -114,21 +113,24 @@ const TabHome = () => {
 
 const App = () => {
   const [token, setToken] = useState('');
+  const [typeUser, setTypeUser] = useState();
   const userToken = useSelector(state => state.user.userToken);
+  const userType = useSelector(state => state.user.user);
   useEffect(() => {
     if (userToken === null) {
       setToken(null);
     } else {
       setToken(userToken);
+      setTypeUser(userType.type);
     }
-  }, [userToken]);
+  }, [userToken, userType.type]);
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {token === '' ? (
-          <Stack.Screen name="User" component={userStack} />
-        ) : (
+        {token === userToken && typeUser === 1 ? (
           <Stack.Screen name="Home" component={TabHome} />
+        ) : (
+          <Stack.Screen name="User" component={userStack} />
         )}
         {/* <Stack.Screen name="Home" component={TabHome} /> */}
       </Stack.Navigator>
@@ -143,4 +145,3 @@ const authenTication = () => {
   );
 };
 export default authenTication;
-
