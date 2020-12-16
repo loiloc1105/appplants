@@ -27,13 +27,13 @@ const profile = () => {
 
   const [modalShow, setModalShow] = useState(false);
   const [valueId, setValueId] = useState(users.idUser);
-  const [valueUserName, setValueUserName] = useState(users.userName);
-  const [valuePassword, setValuePassword] = useState(users.password);
+  // const [valueUserName, setValueUserName] = useState(users.userName);
+  // const [valuePassword, setValuePassword] = useState(users.password);
   const [valueFullName, setValueFullName] = useState(users.fullName);
   const [valueAddress, setValueAddress] = useState(users.addressUser);
   const [valuePhone, setValuePhone] = useState(users.phoneUser);
   const [valueImgUser, setValueImgUser] = useState(users.imgUser);
-  const [valueType, setValueType] = useState(users.type);
+  // const [valueType, setValueType] = useState(users.type);
   // console.log('fullname', users.fullName);
 
   const onFocusText = text => {
@@ -44,96 +44,82 @@ const profile = () => {
   };
   // console.log('test onFocusText',onFocusText(valueFullName));
 
+  //check full name
+  const validateFullName = valFN => {
+    const paternFN = /^(?=[a-zA-Z0-9\s._]{5,50}$)[^_.].*[^_.]$/;
+    return paternFN.test(valFN);
+  };
+
+  // check address
+  const validateAddress = valAN => {
+    const paternAN = /^(?=[a-zA-Z0-9\s._/-]{8,100}$)[^_.].*[^_.]$/;
+    return paternAN.test(valAN);
+  };
+
+  //check phone number
+  const validatePhoneNumber = valPN => {
+    const paternPN = /^[09]\d{9,9}$/;
+    return paternPN.test(valPN);
+  };
+
   const editSaveProfiles = () => {
-    if (valueFullName === '') {
+    if (validateFullName(valueFullName) === false) {
       console.log('valueFullName', valueFullName);
 
-      Alert.alert('Warning!!!', 'Full Name can not emty!!!', [
-        {
-          text: 'OK',
-          onPress: () => console.log('OK Pressed'),
-          style: 'cancel',
-        },
-      ]);
-    } else if (valueAddress === '') {
+      Alert.alert(
+        'Full Name Field Error!!!',
+        'Full Name have not special key word, have a lot 5-50 key words',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+            style: 'cancel',
+          },
+        ],
+      );
+    } else if (validateAddress(valueAddress) === false) {
       console.log('valueAddress', valueAddress);
 
-      Alert.alert('Warning!!!', 'Address can not emty!!!', [
-        {
-          text: 'OK',
-          onPress: () => console.log('OK Pressed'),
-          style: 'cancel',
-        },
-      ]);
-    } else if (valuePhone === '') {
+      Alert.alert(
+        'Address Field Error!!!',
+        'Address have not special key word, have a lot 8-100 key words',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+            style: 'cancel',
+          },
+        ],
+      );
+    } else if (validatePhoneNumber(valuePhone) === false) {
       console.log('valuePhone', valuePhone);
 
-      Alert.alert('Warning!!!', 'Phone Number can not emty!!!', [
-        {
-          text: 'OK',
-          onPress: () => console.log('OK Pressed'),
-          style: 'cancel',
-        },
-      ]);
+      Alert.alert(
+        'Phone Number Field Error!!!',
+        'Phone Number have not special key word, have a 10 number',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+            style: 'cancel',
+          },
+        ],
+      );
     } else {
-      database.ref('users/' + valueId).set({
+      database.ref('users/' + valueId).update({
         fullName: valueFullName,
         address: valueAddress,
         phone: valuePhone,
-        userName: valueUserName,
-        password: valuePassword,
-        imgUser: valueImgUser,
-        type: valueType,
-        id: valueId,
+        // userName: valueUserName,
+        // password: valuePassword,
+        // imgUser: valueImgUser,
+        // type: valueType,
+        // id: valueId,
       });
       setModalShow(!modalShow);
     }
   };
-  const editCloseProfiles = () => {
-    if (valueFullName === '') {
-      // console.log('valueFullName', valueFullName);
-
-      Alert.alert('Warning!!!', 'Full Name can not emty!!!', [
-        {
-          text: 'OK',
-          onPress: () => console.log('OK Pressed'),
-          style: 'cancel',
-        },
-      ]);
-    } else if (valueAddress === '') {
-      // console.log('valueAddress', valueAddress);
-
-      Alert.alert('Warning!!!', 'Address can not emty!!!', [
-        {
-          text: 'OK',
-          onPress: () => console.log('OK Pressed'),
-          style: 'cancel',
-        },
-      ]);
-    } else if (valuePhone === '') {
-      // console.log('valuePhone', valuePhone);
-
-      Alert.alert('Warning!!!', 'Phone Number can not emty!!!', [
-        {
-          text: 'OK',
-          onPress: () => console.log('OK Pressed'),
-          style: 'cancel',
-        },
-      ]);
-    } else {
-      database.ref('users/' + valueId).set({
-        fullName: valueFullName,
-        address: valueAddress,
-        phone: valuePhone,
-        userName: valueUserName,
-        password: valuePassword,
-        imgUser: valueImgUser,
-        type: valueType,
-        id: valueId,
-      });
-      setModalShow(!modalShow);
-    }
-  };
+  
 
   return (
     <View style={styles.container}>
@@ -261,7 +247,7 @@ const profile = () => {
                         {
                           text: 'Yes',
                           onPress: () => {
-                            editCloseProfiles();
+                            editSaveProfiles();
                           },
                         },
                       ],
@@ -327,7 +313,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: width * 0.05,
     fontWeight: 'bold',
-    marginTop: width * 0.02
+    marginTop: width * 0.02,
   },
   itemContent: {
     marginTop: width * 0.05,
@@ -391,7 +377,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     borderColor: 'black',
     width: 0.8 * width,
-    height: 0.5 * height,
+    height: Platform.OS === 'ios' ? 0.4 * height : 0.5 * height,
     borderRadius: width * 0.03,
     backgroundColor: 'white',
   },
