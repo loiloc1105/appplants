@@ -9,8 +9,10 @@ import {
   Modal,
   Alert,
   TouchableWithoutFeedback,
+  PermissionsAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as Picker from 'react-native-image-picker';
 import TextFloatInputs from '../../components/profile/textInput';
 import firebase from 'firebase';
 
@@ -26,6 +28,7 @@ const profile = () => {
   const users = useSelector(state => state.user.user);
 
   const [modalShow, setModalShow] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [valueId, setValueId] = useState(users.idUser);
   // const [valueUserName, setValueUserName] = useState(users.userName);
   // const [valuePassword, setValuePassword] = useState(users.password);
@@ -43,6 +46,108 @@ const profile = () => {
     return false;
   };
   // console.log('test onFocusText',onFocusText(valueFullName));
+
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Plants App Camera Permission',
+          message:
+            'Plants App needs access to your camera ' +
+            'so you can take awesome pictures to setting avatar',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the camera');
+        takePhotoCamera();
+      } else {
+        console.log('Camera permission denied');
+        setImgUser(
+          'https://i.pinimg.com/originals/97/62/e9/9762e9ad3f5213f07c6aa423fc1e5c8f.png',
+        );
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  
+  const takePhotoCamera = async () => {
+    // requestCameraPermission();
+    await Picker.launchCamera(
+      {
+        maxWidth: 300,
+        maxHeight: 400,
+        mediaType: 'photo',
+        quality: 1,
+      },
+      res => {
+        console.log('res', res);
+        uploadImage(res.uri, valueId);
+        setValueImgUser(res.uri);
+        // setImgName('day la cay bong');
+        setModalVisible(!modalVisible);
+      },
+    );
+
+    console.log('Open camera');
+  };
+
+  const takePhotoLibrary = async () => {
+    await Picker.launchImageLibrary(
+      {
+        maxWidth: 300,
+        maxHeight: 400,
+        mediaType: 'photo',
+        quality: 1,
+      },
+      res => {
+        console.log('res', res);
+        uploadImage(res.uri, valueId);
+        setValueImgUser(res.uri);
+        // setImgName('day la cay bong');
+        setModalVisible(!modalVisible);
+      },
+    );
+    console.log('Library');
+  };
+
+  const uploadImage = async (uri, fileName) => {
+    const responsive = await fetch(uri);
+    // console.log('responsive', responsive);
+
+    const blob = await responsive.blob();
+    // console.log('blob', blob);
+
+    // let randomMath = Math.random() * 100000;
+    // let ref = firebase.storage().ref(`images/${randomMath}/` + imageName);
+
+    let ref = await firebase.storage().ref(`images/users/${fileName}`);
+    if (ref !== '') {
+      ref.put(blob).then(snapshot => {
+        console.log('snapshot', snapshot);
+        // Alert.alert('Success!');
+      });
+    }
+    setTimeout(async () => {
+      // download image tu storage ve
+      const dataImage = await firebase
+        .storage()
+        .ref(`images/users/${fileName}`)
+        .getDownloadURL();
+      console.log('URL', dataImage);
+
+      //push du lieu len realtime
+      await firebase
+        .database()
+        .ref('users/' + fileName)
+        .update({
+          imgUser: dataImage,
+        });
+    }, 1000);
+  };
 
   //check full name
   const validateFullName = valFN => {
@@ -119,16 +224,17 @@ const profile = () => {
       setModalShow(!modalShow);
     }
   };
-  
 
   return (
     <View style={styles.container}>
       <View style={styles.bgTitle}>
-        <Image
-          resizeMode="stretch"
-          style={styles.imgUser}
-          source={{uri: valueImgUser}}
-        />
+        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+          <Image
+            resizeMode="stretch"
+            style={styles.imgUser}
+            source={{uri: valueImgUser}}
+          />
+        </TouchableOpacity>
         <Text style={styles.textName}>Hi {users.userName}!</Text>
       </View>
       <View style={styles.itemContent}>
@@ -195,7 +301,7 @@ const profile = () => {
                 {
                   text: 'Yes',
                   onPress: () => {
-                    editCloseProfiles();
+                    editSaveProfiles();
                   },
                 },
               ],
@@ -286,6 +392,61 @@ const profile = () => {
         </TouchableWithoutFeedback>
       </Modal>
       {/* Close Modal Edit User */}
+      {/* Open Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <TouchableWithoutFeedback
+          onPress={() => setModalVisible(!modalVisible)}>
+          <View style={styles.viewModal}>
+            <View style={styles.modalContent1}>
+              <TouchableOpacity
+                style={styles.btnModal}
+                onPress={requestCameraPermission}
+              >
+                <Text
+                  style={{
+                    color: 'blue',
+                    fontSize: 18,
+                  }}>
+                  Take a photo to camera
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.btnModal}
+                onPress={takePhotoLibrary}>
+                <Text
+                  style={{
+                    color: 'blue',
+                    fontSize: 18,
+                  }}>
+                  Take a photo to library
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.btnModalCancel}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}>
+                <Text
+                  style={{
+                    color: 'red',
+                    fontSize: 18,
+                  }}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+      {/* end Modal */}
     </View>
   );
 };
@@ -307,7 +468,7 @@ const styles = StyleSheet.create({
   imgUser: {
     width: width * 0.2,
     height: width * 0.2,
-    borderRadius: Platform.OS === 'android' ? width * 0.05 : width * 0.03,
+    borderRadius: width * 0.03,
   },
   textName: {
     color: 'white',
@@ -415,5 +576,40 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.01,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  viewModal: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(181,181,181,0.1)',
+    // opacity: 0.5
+  },
+  modalContent1: {
+    width: width * 1,
+    height: height * 0.25,
+    alignItems: 'center',
+    // backgroundColor:'white',
+    // borderWidth: 1,
+  },
+  btnModal: {
+    marginTop: width * 0.02,
+    // borderWidth: 1,
+    width: width * 0.9,
+    height: Platform.OS === 'ios' ? width * 0.15 : width * 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: width * 0.03,
+    backgroundColor: 'white',
+  },
+  btnModalCancel: {
+    marginTop: width * 0.05,
+    // borderWidth: 1,
+    width: width * 0.9,
+    height: width * 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: width * 0.03,
+    backgroundColor: 'white',
   },
 });
