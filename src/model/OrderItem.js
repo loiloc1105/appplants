@@ -1,4 +1,3 @@
-import moment from 'moment';
 
 class OrderItem {
     constructor(id, items, totalAmount, date) {

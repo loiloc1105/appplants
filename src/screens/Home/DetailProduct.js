@@ -21,7 +21,7 @@ Icon.loadFont();
 const DetailProduct = props => {
   const product = props.route.params.product;
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = React.useState(0);
+  const [quantity, setQuantity] = useState(0);
   const [modalDetails, setModalDetails] = useState(false);
   const carts = useSelector(state => state.cart.items);
   const add = () => {
@@ -119,12 +119,12 @@ const DetailProduct = props => {
         <View style={styles.itemText}>
           <Text style={styles.origin}>{product.origin}</Text>
           <View style={styles.quantity}>
-            <TouchableOpacity onPress={add}>
-              <Icon name="plus-circle" size={25} color="black" />
-            </TouchableOpacity>
-            <Text style={styles.quantityText}>{quantity}</Text>
             <TouchableOpacity onPress={sub}>
               <Icon name="divide-circle" size={25} color="black" />
+            </TouchableOpacity>
+            <Text style={styles.quantityText}>{quantity}</Text>
+            <TouchableOpacity onPress={add}>
+              <Icon name="plus-circle" size={25} color="black" />
             </TouchableOpacity>
           </View>
         </View>
@@ -134,6 +134,17 @@ const DetailProduct = props => {
           style={styles.btnAddToCart}
           onPress={() => {
             if (quantity > 0 && quantity <= 10) {
+              Alert.alert(
+                'Success!!!',
+                'Please check your cart to check again',
+                [
+                  {
+                    text: 'OK',
+                    onPress: () => console.log('OK Pressed'),
+                    style: 'cancel',
+                  },
+                ],
+              );
               dispatch(cartActions.addToCart(product, quantity));
               setQuantity(0);
             } else if (quantity >= 11) {

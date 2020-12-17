@@ -459,7 +459,7 @@ const styles = StyleSheet.create({
   },
   bgTitle: {
     backgroundColor: '#028E62CC',
-    height: width / 2,
+    height: Platform.OS === 'ios' ? width / 2 : width / 2.5,
     borderBottomRightRadius: width * 0.12,
     borderBottomLeftRadius: width * 0.12,
     justifyContent: 'center',

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -18,16 +18,54 @@ Icon.loadFont();
 const itemCart = ({itemName, itemPrice, itemAmount, itemImgUrl, id}) => {
   const dispatch = useDispatch();
 
-  if (itemAmount >= 11) {
-    Alert.alert('Warning!!!', 'Quantity can not over 10/times! Please check again', [
-      {
-        text: 'OK',
-        onPress: () => console.log('OK Pressed'),
-        style: 'cancel',
-      },
-    ]);
-    dispatch(cartActions.subQuantity(id))
-  }
+  useEffect(() => {
+    if (itemAmount >= 11){
+      dispatch(cartActions.subQuantity(id));
+    }
+  })
+
+  const checkAddition = idItemAdd => {
+    if (itemAmount !== 0 && itemAmount <= 9) {
+      dispatch(cartActions.addQuantity(idItemAdd));
+    } else if (itemAmount <= 10) {
+      Alert.alert(
+        'Warning!!!',
+        'Quantity can not over 10/times! Please check again',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+            style: 'cancel',
+          },
+        ],
+      );
+    }
+  };
+
+  const checkDelete = idItemDel => {
+    if (itemAmount === 1) {
+      Alert.alert(
+        'Warning',
+        'Do you want to delete this item',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'Yes',
+            onPress: () => {
+              dispatch(cartActions.subQuantity(idItemDel));
+            },
+          },
+        ],
+        {cancelable: false},
+      );
+    } else if (itemAmount < 11) {
+      dispatch(cartActions.subQuantity(idItemDel));
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -37,12 +75,12 @@ const itemCart = ({itemName, itemPrice, itemAmount, itemImgUrl, id}) => {
         <Text>Price : ${itemPrice}</Text>
       </View>
       <View style={styles.itemAmount}>
-        <TouchableOpacity onPress={() => dispatch(cartActions.addQuantity(id))}>
-          <Icon name="add-circle-outline" size={25} />
+      <TouchableOpacity onPress={() => checkDelete(id)}>
+          <Icon name="remove-circle-outline" size={25} />
         </TouchableOpacity>
         <Text style={{fontSize: 20}}> {itemAmount} </Text>
-        <TouchableOpacity onPress={() => dispatch(cartActions.subQuantity(id))}>
-          <Icon name="remove-circle-outline" size={25} />
+        <TouchableOpacity onPress={() => checkAddition(id)}>
+          <Icon name="add-circle-outline" size={25} />
         </TouchableOpacity>
       </View>
     </View>
@@ -55,7 +93,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    // justifyContent: 'space-between',
     width: width / 1.2,
     marginLeft: width * 0.03,
     marginTop: width * 0.03,
