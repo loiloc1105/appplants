@@ -195,17 +195,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    // borderWidth:1
   },
   block1: {
     height: Platform.OS === 'ios' ? windowHeight / 5.5 : windowHeight / 5,
     backgroundColor: '#028E62CC',
     borderBottomLeftRadius:
       Platform.OS === 'ios' ? windowWidth * 0.15 : windowWidth * 0.1,
+      // borderWidth:1
     // borderBottomRightRadius:
     //   Platform.OS === 'ios' ? windowWidth * 0.15 : windowWidth * 0.1,
   },
   display:{
-    flexDirection:'row'
+    flexDirection:'row',
+    // borderWidth:1
   },
   titleUser:{
 
@@ -215,24 +218,28 @@ const styles = StyleSheet.create({
     marginLeft: windowWidth * 0.15,
     fontSize: 40,
     color: '#fff',
+    // borderWidth:1
   },
   title: {
     fontWeight: 'bold',
     marginLeft: windowWidth * 0.3,
     fontSize: 40,
     color: 'black',
+    // borderWidth:1
   },
   imgUser:{
     width: windowWidth * 0.2,
     height: windowWidth * 0.2,
     marginLeft : windowWidth * 0.08,
     marginTop: Platform.OS === 'ios' ? windowWidth * 0.1 : windowWidth * 0.03,
+    // borderWidth:1
     // borderRadius : windowWidth * 0.05
   },
   imgItemUser: {
     width:'100%',
     height:'100%',
-    borderRadius : windowWidth * 0.03
+    borderRadius : windowWidth * 0.03,
+    // borderWidth:1
   },
   searchBar: {
     backgroundColor: '#fff',
@@ -248,11 +255,6 @@ const styles = StyleSheet.create({
       Platform.OS === 'android' ? windowWidth * 0.005 : windowWidth * 0.009,
     marginTop: Platform.OS === 'ios' ? windowWidth * 0.03 : windowWidth * 0.01,
     marginLeft: windowWidth * 0.17,
-    // alignItems: 'center',
-    // justifyContent: 'center'
-    // marginTop: Platform.OS === 'ios' ? 0 : windowWidth * 0.02,
-    // justifyContent:'flex-end',
-    // alignItems: 'center',
   },
   input: {
     flexDirection: 'row',
@@ -264,7 +266,8 @@ const styles = StyleSheet.create({
   block2: {
     marginTop: windowWidth * 0.05,
     width: windowWidth,
-    height: windowHeight / 1.5,
+    flex: 1,
+    // borderWidth:1
   },
   bodyTitle: {
     flexDirection: 'row',
