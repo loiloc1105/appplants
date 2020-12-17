@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -88,7 +88,7 @@ const LoginScreen = props => {
                 ],
                 {cancelable: false},
               );
-            } else if (username != null && password === childData.password) {
+            } else if (username != null && password === childData.password && childData.type === 1) {
               const profileUser = new UserItem(
                 childData.imgUser,
                 childData.type,
@@ -126,7 +126,7 @@ const LoginScreen = props => {
                 onChangeText={text => setUsername(text)}
               />
               <TextInput
-                style={styles.input}
+                style={styles.input1}
                 value={password}
                 secureTextEntry={securiTxt}
                 placeholder="password"
@@ -206,7 +206,20 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: '#fff',
     textAlign: 'center',
-    marginTop: width * 0.08,
+    marginTop: Platform.OS === 'ios' ? width * 0.1 : width * 0.05,
+    width: width * 0.8,
+    height: width * 0.15,
+    fontSize: 20,
+    color: '#9B6F6F',
+    fontWeight: 'bold',
+    borderRadius: width * 0.03,
+    borderWidth: 2,
+    borderColor: '#707070',
+  },
+  input1: {
+    backgroundColor: '#fff',
+    textAlign: 'center',
+    marginTop: width * 0.05,
     width: width * 0.8,
     height: width * 0.15,
     fontSize: 20,
@@ -219,7 +232,7 @@ const styles = StyleSheet.create({
   iconShow: {
     alignItems: 'flex-end',
     marginRight: width * 0.02,
-    marginTop: width * 0.01,
+    marginTop: Platform.OS === 'ios' ? width * 0.03 : width * 0.01,
   },
   iconBtnShow: {
     flexDirection: 'row',
@@ -227,7 +240,7 @@ const styles = StyleSheet.create({
   btn: {
     backgroundColor: '#33CC66BA',
     alignItems: 'center',
-    marginTop: width * 0.15,
+    marginTop: Platform.OS === 'ios' ? width * 0.15 : width * 0.05,
     borderRadius: width * 0.02,
     borderWidth: 2,
     borderColor: '#707070',

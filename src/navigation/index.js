@@ -5,22 +5,27 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/AntDesign';
+
+import {Provider, useSelector, connect} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 
+//Tab bottom navigation
 import HomeScreen from '../screens/Home/home';
 import CartScreen from '../screens/Carts/cart';
 import NewsScreen from '../screens/News/news';
 import NotificationScreen from '../screens/Notification/notification';
 import ProfileScreen from '../screens/Profile/profile';
 
+//Stack Login
 import SplashScreen from '../screens/Login/SplashScreen';
 import LoginScreen from '../screens/Login/LoginScreen';
 import SignUpScreen from '../screens/Login/SignUpScreen';
 
+//Stack News
 import DetailNewsScreen from '../screens/News/DetailNews';
 import itemNewsScreen from '../screens/News/itemNews';
 
-import itemNotificationScreen from '../screens/Notification/itemNotification';
+//Stack Home
 import SearchScreen from '../screens/Home/SearchScreen';
 import DetailProduct from '../screens/Home/DetailProduct';
 import MoreProduct from '../screens/Home/moreProducts';
@@ -28,7 +33,6 @@ import MoreProduct from '../screens/Home/moreProducts';
 import cartReducers from '../store/reducers/cart';
 import userReducers from '../store/reducers/user';
 
-import {Provider, useSelector, connect} from 'react-redux';
 import firebase from 'firebase';
 
 const Tab = createBottomTabNavigator();
@@ -132,7 +136,6 @@ const App = () => {
         ) : (
           <Stack.Screen name="User" component={userStack} />
         )}
-        {/* <Stack.Screen name="Home" component={TabHome} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -170,27 +170,7 @@ const SignUpScreen = props => {
 
   const signUp = async () => {
     // console.log('check',validatePassword('Ll22331144'));
-
-    if (
-      username === '' ||
-      fullName === '' ||
-      address === '' ||
-      phone === '' ||
-      password === '' ||
-      confirm === ''
-    ) {
-      Alert.alert(
-        'Warning!!!',
-        'Do not empty 1 field',
-        [
-          {
-            text: 'OK',
-            onPress: () => console.log('OK Pressed'),
-          },
-        ],
-        {cancelable: false},
-      );
-    } else if (validateUserName(username) === false) {
+    if (validateUserName(username) === false) {
       Alert.alert(
         'User Name Field Error!!!',
         'User Name have not special key word, have a lot 8-20 key words',
