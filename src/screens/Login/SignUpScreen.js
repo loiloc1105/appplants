@@ -87,10 +87,18 @@ const SignUpScreen = props => {
       },
       res => {
         console.log('res', res);
-        uploadImage(res.uri, ref);
-        setImgUser(res.uri);
-        // setImgName('day la cay bong');
-        setModalVisible(!modalVisible);
+        if (res.didCancel) {
+          setImgUser(
+            'https://i.pinimg.com/originals/97/62/e9/9762e9ad3f5213f07c6aa423fc1e5c8f.png'
+          );
+          uploadImage(imgUser,ref)
+          setModalVisible(!modalVisible);
+        } else {
+          uploadImage(res.uri, ref);
+          setImgUser(res.uri);
+          // setImgName('day la cay bong');
+          setModalVisible(!modalVisible);
+        }
       },
     );
 
@@ -110,10 +118,18 @@ const SignUpScreen = props => {
       },
       res => {
         console.log('res', res);
-        uploadImage(res.uri, ref);
-        setImgUser(res.uri);
-        // setImgName('day la cay bong');
-        setModalVisible(!modalVisible);
+        if (res.didCancel) {
+          setImgUser(
+            'https://i.pinimg.com/originals/97/62/e9/9762e9ad3f5213f07c6aa423fc1e5c8f.png'
+          );
+          uploadImage(imgUser,ref)
+          setModalVisible(!modalVisible);
+        } else {
+          uploadImage(res.uri, ref);
+          setImgUser(res.uri);
+          // setImgName('day la cay bong');
+          setModalVisible(!modalVisible);
+        }
       },
     );
     console.log('Library');

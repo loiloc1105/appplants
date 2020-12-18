@@ -73,7 +73,7 @@ const profile = () => {
       console.warn(err);
     }
   };
-  
+
   const takePhotoCamera = async () => {
     // requestCameraPermission();
     await Picker.launchCamera(
@@ -85,10 +85,16 @@ const profile = () => {
       },
       res => {
         console.log('res', res);
-        uploadImage(res.uri, valueId);
-        setValueImgUser(res.uri);
-        // setImgName('day la cay bong');
-        setModalVisible(!modalVisible);
+        if (res.didCancel) {
+          uploadImage(valueImgUser, valueId);
+          setValueImgUser(valueImgUser)
+          setModalVisible(!modalVisible);
+        } else {
+          uploadImage(res.uri, valueId);
+          setValueImgUser(res.uri);
+          // setImgName('day la cay bong');
+          setModalVisible(!modalVisible);
+        }
       },
     );
 
@@ -105,10 +111,16 @@ const profile = () => {
       },
       res => {
         console.log('res', res);
-        uploadImage(res.uri, valueId);
-        setValueImgUser(res.uri);
-        // setImgName('day la cay bong');
-        setModalVisible(!modalVisible);
+        if (res.didCancel) {
+          uploadImage(valueImgUser, valueId);
+          setValueImgUser(valueImgUser)
+          setModalVisible(!modalVisible);
+        } else {
+          uploadImage(res.uri, valueId);
+          setValueImgUser(res.uri);
+          // setImgName('day la cay bong');
+          setModalVisible(!modalVisible);
+        }
       },
     );
     console.log('Library');
@@ -406,8 +418,7 @@ const profile = () => {
             <View style={styles.modalContent1}>
               <TouchableOpacity
                 style={styles.btnModal}
-                onPress={requestCameraPermission}
-              >
+                onPress={requestCameraPermission}>
                 <Text
                   style={{
                     color: 'blue',
