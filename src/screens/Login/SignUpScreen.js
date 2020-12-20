@@ -578,7 +578,7 @@ const styles = StyleSheet.create({
     color: '#9B6F6F',
     fontWeight: 'bold',
     borderRadius: width * 0.03,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: '#707070',
   },
   btn: {

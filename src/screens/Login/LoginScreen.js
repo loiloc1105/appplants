@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     color: '#9B6F6F',
     fontWeight: 'bold',
     borderRadius: width * 0.03,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: '#707070',
   },
   input1: {
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     color: '#9B6F6F',
     fontWeight: 'bold',
     borderRadius: width * 0.03,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: '#707070',
   },
   iconShow: {
@@ -238,17 +238,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   btn: {
-    backgroundColor: '#33CC66BA',
+    backgroundColor: '#4FE581',
     alignItems: 'center',
     marginTop: Platform.OS === 'ios' ? width * 0.15 : width * 0.05,
     borderRadius: width * 0.02,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: '#707070',
   },
   titleBtn: {
     fontSize: 20,
     fontWeight: 'bold',
     padding: width * 0.03,
+    color:'white',
   },
   wraptext: {
     marginTop: width * 0.05,

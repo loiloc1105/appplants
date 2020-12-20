@@ -26,7 +26,7 @@ const SplashScreen = (props) => {
                         <Text style = {styles.signIn}>Sign In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.btnSignUp} onPress={() => props.navigation.navigate('SignUpScreen')}>
-                        <Text style={styles.signIn}>Sign Up</Text>
+                        <Text style={styles.signUp}>Sign Up</Text>
                     </TouchableOpacity>
                     <Text style = {styles.text}>Term Of Service</Text>
                 </View>
@@ -98,13 +98,13 @@ const styles = StyleSheet.create({
         // borderWidth:1
     },
     btnSignIn: {
-        backgroundColor: '#33CC66C2',
+        backgroundColor: '#4FE581',
         justifyContent: 'center',
         alignItems: 'center',
         width: width * 0.75,
         height : width * 0.15,
         borderColor: '#707070',
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: width * 0.03,
         marginBottom: width * 0.05
     },
@@ -115,12 +115,18 @@ const styles = StyleSheet.create({
         width: width * 0.75,
         height : width * 0.15,
         borderColor: '#707070',
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: width * 0.03,
     },
     signIn: {
         fontSize: width * 0.05,
         fontWeight: 'bold',
+        color: '#FFFFFF'
+    },
+    signUp:{
+        fontSize: width * 0.05,
+        fontWeight: 'bold',
+        color: '#4FE581'
     },
     text: {
         fontWeight: 'bold',
