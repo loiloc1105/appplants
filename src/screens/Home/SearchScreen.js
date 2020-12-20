@@ -1,14 +1,20 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-const SearchScreen = () => {
-    return (
-        <View style ={{flex : 1 ,justifyContent :'center' ,alignItems: "center"}}>
-            <Text style = {{fontSize :30}}>Search Screen</Text>
-        </View>
-    )
-}
+const SearchScreen = (props) => {
+  return (
+    <View style={styles.container}>
+      <Text style={{fontSize: 30}}>Search Screen</Text>
+    </View>
+  );
+};
 
-export default SearchScreen
+export default SearchScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

@@ -284,13 +284,17 @@ const styles = StyleSheet.create({
     color: '#707070',
   },
   quantity: {
+    width : width * 0.25,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent:'space-between',
+    // borderWidth:1
   },
   quantityText: {
     fontSize: 25,
-    paddingLeft: 10,
-    paddingRight: 10,
+    // width: width * 0.1,
+    // paddingLeft: 10,
+    // // paddingRight: 10,
   },
   origin: {
     fontSize: 20,

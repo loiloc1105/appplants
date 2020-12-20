@@ -51,6 +51,7 @@ const cart = () => {
       .set({
         id: key,
         idUser: user.idUser,
+        fullName: user.fullName,
         phone: user.phoneUser,
         address: user.addressUser,
         items: carts,

@@ -6,7 +6,6 @@ import {
   Dimensions,
   Image,
   FlatList,
-  TextInput,
   TouchableOpacity,
   ScrollView,
   Platform,
@@ -32,9 +31,7 @@ const database = firebase.database();
 
 const home = ({navigation}) => {
   const user = useSelector(state => state.user.user);
-  const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(false);
   const [nameUser, setNameUser] = useState(user.userName);
   const [imgUser, setImgUser] = useState(user.imgUser);
 
@@ -70,7 +67,9 @@ const home = ({navigation}) => {
         <View style={styles.display}>
           <View style={styles.titleUser}>
             <Text style={styles.helloText}>Hello,</Text>
-            <Text style={styles.title} numberOfLines={1} >{nameUser}</Text>
+            <Text style={styles.title} numberOfLines={1}>
+              {nameUser}
+            </Text>
           </View>
           <View style={styles.imgUser}>
             <Image style={styles.imgItemUser} source={{uri: imgUser}} />
@@ -84,16 +83,15 @@ const home = ({navigation}) => {
               navigation.navigate('SearchScreen');
             }}>
             <Icon name="search" color="#707070" size={35} />
-            <TextInput
+            <Text
               style={{
                 marginLeft: windowWidth * 0.02,
+                marginTop: windowWidth * 0.01,
                 fontSize: Platform.OS === 'ios' ? 18 : 15,
-              }}
-              placeholder="Search Here"
-              pointerEvents="none"
-              onChangeText={text => setSearch(text)}
-              value={search}
-            />
+                color: '#707070',
+              }}>
+              Search Here
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -204,12 +202,10 @@ const styles = StyleSheet.create({
     // borderBottomRightRadius:
     //   Platform.OS === 'ios' ? windowWidth * 0.15 : windowWidth * 0.1,
   },
-  display:{
-    flexDirection:'row',
+  display: {
+    flexDirection: 'row',
   },
-  titleUser:{
-
-  },
+  titleUser: {},
   helloText: {
     marginTop: Platform.OS === 'ios' ? windowWidth * 0.07 : 0,
     marginLeft: windowWidth * 0.15,
@@ -223,16 +219,16 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: 'black',
   },
-  imgUser:{
+  imgUser: {
     width: windowWidth * 0.2,
     height: windowWidth * 0.2,
-    marginLeft : windowWidth * 0.08,
+    marginLeft: windowWidth * 0.08,
     marginTop: Platform.OS === 'ios' ? windowWidth * 0.1 : windowWidth * 0.03,
   },
   imgItemUser: {
-    width:'100%',
-    height:'100%',
-    borderRadius : windowWidth * 0.03,
+    width: '100%',
+    height: '100%',
+    borderRadius: windowWidth * 0.03,
   },
   searchBar: {
     backgroundColor: '#fff',

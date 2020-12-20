@@ -78,7 +78,7 @@ const itemCart = ({itemName, itemPrice, itemAmount, itemImgUrl, id}) => {
       <TouchableOpacity onPress={() => checkDelete(id)}>
           <Icon name="remove-circle-outline" size={25} />
         </TouchableOpacity>
-        <Text style={{fontSize: 20}}> {itemAmount} </Text>
+        <Text style={styles.itemText}> {itemAmount} </Text>
         <TouchableOpacity onPress={() => checkAddition(id)}>
           <Icon name="add-circle-outline" size={25} />
         </TouchableOpacity>
@@ -112,8 +112,12 @@ const styles = StyleSheet.create({
     width: width / 3.8,
   },
   itemAmount: {
+    width: width * 0.2,
     flexDirection: 'row',
-    marginTop: width / 10,
-    marginLeft: width * 0.1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
+  itemText: {
+    fontSize: 20
+  }
 });

@@ -47,7 +47,7 @@ const news = props => {
       </View>
       <FlatList
         keyExtractor={(item, index) => item.id.toString()}
-        data={dataNews}
+        data={dataNews.reverse()}
         showsVerticalScrollIndicator={false}
         renderItem={item => renderItemNews(item)}
       />
