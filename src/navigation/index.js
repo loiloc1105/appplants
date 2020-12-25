@@ -6,8 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/AntDesign';
 
-import {Provider, useSelector, connect} from 'react-redux';
-import {createStore, combineReducers} from 'redux';
+import {useSelector} from 'react-redux';
 
 //Tab bottom navigation
 import HomeScreen from '../screens/Home/home';
@@ -30,11 +29,6 @@ import SearchScreen from '../screens/Home/SearchScreen';
 import DetailProduct from '../screens/Home/DetailProduct';
 import MoreProduct from '../screens/Home/moreProducts';
 
-import cartReducers from '../store/reducers/cart';
-import userReducers from '../store/reducers/user';
-
-import firebase from 'firebase';
-
 const Tab = createBottomTabNavigator();
 
 const Stack = createStackNavigator();
@@ -45,11 +39,6 @@ const NewsStack = createStackNavigator();
 Icon.loadFont();
 Icons.loadFont();
 
-const rootReducer = combineReducers({
-  cart: cartReducers,
-  user: userReducers,
-});
-const store = createStore(rootReducer);
 
 const userStack = () => {
   return (
@@ -115,19 +104,19 @@ const TabHome = () => {
   );
 };
 
-const App = () => {
+const AppNavigator = (props) => {
   const [token, setToken] = useState('');
   const [typeUser, setTypeUser] = useState();
   const userToken = useSelector(state => state.user.userToken);
-  const userType = useSelector(state => state.user.user);
+  const userType = useSelector(state => state.user.user.type);
   useEffect(() => {
     if (userToken === null) {
       setToken(null);
     } else {
       setToken(userToken);
-      setTypeUser(userType.type);
+      setTypeUser(userType);
     }
-  }, [userToken, userType.type]);
+  }, [userToken, userType]);
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -140,11 +129,5 @@ const App = () => {
     </NavigationContainer>
   );
 };
-const authenTication = () => {
-  return (
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
-};
-export default authenTication;
+
+export default AppNavigator;
